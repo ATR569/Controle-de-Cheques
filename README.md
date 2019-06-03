@@ -1,6 +1,6 @@
 # Controle-de-Cheques
 
->>>> CLONANDO O REPOSITÓRIO >>>>
+>>>> CLONANDO O REPOSITÓRIO
 
 Obs: Passo inicial e ÚNICO
 git clone https://github.com/ATR569/Controle-de-Cheques.git
