@@ -9,7 +9,7 @@ package classes;
  *
  * @author Adson Macêdo
  */
-class Conta {
+public class Conta {
     private int id;
     private Cliente cliente;
     private String banco;

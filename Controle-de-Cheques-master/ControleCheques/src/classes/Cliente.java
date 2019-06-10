@@ -5,11 +5,13 @@
  */
 package classes;
 
+import classes.interfaces.Entity;
+
 /**
  *
  * @author Adson Macêdo
  */
-class Cliente {
+public class Cliente extends Object implements Entity{
     private int id;
     private Endereco endereco;
     private String cpf;
@@ -31,5 +33,90 @@ class Cliente {
     public Cliente(Endereco endereco, String cpf, String nome, String telefone, String email, double scoreInicial) {
         this(0, endereco, cpf, nome, telefone, email, scoreInicial);
     } 
-    
+
+    public Cliente() {
+        
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public double getScoreInicial() {
+        return scoreInicial;
+    }
+
+    public void setScoreInicial(double scoreInicial) {
+        this.scoreInicial = scoreInicial;
+    }
+
+    @Override
+    public String getFields() {
+        return "id_endereco, score_inicial, cpf, nome, telefone, email";
+    }
+
+    @Override
+    public String getValues() {
+        return (endereco != null ? endereco.getId() : "null")+", "+
+                getScoreInicial() + ", "+
+                "\""+getCpf() + "\", " + 
+                "\""+getNome() + "\", "+
+                "\""+getTelefone() + "\", "+
+                "\""+getEmail()+ "\"";
+    }
+
+    @Override
+    public String getKeyField() {
+        return "id";
+    }
+
+    @Override
+    public int getKeyValue() {
+        return this.id;
+    }
+
 }

@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DAO;
+package classes.interfaces;
 
 /**
  *
  * @author Adson Macêdo
  */
-public class ChequesDao {
-    
+public interface Entity {
+    public abstract String getFields();
+    public abstract String getValues();
+    public abstract String getKeyField();
+    public abstract int getKeyValue();
 }
