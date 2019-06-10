@@ -41,7 +41,7 @@ CREATE TABLE Cliente(
   FOREIGN KEY(id_endereco) REFERENCES Endereco(id)
 );
 
-/* 								CLIENTES PARA TESTES 								*/
+/*							CLIENTES PARA TESTES 								*/
 INSERT INTO Cliente (id, id_endereco, score_inicial, cpf, nome, telefone, email) 
 VALUES (1, 1, 55.0, '11111111111', 'Thairam', '999999999', 'email-Thairam');
 
@@ -50,7 +50,6 @@ VALUES (2, 2, 55.0, '22222222222', 'Adson', '888888888', 'email-Adson');
 
 INSERT INTO Cliente (id, id_endereco, score_inicial, cpf, nome, telefone, email) 
 VALUES (3, 3, 55.0, '33333333333', 'Ramom', '777777777', 'email-Ramom');
-
 
 CREATE TABLE Conta(
   id  			integer AUTO_INCREMENT,
@@ -78,27 +77,28 @@ CREATE TABLE Cheque(
   id  				integer AUTO_INCREMENT,
   numero 			integer NOT NULL,
   id_conta 			integer NOT NULL,
-  id_emitente 		integer,
+  id_cliente 		integer,
   valor 			double DEFAULT 0,
   data_compensado 	date,
   data_compensacao 	date,
-  status_cheque 	enum('ABERTO', 'COMPENSADO', 'DEVOLVIDO'),
+  status_cheque 	integer,
 
   PRIMARY KEY (id),
   FOREIGN KEY (id_conta) REFERENCES Conta(id),
-  FOREIGN KEY (id_emitente) REFERENCES Cliente(id)
+  FOREIGN KEY (id_cliente) REFERENCES Cliente(id)
 );
 
 /*											CHEQUES PARA TESTES 													*/
-INSERT INTO Cheque (id, numero, id_conta, id_emitente, valor, data_compensado, data_compensacao, status_cheque)
-VALUES (1, 1, 1, 2, 150, '2019/06/08', '2019/06/09', 'ABERTO');
+INSERT INTO Cheque (id, numero, id_conta, id_cliente, valor, data_compensado, data_compensacao, status_cheque)
+VALUES (1, 1, 1, 2, 150, '2019/06/08', '2019/06/09', 0);
 
-INSERT INTO Cheque (id, numero, id_conta, id_emitente, valor, data_compensado, data_compensacao, status_cheque)
-VALUES (2, 1, 2, 1, 100, '2019/06/08', '2019/06/09', 'ABERTO');
+/*
+INSERT INTO Cheque (id, numero, id_conta, id_cliente, valor, data_compensado, data_compensacao, status_cheque)
+VALUES (2, 1, 1, 2, 100, '2019/06/08', '2019/06/09', 0);
 
-INSERT INTO Cheque (id, numero, id_conta, id_emitente, valor, data_compensado, data_compensacao, status_cheque)
-VALUES (3, 2, 3, 3, 300, '2019/06/08', '2019/06/09', 'ABERTO');
-
+INSERT INTO Cheque (id, numero, id_conta, id_cliente, valor, data_compensado, data_compensacao, status_cheque)
+VALUES (3, 2, 3, 1, 300, '2019/06/08', '2019/06/09', 0);
+*/
 
 CREATE TABLE HistoricoCheque(
   id_cheque       integer,
@@ -110,13 +110,17 @@ CREATE TABLE HistoricoCheque(
   FOREIGN KEY (id_cheque) REFERENCES Cheque(id) 
 );
 
-
-CREATE VIEW ww_Cheques
-AS SELECT Cl.nome AS 'Nome_do_Cliente', Ch.numero AS 'Num_da_Conta', Ch.valor AS 'Valor',
-Ch.data_compensacao AS 'Data_de_Compensação', Ch.status_cheque AS 'Status', 
-Co.banco AS 'Banco', Co.agencia AS 'Agência', Cl.nome 'Nome_do_Emitente'
-FROM Cliente Cl INNER JOIN Cheque Ch ON Cl.id = Ch.id_emitente 
-INNER JOIN Conta Co on Ch.id_conta = Co.id;
-;
+CREATE VIEW ww_Cheques AS SELECT 
+	(SELECT Cliente.nome FROM Cliente WHERE Cliente.id = Cheque.id_cliente) AS 'Nome_do_Cliente', 
+	Conta.banco AS 'Banco', 
+	Conta.agencia AS 'Agência',
+	Cheque.numero AS 'Num_da_Conta', 
+	Cheque.numero AS 'Num_Cheque', 
+	(SELECT Cliente.nome FROM Cliente WHERE Cliente.id = Conta.id_cliente) AS 'Nome_do_Emitente',
+	Cheque.valor AS 'Valor',
+	Cheque.data_compensacao AS 'Data_de_Compensação', 
+	Cheque.status_cheque AS 'Status'
+FROM 
+	Cheque INNER JOIN Conta ON Cheque.id_conta = Conta.id;
 
 SELECT * FROM ww_Cheques;
