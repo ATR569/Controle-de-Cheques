@@ -11,7 +11,7 @@ import java.sql.*;
  * Classe gerenciadora de conexões
  * @author Adson Macêdo
  */
-public class ConnectionFactory {
+public abstract class ConnectionFactory {
     private static final String DRIVER = "com.mysql.jdbc.Driver";
     private static final String URL = "jdbc:mysql://localhost:3306/controledecheques";
     private static final String USER = "root";

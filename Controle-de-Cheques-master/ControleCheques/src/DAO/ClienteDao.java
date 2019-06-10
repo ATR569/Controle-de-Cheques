@@ -12,14 +12,15 @@ import java.sql.*;
 /**
  *
  * @author Adson Macêdo
+ * @param <T>
  */
-public class ClienteDao extends Dao{
+public class ClienteDao<T> extends Dao<T>{
 
     public ClienteDao() {
         super("cliente");
     }
     
-    protected Object getObject(ResultSet resultSet) throws SQLException{
+    protected T getObject(ResultSet resultSet) throws SQLException{
         Endereco endereco = null;
 
         if (resultSet.getInt("id_endereco") != 0){
@@ -27,7 +28,7 @@ public class ClienteDao extends Dao{
             endereco = (Endereco)dao.find(resultSet.getInt("id_endereco"));
         }
 
-        return ((Object) new Cliente(resultSet.getInt("id"),
+        return ((T) new Cliente(resultSet.getInt("id"),
                                 endereco,
                                 resultSet.getString("cpf"),
                                 resultSet.getString("nome"),

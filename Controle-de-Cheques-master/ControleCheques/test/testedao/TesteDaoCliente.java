@@ -19,19 +19,20 @@ import org.junit.Test;
 public class TesteDaoCliente {
     
     public TesteDaoCliente() {
+        
     }
     @Test
     public void testaDaoCheque() throws SQLException{
         Cliente c1 = new Cliente(1, null, "000.000.000-20", "Adson de Macêdo", "(83) 00000-0000", "agnsoft@hotmail.com", 1);
         Cliente c2 = new Cliente(2, null, "000.000.000-21", "João pé de Feijão", "(83) 00000-0000", "agnsoft@hotmail.com", 0.7);
         
-        Dao dao = new ClienteDao();
-        ArrayList<Object> lista = dao.query("SELECT * FROM CLIENTE");
+        Dao<Cliente> dao = new ClienteDao<>();
+        ArrayList<Cliente> lista = dao.query("SELECT * FROM CLIENTE");
         
-        for (Object c : lista){
-            System.out.println("Nome: " + ((Cliente)c).getNome());
-            if (((Cliente)c).getEndereco() != null){
-                System.out.println("Endereço: " + ((Cliente)c).getEndereco().getRua());
+        for (Cliente c : lista){
+            System.out.println("Nome: " + c.getNome());
+            if (c.getEndereco() != null){
+                System.out.println("Endereço: " + c.getEndereco().getRua());
             }else{
                 System.out.println("<sem endereço>");
             }
@@ -39,16 +40,19 @@ public class TesteDaoCliente {
             System.out.println();
         }
 //        dao.insert(c1);
-        for (Object c : lista){
-            System.out.println("Nome: " + ((Cliente)c).getNome());
-            if (((Cliente)c).getEndereco() != null){
-                System.out.println("Endereço: " + ((Cliente)c).getEndereco().getRua());
+        for (Cliente c : lista){
+            System.out.println("Nome: " + c.getNome());
+            if (c.getEndereco() != null){
+                System.out.println("Endereço: " + c.getEndereco().getRua());
             }else{
                 System.out.println("<sem endereço>");
             }
                 
             System.out.println();
         }
+        
+        lista.get(1).setEmail("teste de amail2");
+        dao.update(lista.get(1));
     }
     
     

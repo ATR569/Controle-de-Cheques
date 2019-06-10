@@ -5,11 +5,13 @@
  */
 package classes;
 
+import classes.interfaces.Entity;
+
 /**
  *
  * @author Adson Macêdo
  */
-public class Endereco {
+public class Endereco implements Entity{
     private int id;
     private int cep;
     private String rua;
@@ -68,6 +70,26 @@ public class Endereco {
 
     public void setUf(String uf) {
         this.uf = uf;
+    }
+
+    @Override
+    public String getFields() {
+        return "cep, rua, bairro, cidade, uf";
+    }
+
+    @Override
+    public String getValues() {
+        return cep + ", \"" + rua + "\", \"" + bairro + "\", \"" + cidade + "\", " + uf + "\"";
+    }
+
+    @Override
+    public String getKeyField() {
+        return "id";
+    }
+
+    @Override
+    public int getKeyValue() {
+        return this.id;
     }
     
 }
