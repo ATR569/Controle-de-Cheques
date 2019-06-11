@@ -20,6 +20,7 @@ public class ClienteDao<T> extends Dao<T>{
         super("cliente");
     }
     
+    @Override
     protected T getObject(ResultSet resultSet) throws SQLException{
         Endereco endereco = null;
 

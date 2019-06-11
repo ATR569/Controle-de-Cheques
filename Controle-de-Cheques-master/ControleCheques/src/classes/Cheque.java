@@ -22,7 +22,9 @@ public class Cheque implements Entity{
     private Date dataCompensado;    
     private int state;
     public static final int ABERTO = 0, DEVOLVIDO = 1, COMPENSADO = 2;
-            
+        
+    public Cheque(){}
+    
     public Cheque(int id, Cliente cliente, double valor, Conta conta, int numero, Date dataCompensacao, Date dataCompensado, int state) {
         this.id = id;
         this.cliente = cliente;
@@ -118,6 +120,11 @@ public class Cheque implements Entity{
     @Override
     public int getKeyValue() {
         return this.id;
+    }
+
+    @Override
+    public void setKeyValue(int value) {
+        setId(value);
     }
     
 }

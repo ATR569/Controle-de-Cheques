@@ -19,6 +19,8 @@ public class Endereco implements Entity{
     private String cidade;
     private String uf;
     
+    public Endereco(){}
+    
     public Endereco(int id, int cep, String rua, String bairro, String cidade, String uf){
         this.id = id;
         this.cep = cep;
@@ -90,6 +92,11 @@ public class Endereco implements Entity{
     @Override
     public int getKeyValue() {
         return this.id;
+    }
+
+    @Override
+    public void setKeyValue(int value) {
+        setId(value);
     }
     
 }

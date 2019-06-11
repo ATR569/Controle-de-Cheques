@@ -5,17 +5,21 @@
  */
 package classes;
 
+import classes.interfaces.Entity;
+
 /**
  *
  * @author Adson Macêdo
  */
-public class Conta {
+public class Conta implements Entity{
     private int id;
     private Cliente cliente;
     private String banco;
     private int agencia;
     private String numConta;
 
+    public Conta(){}
+    
     public Conta(int id, Cliente cliente, String banco, int agencia, String conta) {
         this.id = id;
         this.cliente = cliente;
@@ -68,7 +72,34 @@ public class Conta {
         this.numConta = numConta;
     }
 
-    
-    
+    @Override
+    public String getFields() {
+        return "id, banco, agencia, num_conta, id_cliente";
+    }
+
+    @Override
+    public String getValues() {
+        return this.id + ", " + 
+               "\"" + this.banco + "\", " +
+               this.agencia + ", " +
+               "\"" + this.banco + "\", " +
+               this.numConta + ", " +
+               "\"" + this.cliente.getId() + "\", ";
+    }
+
+    @Override
+    public String getKeyField() {
+        return "id";
+    }
+
+    @Override
+    public int getKeyValue() {
+        return getId();
+    }
+
+    @Override
+    public void setKeyValue(int value) {
+        setId(value);
+    }
     
 }

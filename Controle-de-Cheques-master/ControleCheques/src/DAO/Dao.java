@@ -30,6 +30,11 @@ public abstract class Dao<T>{
     public Dao(String table){
         this.table = table;
     }
+    
+    public String getTable(){
+        return this.table;
+    }
+    
     /**
      * Adiciona na tabela table um registro para o objeto ent,
      * que implementa a interface Entity
@@ -40,8 +45,12 @@ public abstract class Dao<T>{
         con = ConnectionFactory.getConnection();
 
         try {
-            stmt = con.prepareStatement("INSERT INTO " + table + "("+ ent.getFields() +") VALUES (" + ent.getValues() + ")");
+            stmt = con.prepareStatement("INSERT INTO " + table + "("+ ent.getFields() +") VALUES (" + ent.getValues() + ")", 1);
             stmt.executeUpdate();            
+            ResultSet keys = stmt.getGeneratedKeys();
+            keys.next();
+            ent.setKeyValue(keys.getInt(1));
+            
         } catch (SQLException ex) {
             throw new RuntimeException("Falha ao salvar!", ex);
         }finally{
