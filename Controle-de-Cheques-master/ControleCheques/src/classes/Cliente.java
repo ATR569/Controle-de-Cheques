@@ -6,6 +6,7 @@
 package classes;
 
 import classes.interfaces.Entity;
+import java.sql.SQLException;
 
 /**
  *
@@ -89,6 +90,10 @@ public class Cliente extends Object implements Entity{
     public double getScoreInicial() {
         return scoreInicial;
     }
+    
+    public double getScoreAtual() throws SQLException{
+        return (new HistoricoTransacoes(this.id)).getScoreTransacoes() * this.scoreInicial; 
+    }
 
     public void setScoreInicial(double scoreInicial) {
         this.scoreInicial = scoreInicial;
@@ -117,6 +122,11 @@ public class Cliente extends Object implements Entity{
     @Override
     public int getKeyValue() {
         return this.id;
+    }
+
+    @Override
+    public void setKeyValue(int value) {
+        setId(value);
     }
 
 }
