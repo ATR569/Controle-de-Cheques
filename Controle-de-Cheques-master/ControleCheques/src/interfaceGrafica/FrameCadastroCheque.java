@@ -142,7 +142,7 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
         jLTel.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jLTel.setText("Telefone:");
 
-        jTNome.setEnabled(false);
+        jTNome.setEditable(false);
         jTNome.setPreferredSize(new java.awt.Dimension(230, 22));
 
         try {
@@ -152,12 +152,12 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
         }
         jFCpf.setPreferredSize(new java.awt.Dimension(100, 22));
 
+        jFTel.setEditable(false);
         try {
             jFTel.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)#####-####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        jFTel.setEnabled(false);
         jFTel.setPreferredSize(new java.awt.Dimension(98, 24));
         jFTel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -221,18 +221,18 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
         jLCpfEmit.setText("CPF Emitente:");
         jLCpfEmit.setPreferredSize(new java.awt.Dimension(85, 17));
 
+        jFCpfEmit.setEditable(false);
         try {
             jFCpfEmit.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        jFCpfEmit.setEnabled(false);
         jFCpfEmit.setPreferredSize(new java.awt.Dimension(98, 22));
 
         jLNomeEmit.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jLNomeEmit.setText("Nome:");
 
-        jTNomeEmit.setEnabled(false);
+        jTNomeEmit.setEditable(false);
         jTNomeEmit.setPreferredSize(new java.awt.Dimension(250, 22));
         jTNomeEmit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -240,12 +240,12 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
             }
         });
 
+        jFTelEmit.setEditable(false);
         try {
             jFTelEmit.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)#####-####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        jFTelEmit.setEnabled(false);
         jFTelEmit.setPreferredSize(new java.awt.Dimension(105, 24));
         jFTelEmit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

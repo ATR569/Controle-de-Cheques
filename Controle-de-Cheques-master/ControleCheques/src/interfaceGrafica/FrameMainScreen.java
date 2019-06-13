@@ -33,12 +33,12 @@ public class FrameMainScreen extends javax.swing.JFrame {
         jMenuItem10 = new javax.swing.JMenuItem();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem11 = new javax.swing.JMenuItem();
+        jMClientes = new javax.swing.JMenu();
+        jMCadastrarCliente = new javax.swing.JMenuItem();
+        jMListarClientes = new javax.swing.JMenuItem();
+        jMCheques = new javax.swing.JMenu();
+        jMCadastrarCheque = new javax.swing.JMenuItem();
+        jMListarCheques = new javax.swing.JMenuItem();
 
         jMenu1.setText("jMenu1");
 
@@ -67,48 +67,53 @@ public class FrameMainScreen extends javax.swing.JFrame {
         jMenuBar1.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         jMenuBar1.setPreferredSize(new java.awt.Dimension(80, 42));
 
-        jMenu2.setBorder(null);
-        jMenu2.setText("Clientes");
-        jMenu2.setPreferredSize(new java.awt.Dimension(80, 40));
-        jMenu2.addActionListener(new java.awt.event.ActionListener() {
+        jMClientes.setBorder(null);
+        jMClientes.setText("Clientes");
+        jMClientes.setPreferredSize(new java.awt.Dimension(80, 40));
+        jMClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu2ActionPerformed(evt);
+                jMClientesActionPerformed(evt);
             }
         });
 
-        jMenuItem1.setText("Cadastrar Cliente");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jMCadastrarCliente.setText("Cadastrar Cliente");
+        jMCadastrarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jMCadastrarClienteActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem1);
+        jMClientes.add(jMCadastrarCliente);
 
-        jMenuItem2.setText("Listar Clientes");
-        jMenu2.add(jMenuItem2);
-
-        jMenuBar1.add(jMenu2);
-
-        jMenu3.setBorder(null);
-        jMenu3.setText("Cheques");
-
-        jMenuItem5.setText("Cadastrar Cheque");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+        jMListarClientes.setText("Listar Clientes");
+        jMListarClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
+                jMListarClientesActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem5);
+        jMClientes.add(jMListarClientes);
 
-        jMenuItem11.setText("Listar Cheques");
-        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+        jMenuBar1.add(jMClientes);
+
+        jMCheques.setBorder(null);
+        jMCheques.setText("Cheques");
+
+        jMCadastrarCheque.setText("Cadastrar Cheque");
+        jMCadastrarCheque.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem11ActionPerformed(evt);
+                jMCadastrarChequeActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem11);
+        jMCheques.add(jMCadastrarCheque);
 
-        jMenuBar1.add(jMenu3);
+        jMListarCheques.setText("Listar Cheques");
+        jMListarCheques.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMListarChequesActionPerformed(evt);
+            }
+        });
+        jMCheques.add(jMListarCheques);
+
+        jMenuBar1.add(jMCheques);
 
         setJMenuBar(jMenuBar1);
 
@@ -127,25 +132,30 @@ public class FrameMainScreen extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void jMCadastrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMCadastrarClienteActionPerformed
         FrameCadastroCliente cliente = new FrameCadastroCliente();
         cliente.setVisible(true);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_jMCadastrarClienteActionPerformed
 
-    private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
+    private void jMClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMClientesActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenu2ActionPerformed
+    }//GEN-LAST:event_jMClientesActionPerformed
 
-    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+    private void jMListarChequesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMListarChequesActionPerformed
         FrameCheques listaCheque = new FrameCheques();
         listaCheque.setVisible(true);
-    }//GEN-LAST:event_jMenuItem11ActionPerformed
+    }//GEN-LAST:event_jMListarChequesActionPerformed
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+    private void jMCadastrarChequeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMCadastrarChequeActionPerformed
         FrameCadastroCheque cheque = new FrameCadastroCheque();
         cheque.setVisible(true);
 
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
+    }//GEN-LAST:event_jMCadastrarChequeActionPerformed
+
+    private void jMListarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMListarClientesActionPerformed
+        FrameCliente cliente = new FrameCliente();
+        cliente.setVisible(true);
+    }//GEN-LAST:event_jMListarClientesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -184,15 +194,15 @@ public class FrameMainScreen extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane1;
+    private javax.swing.JMenuItem jMCadastrarCheque;
+    private javax.swing.JMenuItem jMCadastrarCliente;
+    private javax.swing.JMenu jMCheques;
+    private javax.swing.JMenu jMClientes;
+    private javax.swing.JMenuItem jMListarCheques;
+    private javax.swing.JMenuItem jMListarClientes;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem11;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     // End of variables declaration//GEN-END:variables

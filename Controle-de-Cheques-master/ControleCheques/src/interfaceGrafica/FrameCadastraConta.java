@@ -79,7 +79,7 @@ public class FrameCadastraConta extends javax.swing.JFrame {
         jLNome.setFont(new java.awt.Font("Calibri", 1, 16)); // NOI18N
         jLNome.setText("Nome:");
 
-        jTNome.setEnabled(false);
+        jTNome.setEditable(false);
         jTNome.setPreferredSize(new java.awt.Dimension(250, 22));
         jTNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -90,12 +90,12 @@ public class FrameCadastraConta extends javax.swing.JFrame {
         jLTel.setFont(new java.awt.Font("Calibri", 1, 16)); // NOI18N
         jLTel.setText("Telefone:");
 
+        jFTel.setEditable(false);
         try {
             jFTel.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)#####-####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        jFTel.setEnabled(false);
         jFTel.setPreferredSize(new java.awt.Dimension(105, 24));
         jFTel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
