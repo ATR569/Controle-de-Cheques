@@ -72,10 +72,12 @@ public class FrameCheques extends javax.swing.JFrame {
         jLabel52 = new javax.swing.JLabel();
         jLabel53 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jBtnNovo = new javax.swing.JButton();
+        jBNovo = new javax.swing.JButton();
         jBtnPagamento = new javax.swing.JButton();
         jBtnDevolucao = new javax.swing.JButton();
         jBtnSair = new javax.swing.JButton();
+        jBAlterar = new javax.swing.JButton();
+        jBExcluir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Controle de Cheques");
@@ -108,7 +110,7 @@ public class FrameCheques extends javax.swing.JFrame {
 
         jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Cliente"));
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados do Cliente"));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel9.setText("Nome:");
@@ -250,7 +252,7 @@ public class FrameCheques extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Emitente"));
+        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados Do Emitente"));
 
         jLabel39.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel39.setText("Nome:");
@@ -411,13 +413,15 @@ public class FrameCheques extends javax.swing.JFrame {
 
         jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jBtnNovo.setText("Novo Cheque");
-        jBtnNovo.addActionListener(new java.awt.event.ActionListener() {
+        jBNovo.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
+        jBNovo.setText("Novo ");
+        jBNovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtnNovoActionPerformed(evt);
+                jBNovoActionPerformed(evt);
             }
         });
 
+        jBtnPagamento.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jBtnPagamento.setText("Registrar Pagamento");
         jBtnPagamento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -425,6 +429,7 @@ public class FrameCheques extends javax.swing.JFrame {
             }
         });
 
+        jBtnDevolucao.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jBtnDevolucao.setText("Registrar Devolução");
         jBtnDevolucao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -432,6 +437,7 @@ public class FrameCheques extends javax.swing.JFrame {
             }
         });
 
+        jBtnSair.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jBtnSair.setText("Sair");
         jBtnSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -439,19 +445,29 @@ public class FrameCheques extends javax.swing.JFrame {
             }
         });
 
+        jBAlterar.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
+        jBAlterar.setText("Alterar");
+
+        jBExcluir.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
+        jBExcluir.setText("Excluir");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jBtnNovo)
+                .addComponent(jBtnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jBtnPagamento)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtnDevolucao)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBtnPagamento)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jBtnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jBExcluir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBAlterar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -461,8 +477,10 @@ public class FrameCheques extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBtnDevolucao)
                     .addComponent(jBtnPagamento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBtnNovo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBtnSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jBNovo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jBtnSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jBAlterar)
+                    .addComponent(jBExcluir))
                 .addContainerGap())
         );
 
@@ -470,15 +488,13 @@ public class FrameCheques extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap())))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -496,11 +512,13 @@ public class FrameCheques extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jBtnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnNovoActionPerformed
+    private void jBNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNovoActionPerformed
+        FrameCadastroCheque cheque = new FrameCadastroCheque();
+        cheque.setVisible(true);
         DefaultTableModel modelo = (DefaultTableModel) jTblCheques.getModel();
         
         modelo.addRow(new Object []{"02/06/2019", "Adson de Macêdo Nascimento", "0000001", "Santander", "Adson de Macêdo Nascimento", "R$ 1.000,00", "ABERTO"});
-    }//GEN-LAST:event_jBtnNovoActionPerformed
+    }//GEN-LAST:event_jBNovoActionPerformed
 
     private void jBtnPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPagamentoActionPerformed
         // TODO add your handling code here:
@@ -511,7 +529,7 @@ public class FrameCheques extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtnDevolucaoActionPerformed
 
     private void jBtnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSairActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_jBtnSairActionPerformed
 
     private void jBtnHistoricoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnHistoricoClienteActionPerformed
@@ -561,10 +579,12 @@ public class FrameCheques extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBAlterar;
+    private javax.swing.JButton jBExcluir;
+    private javax.swing.JButton jBNovo;
     private javax.swing.JButton jBtnDevolucao;
     private javax.swing.JButton jBtnHistoricoCliente;
     private javax.swing.JButton jBtnHistoricoCliente2;
-    private javax.swing.JButton jBtnNovo;
     private javax.swing.JButton jBtnPagamento;
     private javax.swing.JButton jBtnSair;
     private javax.swing.JLabel jLabel10;
