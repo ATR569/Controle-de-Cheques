@@ -30,6 +30,14 @@ public class Endereco implements Entity{
         this.uf = uf;
     }
 
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
     public Endereco(int cep, String rua, String bairro, String cidade, String uf) {
         this(0, cep, rua, bairro, cidade, uf);
     }  

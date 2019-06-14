@@ -13,6 +13,7 @@ import java.sql.SQLException;
  * @author Adson Macêdo
  */
 public class Cliente extends Object implements Entity{
+    private static final double DEFAULT_SCORE = 0.7;
     private int id;
     private Endereco endereco;
     private String cpf;
@@ -31,8 +32,8 @@ public class Cliente extends Object implements Entity{
         this.scoreInicial = scoreInicial;
     }
 
-    public Cliente(Endereco endereco, String cpf, String nome, String telefone, String email, double scoreInicial) {
-        this(0, endereco, cpf, nome, telefone, email, scoreInicial);
+    public Cliente(Endereco endereco, String cpf, String nome, String telefone, String email) {
+        this(0, endereco, cpf, nome, telefone, email, DEFAULT_SCORE);
     } 
 
     public Cliente() {
