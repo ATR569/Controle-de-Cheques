@@ -166,6 +166,27 @@ public abstract class Dao<T>{
     }
 
     /**
+     * Busca um registro específico e retorna em um objeto do tipo
+     * @param fields
+     * @param values
+     * @return
+     * @throws SQLException
+     */
+    public T find(String []fields, String []values) throws SQLException {
+        String sql = "SELECT * FROM " + getTable() + " WHERE "+ fields[0] + " = " + values[0];
+        for (int i = 1; i < fields.length; i++) {
+            sql += " AND " + fields[i] + " = " + values[i];
+        }
+        
+        ArrayList<T> lista = query(sql);
+        
+        if (lista.isEmpty())
+            return null;
+        else
+            return lista.get(0);
+    }
+    
+    /**
      * Método abstrato a ser implementado em todas as especializações de Dao,
      * que retornará o objeto específico de cada tipo de Dao
      * @param resultSet
