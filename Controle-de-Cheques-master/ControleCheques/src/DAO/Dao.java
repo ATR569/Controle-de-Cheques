@@ -75,7 +75,7 @@ public abstract class Dao<T>{
         for (int i = 1; i < fields.length; i++)
             sql += ", " + fields[i] + " = " + values[i];
 
-        sql += " WHERE id = " + ent.getKeyValue();
+        sql += " WHERE " + ent.getKeyField()  + " = " + ent.getKeyValue();
 
         try {
             stmt = con.prepareStatement(sql);
