@@ -11,8 +11,6 @@ import static classes.Utils.quotedStr;
 import java.awt.HeadlessException;
 import java.sql.SQLException;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 /**
  *
@@ -603,7 +601,6 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
     private void jBCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCadastrarActionPerformed
         
         try {
-            Locale.setDefault(Locale.US);
             cheque.setDataCompensacao(jDateDatCompen.getDate());
             cheque.setNumero(Integer.parseInt(jFNumCheque.getText()));
             cheque.setValor(Utils.toDouble(jFValor.getText()));

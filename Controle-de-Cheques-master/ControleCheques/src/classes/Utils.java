@@ -15,7 +15,11 @@ public class Utils {
     }
     
     public static double toDouble(String val){
-        return Double.parseDouble(val.replaceAll("[^0-9,]", "").replaceAll(",", "."));
+        return Double.parseDouble(val.replaceAll("[^0-9,]", "").replace(",", ".").replaceAll(",",""));
     }
     
+    
+    public static void main(String[] args) {
+        System.out.println(toDouble("R$ 3,59"));
+    }
 }
