@@ -80,11 +80,10 @@ public class Conta implements Entity{
     @Override
     public String getValues() {
         return this.id + ", " + 
-               "\"" + this.banco + "\", " +
+               Utils.quotedStr(this.banco) + ", " +
                this.agencia + ", " +
-               "\"" + this.banco + "\", " +
-               this.numConta + ", " +
-               "\"" + this.cliente.getId() + "\", ";
+               Utils.quotedStr(this.numConta) + ", " +
+               this.cliente.getId();
     }
 
     @Override
