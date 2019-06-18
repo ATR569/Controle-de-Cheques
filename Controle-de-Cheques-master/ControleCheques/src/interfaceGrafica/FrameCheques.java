@@ -18,8 +18,7 @@ import javax.swing.table.DefaultTableModel;
  */
 
 /**
- *  teste de commit
- *  teste de commit 2
+ * Tela de Cadastro de Cheque
  * @author Adson Macêdo
  */
 public class FrameCheques extends javax.swing.JFrame {
