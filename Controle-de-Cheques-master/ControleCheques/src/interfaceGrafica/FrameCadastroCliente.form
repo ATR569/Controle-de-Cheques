@@ -268,11 +268,18 @@
         <Component class="javax.swing.JFormattedTextField" name="jFCpf">
           <Properties>
             <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
-              <Format format="###.####.###-##" subtype="-1" type="5"/>
+              <Format format="###.###.###-##" subtype="-1" type="5"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jFCpfFocusLost"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jFCpfActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jTNome">
+          <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTNomeFocusLost"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLNome">
           <Properties>
@@ -296,6 +303,10 @@
               <Format format="#####-###" subtype="-1" type="5"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jFCepFocusLost"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jFCepActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jTRua">
         </Component>

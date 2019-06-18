@@ -54,7 +54,7 @@ public class FrameCliente extends javax.swing.JFrame {
         jBExcluir = new javax.swing.JButton();
         jBConta = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados do Cliente"));

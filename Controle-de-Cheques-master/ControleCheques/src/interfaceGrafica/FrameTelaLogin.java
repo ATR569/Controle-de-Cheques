@@ -42,6 +42,12 @@ public class FrameTelaLogin extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jLabel1.setText("Login:");
 
+        jTLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTLoginActionPerformed(evt);
+            }
+        });
+
         jLabel2.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jLabel2.setText("Senha:");
         jLabel2.setPreferredSize(new java.awt.Dimension(60, 30));
@@ -116,6 +122,10 @@ public class FrameTelaLogin extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Acesso Negado!");
         }
     }//GEN-LAST:event_jBEntrarActionPerformed
+
+    private void jTLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTLoginActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTLoginActionPerformed
 
     /**
      * @param args the command line arguments

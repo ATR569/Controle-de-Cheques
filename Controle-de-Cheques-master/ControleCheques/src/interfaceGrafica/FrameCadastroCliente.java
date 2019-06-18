@@ -5,12 +5,28 @@
  */
 package interfaceGrafica;
 
+import DAO.ClienteDao;
+import DAO.EnderecoDao;
+import classes.Cliente;
+import classes.Endereco;
+import static classes.Utils.quotedStr;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author rrsal
  */
 public class FrameCadastroCliente extends javax.swing.JFrame {
 
+    Cliente cliente = new Cliente();
+    Endereco end = new Endereco();
+    DAO.ClienteDao daoClt = new ClienteDao();
+    DAO.EnderecoDao daoEnd = new EnderecoDao();
+    
+    
     /**
      * Creates new form FrameCadastroCliente
      */
@@ -110,10 +126,26 @@ public class FrameCadastroCliente extends javax.swing.JFrame {
         jLCpf.setText("CPF:");
 
         try {
-            jFCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.####.###-##")));
+            jFCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        jFCpf.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jFCpfFocusLost(evt);
+            }
+        });
+        jFCpf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFCpfActionPerformed(evt);
+            }
+        });
+
+        jTNome.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTNomeFocusLost(evt);
+            }
+        });
 
         jLNome.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jLNome.setText("Nome:");
@@ -126,6 +158,16 @@ public class FrameCadastroCliente extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        jFCep.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jFCepFocusLost(evt);
+            }
+        });
+        jFCep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFCepActionPerformed(evt);
+            }
+        });
 
         jLRua.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jLRua.setText("Rua:");
@@ -273,12 +315,49 @@ public class FrameCadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_jFTelActionPerformed
 
     private void jBCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCadastrarActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jBCadastrarActionPerformed
 
     private void jBFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBFecharActionPerformed
         dispose();
     }//GEN-LAST:event_jBFecharActionPerformed
+
+    private void jFCpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFCpfActionPerformed
+        
+    }//GEN-LAST:event_jFCpfActionPerformed
+
+    private void jFCepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFCepActionPerformed
+
+    }//GEN-LAST:event_jFCepActionPerformed
+
+    private void jFCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFCpfFocusLost
+        cliente.setCpf(jFCpf.getText());
+    }//GEN-LAST:event_jFCpfFocusLost
+
+    private void jTNomeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTNomeFocusLost
+        cliente.setNome(jTNome.getText());
+    }//GEN-LAST:event_jTNomeFocusLost
+
+    private void jFCepFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFCepFocusLost
+        String fields[] = {"cep"};
+        String values[] = {jFCep.getText()};
+        String x = jFCep.getText();
+        
+        try {
+            if(daoEnd.find(fields,values) != null){
+                JOptionPane.showMessageDialog(null, "Achou");
+                jTRua.setText(end.getRua());
+                jTBairro.setText(end.getBairro());
+                jTCidade.setText(end.getCidade());
+                jCBoxUf.setActionCommand(end.getUf());
+            }else{
+                JOptionPane.showMessageDialog(null, "Não Achou \n"+x);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FrameCadastroCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_jFCepFocusLost
 
     /**
      * @param args the command line arguments
