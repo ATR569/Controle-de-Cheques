@@ -1,7 +1,14 @@
 package interfaceGrafica;
 
-import static java.time.Instant.now;
-import java.util.Date;
+import DAO.ChequeDao;
+import DAO.Dao;
+import classes.Cheque;
+import classes.Cliente;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -15,12 +22,28 @@ import javax.swing.table.DefaultTableModel;
  * @author Adson Macêdo
  */
 public class FrameCheques extends javax.swing.JFrame {
-
+    ArrayList<Cheque> lista;
+    Dao<Cheque> daoCheque = new ChequeDao<>();
     /**
      * Creates new form NewJFrame
      */
     public FrameCheques() {
         initComponents();
+        try {
+            lista = daoCheque.query("SELECT * FROM cheque");
+            DefaultTableModel modelo = (DefaultTableModel) jTblCheques.getModel();
+            for (Cheque c : lista) {
+                modelo.addRow(new Object []{c.getDataCompensacao().toString(), 
+                                            c.getCliente().getNome(),
+                                            c.getNumero()+"", 
+                                            c.getConta().getBanco(),
+                                            c.getConta().getCliente().getNome(), 
+                                            c.getValor(), 
+                                            c.getState()});
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao executar consulta!", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -44,14 +67,14 @@ public class FrameCheques extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        jProgressBar2 = new javax.swing.JProgressBar();
+        jPConfiancaCliente = new javax.swing.JProgressBar();
         jBtnHistoricoCliente = new javax.swing.JButton();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
+        jLNomeCliente = new javax.swing.JLabel();
+        jLEnderecoCliente = new javax.swing.JLabel();
+        jLCidadeCliente = new javax.swing.JLabel();
+        jLCpfCliente = new javax.swing.JLabel();
+        jLUfCliente = new javax.swing.JLabel();
+        jLTelefoneCliente = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jLabel39 = new javax.swing.JLabel();
@@ -92,7 +115,21 @@ public class FrameCheques extends javax.swing.JFrame {
             new String [] {
                 "Data", "Cliente", "Número", "Banco", "Emitente", "Valor", "Status"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTblCheques.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTblCheques.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTblChequesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTblCheques);
         if (jTblCheques.getColumnModel().getColumnCount() > 0) {
             jTblCheques.getColumnModel().getColumn(0).setMinWidth(80);
@@ -113,6 +150,7 @@ public class FrameCheques extends javax.swing.JFrame {
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados do Cliente"));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel9.setText("Nome:");
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -136,8 +174,8 @@ public class FrameCheques extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel16.setText("Nível de Confiança:");
 
-        jProgressBar2.setValue(75);
-        jProgressBar2.setStringPainted(true);
+        jPConfiancaCliente.setValue(75);
+        jPConfiancaCliente.setStringPainted(true);
 
         jBtnHistoricoCliente.setText("Histórico");
         jBtnHistoricoCliente.addActionListener(new java.awt.event.ActionListener() {
@@ -146,19 +184,23 @@ public class FrameCheques extends javax.swing.JFrame {
             }
         });
 
-        jLabel17.setText("Adson de Macêdo Nascimento");
+        jLNomeCliente.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLNomeCliente.setText("Adson de Macêdo Nascimento");
 
-        jLabel18.setText("Rua Luís Lindemberg de Farias, 100A");
+        jLEnderecoCliente.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLEnderecoCliente.setText("Rua Luís Lindemberg de Farias, 100A");
 
-        jLabel19.setText("Campina Grande");
+        jLCidadeCliente.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLCidadeCliente.setText("Campina Grande");
 
-        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel20.setText("000.000.000-00");
+        jLCpfCliente.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLCpfCliente.setText("000.000.000-00");
 
-        jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel21.setText("PB");
+        jLUfCliente.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLUfCliente.setText("PB");
 
-        jLabel22.setText("(83) 98609-6431");
+        jLTelefoneCliente.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLTelefoneCliente.setText("(83) 98609-6431");
 
         jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel23.setText("agnsoft@hotmail.com");
@@ -173,7 +215,7 @@ public class FrameCheques extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel22)
+                        .addComponent(jLTelefoneCliente)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -181,34 +223,30 @@ public class FrameCheques extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel16)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jProgressBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPConfiancaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel17)
-                        .addGap(102, 102, 102))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLNomeCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jLabel12)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel19))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel18)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabel12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLCidadeCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLEnderecoCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel20)
+                            .addComponent(jLCpfCliente)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel21))))
+                                .addComponent(jLUfCliente))))
                     .addComponent(jBtnHistoricoCliente, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
@@ -220,34 +258,34 @@ public class FrameCheques extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel13)
-                            .addComponent(jLabel20))
+                            .addComponent(jLCpfCliente))
                         .addGap(26, 26, 26)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
-                            .addComponent(jLabel21))
+                            .addComponent(jLUfCliente))
                         .addGap(26, 26, 26)
                         .addComponent(jBtnHistoricoCliente))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(jLabel17))
+                            .addComponent(jLNomeCliente))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
-                            .addComponent(jLabel18))
+                            .addComponent(jLEnderecoCliente))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12)
-                            .addComponent(jLabel19))
+                            .addComponent(jLCidadeCliente))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel14)
                             .addComponent(jLabel15)
-                            .addComponent(jLabel22)
+                            .addComponent(jLTelefoneCliente)
                             .addComponent(jLabel23))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jProgressBar2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPConfiancaCliente, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
@@ -400,7 +438,7 @@ public class FrameCheques extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -447,6 +485,11 @@ public class FrameCheques extends javax.swing.JFrame {
 
         jBAlterar.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jBAlterar.setText("Alterar");
+        jBAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBAlterarActionPerformed(evt);
+            }
+        });
 
         jBExcluir.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jBExcluir.setText("Excluir");
@@ -502,7 +545,7 @@ public class FrameCheques extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -515,9 +558,6 @@ public class FrameCheques extends javax.swing.JFrame {
     private void jBNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNovoActionPerformed
         FrameCadastroCheque cheque = new FrameCadastroCheque();
         cheque.setVisible(true);
-        DefaultTableModel modelo = (DefaultTableModel) jTblCheques.getModel();
-        
-        modelo.addRow(new Object []{"02/06/2019", "Adson de Macêdo Nascimento", "0000001", "Santander", "Adson de Macêdo Nascimento", "R$ 1.000,00", "ABERTO"});
     }//GEN-LAST:event_jBNovoActionPerformed
 
     private void jBtnPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPagamentoActionPerformed
@@ -532,13 +572,29 @@ public class FrameCheques extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jBtnSairActionPerformed
 
-    private void jBtnHistoricoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnHistoricoClienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jBtnHistoricoClienteActionPerformed
-
     private void jBtnHistoricoCliente2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnHistoricoCliente2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jBtnHistoricoCliente2ActionPerformed
+
+    private void jBAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAlterarActionPerformed
+        Cheque cheque = lista.get(jTblCheques.getSelectedRow());
+        FrameCadastroCheque fraCheque = new FrameCadastroCheque(cheque);
+        fraCheque.setVisible(true);
+    }//GEN-LAST:event_jBAlterarActionPerformed
+
+    private void jTblChequesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblChequesMouseClicked
+        Cheque cheque = lista.get(jTblCheques.getSelectedRow());
+        try {
+            jLNomeCliente.setText(cheque.getCliente().getNome());
+            jPConfiancaCliente.setValue((int)(cheque.getCliente().getScoreAtual()*100));
+        } catch (SQLException ex) {
+            //
+        }
+    }//GEN-LAST:event_jTblChequesMouseClicked
+
+    private void jBtnHistoricoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnHistoricoClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBtnHistoricoClienteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -587,6 +643,12 @@ public class FrameCheques extends javax.swing.JFrame {
     private javax.swing.JButton jBtnHistoricoCliente2;
     private javax.swing.JButton jBtnPagamento;
     private javax.swing.JButton jBtnSair;
+    private javax.swing.JLabel jLCidadeCliente;
+    private javax.swing.JLabel jLCpfCliente;
+    private javax.swing.JLabel jLEnderecoCliente;
+    private javax.swing.JLabel jLNomeCliente;
+    private javax.swing.JLabel jLTelefoneCliente;
+    private javax.swing.JLabel jLUfCliente;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -594,12 +656,6 @@ public class FrameCheques extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel40;
@@ -617,11 +673,11 @@ public class FrameCheques extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel53;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JProgressBar jPConfiancaCliente;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JProgressBar jProgressBar2;
     private javax.swing.JProgressBar jProgressBar4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTblCheques;

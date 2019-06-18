@@ -8,16 +8,16 @@ package interfaceGrafica;
 import DAO.*;
 import classes.*;
 import static classes.Utils.quotedStr;
-import java.awt.HeadlessException;
 import java.sql.SQLException;
-import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 /**
  *
  * @author rrsal
  */
 public class FrameCadastroCheque extends javax.swing.JFrame {
-    Cheque cheque = new Cheque();
+    Cheque cheque;
     Dao<Cheque> daoCheque = new ChequeDao<>();
     Dao<Cliente> daoCliente = new ClienteDao<>();
     Dao<Conta> daoConta = new ContaDao<>();
@@ -25,7 +25,46 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
      * Creates new form FrameCadastroCheque
      */
     public FrameCadastroCheque() {
+        this(new Cheque());
+    }
+    
+    public FrameCadastroCheque(Cheque cheque){
         initComponents();
+        try {
+            this.cheque = cheque;
+            if (cheque.getId() != 0){
+                this.jFCpf.setText(cheque.getCliente().getCpf());
+                this.jLNome.setText(cheque.getCliente().getNome());
+                this.jLTel.setText(cheque.getCliente().getTelefone());
+                this.jTAg.setText(cheque.getConta().getAgencia()+"");
+                this.jTCnt.setText(cheque.getConta().getNumConta());
+                this.jLBanco.setText(cheque.getConta().getBanco());
+                this.jLCpfEmit.setText(cheque.getConta().getCliente().getCpf());
+                this.jLNomeEmit.setText(cheque.getConta().getCliente().getNome());
+                this.jLTelEmit.setText(cheque.getConta().getCliente().getTelefone());
+                this.jFNumCheque.setText(cheque.getNumero()+"");
+                this.jFValor.setText(("R$ "+cheque.getValor()).replace(".", ","));
+                jPConfianca.setValue((int)(cheque.getCliente().getScoreAtual()*100));
+                jPConfEmitente.setValue((int)(cheque.getConta().getCliente().getScoreAtual()*100));
+                jDateDatCompen.setDate(cheque.getDataCompensacao());
+            }else{
+                this.jFCpf.setText("");
+                this.jLNome.setText("");
+                this.jLTel.setText("");
+                this.jTAg.setText("");
+                this.jTCnt.setText("");
+                this.jLBanco.setText("");
+                this.jLCpfEmit.setText("");
+                this.jLNomeEmit.setText("");
+                this.jLTelEmit.setText("");
+                this.jFNumCheque.setText("");
+                this.jFValor.setText("");
+                jPConfianca.setValue(0);
+                jPConfEmitente.setValue(0);
+            }
+        } catch (SQLException ex) {
+            //
+        }
     }
 
     /**
@@ -247,6 +286,8 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jFCpf.getAccessibleContext().setAccessibleName("");
+
         jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel3.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
@@ -397,6 +438,11 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
 
         jFNumCheque.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         jFNumCheque.setToolTipText("");
+        jFNumCheque.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jFNumChequeKeyReleased(evt);
+            }
+        });
 
         jFValor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
         jFValor.setToolTipText("");
@@ -557,9 +603,7 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
     }//GEN-LAST:event_jBHistoricoActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        jLNome.setText("");
-        jLTel.setText("");
-        jPConfianca.setValue(0);
+
     }//GEN-LAST:event_formWindowOpened
 
     private void jBHistorico1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBHistorico1ActionPerformed
@@ -599,26 +643,31 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
     }//GEN-LAST:event_jTCntFocusLost
 
     private void jBCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCadastrarActionPerformed
-        
         try {
             cheque.setDataCompensacao(jDateDatCompen.getDate());
             cheque.setNumero(Integer.parseInt(jFNumCheque.getText()));
             cheque.setValor(Utils.toDouble(jFValor.getText()));
             
-            daoCheque.insert(cheque);
+            //  Se for um novo cheque o id = 0
+            if (cheque.getId() == 0)
+                daoCheque.insert(cheque);
+            else
+                daoCheque.update(cheque);                
             
             JOptionPane.showMessageDialog(null, "Cheque cadastrado com sucesso!", "Cadastro de Cheques", JOptionPane.INFORMATION_MESSAGE);
             this.dispose();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-        } catch (HeadlessException | NumberFormatException ex){
-            JOptionPane.showMessageDialog(null, "Não é possível cadastrar um cliente com esses dados!", "Erro", JOptionPane.ERROR_MESSAGE);            
         }
     }//GEN-LAST:event_jBCadastrarActionPerformed
 
     private void jTAgKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTAgKeyReleased
         jTAg.setText(jTAg.getText().replaceAll("[^0-9]", ""));
     }//GEN-LAST:event_jTAgKeyReleased
+
+    private void jFNumChequeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFNumChequeKeyReleased
+        jTAg.setText(jFNumCheque.getText().replaceAll("[^0-9]", ""));
+    }//GEN-LAST:event_jFNumChequeKeyReleased
 
     /**
      * @param args the command line arguments
