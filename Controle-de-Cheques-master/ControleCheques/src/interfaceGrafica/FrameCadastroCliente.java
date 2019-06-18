@@ -335,6 +335,7 @@ public class FrameCadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_jFCpfFocusLost
 
     private void jTNomeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTNomeFocusLost
+        //alteração
         cliente.setNome(jTNome.getText());
     }//GEN-LAST:event_jTNomeFocusLost
 
