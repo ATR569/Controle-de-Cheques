@@ -342,6 +342,7 @@ public class FrameCadastroCliente extends javax.swing.JFrame {
         String fields[] = {"cep"};
         String values[] = {jFCep.getText()};
         String x = jFCep.getText();
+        //alteração de teste!
         
         try {
             if(daoEnd.find(fields,values) != null){
