@@ -5,18 +5,51 @@
  */
 package interfaceGrafica;
 
-//TESTE COMMIT
+import DAO.*;
+import classes.*;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
+import static classes.Utils.quotedStr;
+
 /**
  *
- * @author rrsal
+ * @author Thairam Michel
  */
 public class FrameCadastraConta extends javax.swing.JFrame {
+
+    Conta conta;
+    Dao<Cliente> daoCliente = new ClienteDao<>();
+    Dao<Conta> daoConta = new ContaDao<>();
 
     /**
      * Creates new form FrameCadastraConta
      */
     public FrameCadastraConta() {
+        this(new Conta());
+    }
+
+    public FrameCadastraConta(Conta conta) {
         initComponents();
+        try {
+            this.conta = conta;
+            if (conta.getId() != 0) {
+                this.jTBanco.setText(conta.getBanco());
+                this.jTAg.setText(conta.getAgencia() + "");
+                this.jTCnt.setText(conta.getNumConta());
+                this.jTCpf.setText(conta.getCliente().getCpf());
+                this.jFNome.setText(conta.getCliente().getNome());
+                this.jFTel.setText(conta.getCliente().getTelefone());
+            } else {
+                this.jTBanco.setText("");
+                this.jTAg.setText("");
+                this.jTCnt.setText("");
+                this.jTCpf.setText("");
+                this.jFNome.setText("");
+                this.jFTel.setText("");
+            }
+        } catch (Exception e) {
+        }
     }
 
     /**
@@ -36,9 +69,9 @@ public class FrameCadastraConta extends javax.swing.JFrame {
         jLCnt = new javax.swing.JLabel();
         jTCnt = new javax.swing.JTextField();
         jLCpf = new javax.swing.JLabel();
-        jFCpf = new javax.swing.JFormattedTextField();
+        jTCpf = new javax.swing.JFormattedTextField();
         jLNome = new javax.swing.JLabel();
-        jTNome = new javax.swing.JTextField();
+        jFNome = new javax.swing.JTextField();
         jLTel = new javax.swing.JLabel();
         jFTel = new javax.swing.JFormattedTextField();
         jPanel2 = new javax.swing.JPanel();
@@ -60,6 +93,11 @@ public class FrameCadastraConta extends javax.swing.JFrame {
         jLAg.setText("Agência:");
 
         jTAg.setPreferredSize(new java.awt.Dimension(160, 22));
+        jTAg.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTAgKeyReleased(evt);
+            }
+        });
 
         jLCnt.setFont(new java.awt.Font("Calibri", 1, 16)); // NOI18N
         jLCnt.setText("Conta:");
@@ -71,20 +109,25 @@ public class FrameCadastraConta extends javax.swing.JFrame {
         jLCpf.setPreferredSize(new java.awt.Dimension(85, 17));
 
         try {
-            jFCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+            jTCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        jFCpf.setPreferredSize(new java.awt.Dimension(98, 22));
+        jTCpf.setPreferredSize(new java.awt.Dimension(98, 22));
+        jTCpf.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTCpfFocusLost(evt);
+            }
+        });
 
         jLNome.setFont(new java.awt.Font("Calibri", 1, 16)); // NOI18N
         jLNome.setText("Nome:");
 
-        jTNome.setEditable(false);
-        jTNome.setPreferredSize(new java.awt.Dimension(250, 22));
-        jTNome.addActionListener(new java.awt.event.ActionListener() {
+        jFNome.setEditable(false);
+        jFNome.setPreferredSize(new java.awt.Dimension(250, 22));
+        jFNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTNomeActionPerformed(evt);
+                jFNomeActionPerformed(evt);
             }
         });
 
@@ -117,7 +160,7 @@ public class FrameCadastraConta extends javax.swing.JFrame {
                             .addComponent(jLNome, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(4, 4, 4)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTNome, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jFNome, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jFTel, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -130,7 +173,7 @@ public class FrameCadastraConta extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jTAg, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                                 .addComponent(jTCnt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                                .addComponent(jFCpf, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jTCpf, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jTBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(79, Short.MAX_VALUE))
         );
@@ -152,11 +195,11 @@ public class FrameCadastraConta extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLNome)
-                    .addComponent(jTNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jFNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLTel)
@@ -168,6 +211,11 @@ public class FrameCadastraConta extends javax.swing.JFrame {
 
         jBCadastrar.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jBCadastrar.setText("Cadastrar");
+        jBCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBCadastrarActionPerformed(evt);
+            }
+        });
 
         jBFechar.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jBFechar.setText("Fechar");
@@ -226,9 +274,9 @@ public class FrameCadastraConta extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTNomeActionPerformed
+    private void jFNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFNomeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTNomeActionPerformed
+    }//GEN-LAST:event_jFNomeActionPerformed
 
     private void jFTelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFTelActionPerformed
         // TODO add your handling code here:
@@ -237,6 +285,61 @@ public class FrameCadastraConta extends javax.swing.JFrame {
     private void jBFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBFecharActionPerformed
         dispose();
     }//GEN-LAST:event_jBFecharActionPerformed
+
+    private void jTCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTCpfFocusLost
+
+        try {
+            if (jTBanco.getText().equals("") || jTAg.getText().equals("") || jTCnt.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Banco, Agência e Número da conta são obrigatórios!", "Campos obrigatórios", JOptionPane.INFORMATION_MESSAGE);
+                jTBanco.requestFocus();
+            } else {
+                String fields[] = {"cpf"};
+                String values[] = {quotedStr(jTCpf.getText())};
+                conta.setCliente(daoCliente.find(fields, values));
+
+                if (conta.getCliente() != null) {
+                    jFNome.setText(conta.getCliente().getNome());
+                    jFTel.setText(conta.getCliente().getTelefone());
+                } else {
+                    int opt = JOptionPane.showConfirmDialog(null, "Cliente não encontrado!\nDeseja Cadastrar um novo?", "Cliente não encontrado", JOptionPane.YES_NO_OPTION);
+                    if (opt == JOptionPane.YES_OPTION) {
+                        FrameCadastroCliente cadCliente = new FrameCadastroCliente();
+                        cadCliente.setVisible(true);
+                    } else {
+                        jTCpf.requestFocus();
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "CpfFocusLost Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jTCpfFocusLost
+
+    private void jBCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCadastrarActionPerformed
+
+        try {
+
+            conta.setBanco(jTBanco.getText());
+            conta.setAgencia(Integer.parseInt(jTAg.getText()));
+            conta.setNumConta(jTCnt.getText());
+
+            //quando é uma nova conta o id == 0
+            if (conta.getId() == 0) {
+                daoConta.insert(conta);
+            } else {
+                daoConta.update(conta);
+            }
+
+            JOptionPane.showMessageDialog(null, "Conta cadastrada com sucesso!", "Cadastro de Contas", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Cadastrar Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jBCadastrarActionPerformed
+
+    private void jTAgKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTAgKeyReleased
+        jTAg.setText(jTAg.getText().replaceAll("[^0-9]", ""));
+    }//GEN-LAST:event_jTAgKeyReleased
 
     /**
      * @param args the command line arguments
@@ -276,7 +379,7 @@ public class FrameCadastraConta extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBCadastrar;
     private javax.swing.JButton jBFechar;
-    private javax.swing.JFormattedTextField jFCpf;
+    private javax.swing.JTextField jFNome;
     private javax.swing.JFormattedTextField jFTel;
     private javax.swing.JLabel jLAg;
     private javax.swing.JLabel jLBanco;
@@ -289,6 +392,6 @@ public class FrameCadastraConta extends javax.swing.JFrame {
     private javax.swing.JTextField jTAg;
     private javax.swing.JTextField jTBanco;
     private javax.swing.JTextField jTCnt;
-    private javax.swing.JTextField jTNome;
+    private javax.swing.JFormattedTextField jTCpf;
     // End of variables declaration//GEN-END:variables
 }

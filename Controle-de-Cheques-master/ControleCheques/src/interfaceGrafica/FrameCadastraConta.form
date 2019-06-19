@@ -73,7 +73,7 @@
                           </Group>
                           <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jTNome" min="-2" pref="221" max="-2" attributes="0"/>
+                              <Component id="jFNome" min="-2" pref="221" max="-2" attributes="0"/>
                               <Component id="jFTel" min="-2" pref="101" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -89,7 +89,7 @@
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                   <Component id="jTAg" alignment="0" pref="0" max="32767" attributes="0"/>
                                   <Component id="jTCnt" alignment="0" pref="0" max="32767" attributes="0"/>
-                                  <Component id="jFCpf" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jTCpf" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Component id="jTBanco" min="-2" pref="200" max="-2" attributes="0"/>
                           </Group>
@@ -120,12 +120,12 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLCpf" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jFCpf" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jTCpf" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLNome" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTNome" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jFNome" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -167,6 +167,9 @@
               <Dimension value="[160, 22]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTAgKeyReleased"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLCnt">
           <Properties>
@@ -194,7 +197,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="jFCpf">
+        <Component class="javax.swing.JFormattedTextField" name="jTCpf">
           <Properties>
             <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
               <Format format="###.###.###-##" subtype="-1" type="5"/>
@@ -203,6 +206,9 @@
               <Dimension value="[98, 22]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTCpfFocusLost"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLNome">
           <Properties>
@@ -212,7 +218,7 @@
             <Property name="text" type="java.lang.String" value="Nome:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTNome">
+        <Component class="javax.swing.JTextField" name="jFNome">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -220,7 +226,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTNomeActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jFNomeActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLTel">
@@ -289,6 +295,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Cadastrar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBCadastrarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jBFechar">
           <Properties>
