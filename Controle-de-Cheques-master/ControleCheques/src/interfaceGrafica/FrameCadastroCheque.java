@@ -8,9 +8,7 @@ package interfaceGrafica;
 import DAO.*;
 import classes.*;
 import static classes.Utils.quotedStr;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Calendar;
 import javax.swing.JOptionPane;
 /**
  *
@@ -30,40 +28,37 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
     
     public FrameCadastroCheque(Cheque cheque){
         initComponents();
-        try {
-            this.cheque = cheque;
-            if (cheque.getId() != 0){
-                this.jFCpf.setText(cheque.getCliente().getCpf());
-                this.jLNome.setText(cheque.getCliente().getNome());
-                this.jLTel.setText(cheque.getCliente().getTelefone());
-                this.jTAg.setText(cheque.getConta().getAgencia()+"");
-                this.jTCnt.setText(cheque.getConta().getNumConta());
-                this.jLBanco.setText(cheque.getConta().getBanco());
-                this.jLCpfEmit.setText(cheque.getConta().getCliente().getCpf());
-                this.jLNomeEmit.setText(cheque.getConta().getCliente().getNome());
-                this.jLTelEmit.setText(cheque.getConta().getCliente().getTelefone());
-                this.jFNumCheque.setText(cheque.getNumero()+"");
-                this.jFValor.setText(("R$ "+cheque.getValor()).replace(".", ","));
-                jPConfianca.setValue((int)(cheque.getCliente().getScoreAtual()*100));
-                jPConfEmitente.setValue((int)(cheque.getConta().getCliente().getScoreAtual()*100));
-                jDateDatCompen.setDate(cheque.getDataCompensacao());
-            }else{
-                this.jFCpf.setText("");
-                this.jLNome.setText("");
-                this.jLTel.setText("");
-                this.jTAg.setText("");
-                this.jTCnt.setText("");
-                this.jLBanco.setText("");
-                this.jLCpfEmit.setText("");
-                this.jLNomeEmit.setText("");
-                this.jLTelEmit.setText("");
-                this.jFNumCheque.setText("");
-                this.jFValor.setText("");
-                jPConfianca.setValue(0);
-                jPConfEmitente.setValue(0);
-            }
-        } catch (SQLException ex) {
-            //
+        this.cheque = cheque;
+        if (cheque.getId() != 0){
+            this.jFCpf.setText(cheque.getCliente().getCpf());
+            this.jLNome.setText(cheque.getCliente().getNome());
+            this.jLTel.setText(cheque.getCliente().getTelefone());
+            this.jTAg.setText(cheque.getConta().getAgencia()+"");
+            this.jTCnt.setText(cheque.getConta().getNumConta());
+            this.jLBanco.setText(cheque.getConta().getBanco());
+            this.jLCpfEmit.setText(cheque.getConta().getCliente().getCpf());
+            this.jLNomeEmit.setText(cheque.getConta().getCliente().getNome());
+            this.jLTelEmit.setText(cheque.getConta().getCliente().getTelefone());
+            this.jFNumCheque.setText(cheque.getNumero()+"");
+            this.jFValor.setText(("R$ "+cheque.getValor()).replace(".", ","));
+            jPConfianca.setValue((int)(cheque.getCliente().getScoreAtual()*100));
+            jPConfEmitente.setValue((int)(cheque.getConta().getCliente().getScoreAtual()*100));
+            jDateDatCompen.setCalendar(cheque.getDataCompensacao());
+        }else{
+            this.jFCpf.setText("");
+            this.jLNome.setText("");
+            this.jLTel.setText("");
+            this.jTAg.setText("");
+            this.jTCnt.setText("");
+            this.jLBanco.setText("");
+            this.jLCpfEmit.setText("");
+            this.jLNomeEmit.setText("");
+            this.jLTelEmit.setText("");
+            this.jFNumCheque.setText("");
+            this.jFValor.setText("");
+            jPConfianca.setValue(0);
+            jPConfEmitente.setValue(0);
+            jDateDatCompen.setCalendar(Calendar.getInstance());
         }
     }
 
@@ -559,38 +554,34 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jFCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFCpfFocusLost
-        try {
-            String fields[] = {"cpf"};
-            String values[] = {quotedStr(jFCpf.getText())};
-            cheque.setCliente(daoCliente.find(fields, values));
-            
-            if (cheque.getCliente() != null){
-                jLNome.setText(cheque.getCliente().getNome());
-                jLTel.setText(cheque.getCliente().getTelefone());
-                double conf = cheque.getCliente().getScoreAtual();
-                jPConfianca.setValue((int)(conf*100));
-            }else{
-                int opt = JOptionPane.showConfirmDialog(null, "Cliente não encontrado!\nDeseja Cadastrar um novo?", "Cliente não encontrado", JOptionPane.YES_NO_OPTION);
-                if (opt == JOptionPane.YES_OPTION){
-                    FrameCadastroCliente cadCliente = new FrameCadastroCliente();
-                    cadCliente.setVisible(true);
+        String fields[] = {"cpf"};
+        String values[] = {quotedStr(jFCpf.getText())};
+        cheque.setCliente(daoCliente.find(fields, values));
+
+        if (cheque.getCliente() != null){
+            jLNome.setText(cheque.getCliente().getNome());
+            jLTel.setText(cheque.getCliente().getTelefone());
+            double conf = cheque.getCliente().getScoreAtual();
+            jPConfianca.setValue((int)(conf*100));
+        }else{
+            int opt = JOptionPane.showConfirmDialog(null, "Cliente não encontrado!\nDeseja Cadastrar um novo?", "Cliente não encontrado", JOptionPane.YES_NO_OPTION);
+            if (opt == JOptionPane.YES_OPTION){
+                FrameCadastroCliente cadCliente = new FrameCadastroCliente();
+                cadCliente.setVisible(true);
 /*
-                    if (cadCliente.getCliente() != null){
-                        jLNome.setText(cheque.getCliente().getNome());
-                        jLTel.setText(cheque.getCliente().getTelefone());
-                        double conf = cheque.getCliente().getScoreAtual();
-                        jPConfianca.setValue((int)(conf*100));
-                        
-                    }else{
-                        jFCpf.requestFocus();
-                    }
-*/
+                if (cadCliente.getCliente() != null){
+                    jLNome.setText(cheque.getCliente().getNome());
+                    jLTel.setText(cheque.getCliente().getTelefone());
+                    double conf = cheque.getCliente().getScoreAtual();
+                    jPConfianca.setValue((int)(conf*100));
+
                 }else{
                     jFCpf.requestFocus();
                 }
+*/
+            }else{
+                jFCpf.requestFocus();
             }
-        } catch (SQLException ex) {
-            //  TO DO
         }
     }//GEN-LAST:event_jFCpfFocusLost
 
@@ -607,11 +598,10 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void jBHistorico1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBHistorico1ActionPerformed
-        // TODO add your handling code here:
+        System.out.println(jDateDatCompen.getDate());
     }//GEN-LAST:event_jBHistorico1ActionPerformed
 
     private void jTCntFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTCntFocusLost
-        try {
             if (jTAg.getText().equals("") || jTCnt.getText().equals("")){
                 JOptionPane.showMessageDialog(null, "Agência e Número da conta são obrigatórios!", "Campos obrigatórios", JOptionPane.INFORMATION_MESSAGE);
                 jTAg.requestFocus();
@@ -637,28 +627,21 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
                     }
                 }
             }
-        } catch (SQLException ex) {
-            //  TO DO
-        }
     }//GEN-LAST:event_jTCntFocusLost
 
     private void jBCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCadastrarActionPerformed
-        try {
-            cheque.setDataCompensacao(jDateDatCompen.getDate());
-            cheque.setNumero(Integer.parseInt(jFNumCheque.getText()));
-            cheque.setValor(Utils.toDouble(jFValor.getText()));
-            
-            //  Se for um novo cheque o id = 0
-            if (cheque.getId() == 0)
-                daoCheque.insert(cheque);
-            else
-                daoCheque.update(cheque);                
-            
-            JOptionPane.showMessageDialog(null, "Cheque cadastrado com sucesso!", "Cadastro de Cheques", JOptionPane.INFORMATION_MESSAGE);
-            this.dispose();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-        }
+        cheque.setDataCompensacao(jDateDatCompen.getCalendar());
+        cheque.setNumero(Integer.parseInt(jFNumCheque.getText()));
+        cheque.setValor(Utils.toDouble(jFValor.getText()));
+
+        //  Se for um novo cheque o id = 0
+        if (cheque.getId() == 0)
+            daoCheque.insert(cheque);
+        else
+            daoCheque.update(cheque);                
+
+        JOptionPane.showMessageDialog(null, "Cheque cadastrado com sucesso!", "Cadastro de Cheques", JOptionPane.INFORMATION_MESSAGE);
+        this.dispose();
     }//GEN-LAST:event_jBCadastrarActionPerformed
 
     private void jTAgKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTAgKeyReleased

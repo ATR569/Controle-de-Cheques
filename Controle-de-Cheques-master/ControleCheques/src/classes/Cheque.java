@@ -6,6 +6,7 @@
 package classes;
 
 import classes.interfaces.Entity;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -18,14 +19,14 @@ public class Cheque implements Entity{
     private double valor;
     private Conta conta;
     private int numero;
-    private Date dataCompensacao;    
-    private Date dataCompensado;    
+    private Calendar dataCompensacao;    
+    private Calendar dataCompensado;    
     private int state;
     public static final int ABERTO = 0, DEVOLVIDO = 1, COMPENSADO = 2;
         
     public Cheque(){}
     
-    public Cheque(int id, Cliente cliente, double valor, Conta conta, int numero, Date dataCompensacao, Date dataCompensado, int state) {
+    public Cheque(int id, Cliente cliente, double valor, Conta conta, int numero, Calendar dataCompensacao, Calendar dataCompensado, int state) {
         this.id = id;
         this.cliente = cliente;
         this.conta = conta;
@@ -36,7 +37,7 @@ public class Cheque implements Entity{
         this.state = state;
     }
     
-    public Cheque(Cliente cliente, double valor, Conta conta, int numero, Date dataCompensacao) {
+    public Cheque(Cliente cliente, double valor, Conta conta, int numero, Calendar dataCompensacao) {
         this(0, cliente, valor, conta, numero, dataCompensacao, null, ABERTO);
     }
 
@@ -80,11 +81,11 @@ public class Cheque implements Entity{
         this.numero = numero;
     }
 
-    public Date getDataCompensacao() {
+    public Calendar getDataCompensacao() {
         return dataCompensacao;
     }
 
-    public void setDataCompensacao(Date dataCompensacao) {
+    public void setDataCompensacao(Calendar dataCompensacao) {
         this.dataCompensacao = dataCompensacao;
     }
 
@@ -103,12 +104,13 @@ public class Cheque implements Entity{
 
     @Override
     public String getValues() {
+        
         return  numero + ", " +
                 (conta != null ? conta.getId() + ", ": "null, ") + 
                 (cliente != null ? cliente.getId() + ", ": "null, ") + 
                 valor + ", " + 
-                (dataCompensado != null ? "'" + dataCompensado.getYear() + '/' + dataCompensado.getMonth() + '/' + dataCompensado.getDate() + "'," : "null, " ) +
-                "'" + dataCompensacao.getYear() + '/' + dataCompensacao.getMonth() + '/' + dataCompensacao.getDate() + "'," + 
+                (dataCompensado != null ? "'" + dataCompensado.get(Calendar.YEAR) + '/' + dataCompensado.get(Calendar.MONTH) + '/' + dataCompensado.get(Calendar.DATE) + "'," : "null, " ) +
+                "'" + dataCompensacao.get(Calendar.YEAR) + '/' + dataCompensacao.get(Calendar.MONTH) + '/' + dataCompensacao.get(Calendar.DATE) + "',"+
                 state;                
     }
 

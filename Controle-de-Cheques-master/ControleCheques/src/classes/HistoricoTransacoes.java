@@ -7,7 +7,6 @@ package classes;
 
 import DAO.Dao;
 import DAO.TransacaoDao;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 public class HistoricoTransacoes {
     private ArrayList<Transacao> historico;
     
-    public HistoricoTransacoes(int idCliente) throws SQLException{
+    public HistoricoTransacoes(int idCliente) {
         Dao<Transacao> dao = new TransacaoDao<>();
         this.historico = dao.query("SELECT * FROM "+ dao.getTable() + " WHERE id_cliente = " + idCliente + " ORDER BY data_transacao DESC LIMIT 30");
     }
