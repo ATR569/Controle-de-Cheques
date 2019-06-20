@@ -10,8 +10,6 @@ import DAO.Dao;
 import classes.Cliente;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -68,7 +66,7 @@ public class TesteDaoCliente {
     public void testeFindCliente() throws SQLException{
         Cliente c1 = dao.find(2);
         
-        assertEquals(c1.getCpf(), "22222222222");
+        assertEquals(c1.getCpf(), "222.222.222-22");
         assertEquals(c1.getId(), 2);
         assertEquals(c1.getNome(), "Adson");
         
@@ -80,21 +78,16 @@ public class TesteDaoCliente {
     @Test
     public void testeInsertCliente(){
         Cliente c1 = new Cliente();
-        c1.setNome("João Bytista Binário");
-        c1.setCpf("010.010.010-00");
+        c1.setNome("João Bytista Binário Segundo");
+        c1.setCpf("110.010.010-11");
         c1.setEndereco(null);
-        c1.setEmail("jbb@bytecode.com");
-        c1.setScoreInicial(0.85);
+        c1.setEmail("jbb2@bytecode.com");
         c1.setTelefone("(10) 10010-0101");
-        
-        try {
-            dao.insert(c1);
-            System.out.println("Incluindo: " + c1.getNome());
-            Cliente c2 = dao.find(c1.getId());
-            assertEquals(c1.getNome(), c2.getNome());
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());;
-        }
+        System.out.println(c1.getValues());
+        dao.insert(c1);
+        System.out.println("Incluindo: " + c1.getNome());
+        Cliente c2 = dao.find(c1.getId());
+        assertEquals(c1.getNome(), c2.getNome());
     }
     
     @Test
@@ -107,16 +100,12 @@ public class TesteDaoCliente {
         c1.setScoreInicial(0.85);
         c1.setTelefone("(10) 10010-0101");
         
-        try {
-            System.out.println("Incluindo: " + c1.getNome());
-            dao.insert(c1);
-            System.out.println("Excluindo: " + c1.getNome());
-            dao.delete(c1);
-            c1 = dao.find(c1.getId());
-            assertNull(c1);
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());;
-        }
+        System.out.println("Incluindo: " + c1.getNome());
+        dao.insert(c1);
+        System.out.println("Excluindo: " + c1.getNome());
+        dao.delete(c1);
+        c1 = dao.find(c1.getId());
+        assertNull(c1);
     }
     
 }

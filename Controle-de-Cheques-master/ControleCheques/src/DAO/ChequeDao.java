@@ -47,7 +47,6 @@ public class ChequeDao<T> extends Dao<T>{
             compensado.setTime(dataCompensado);
         }
         
-        System.out.println(compensacao.get(Calendar.DATE));
         return ((T) new Cheque(resultSet.getInt("id"),
                                 cliente,
                                 resultSet.getDouble("valor"),                                

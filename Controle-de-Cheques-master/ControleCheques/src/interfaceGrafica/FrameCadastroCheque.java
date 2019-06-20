@@ -12,6 +12,7 @@ import java.util.Calendar;
 import javax.swing.JOptionPane;
 /**
  *
+ * @author Adson Macêdo
  * @author rrsal
  */
 public class FrameCadastroCheque extends javax.swing.JFrame {
@@ -39,8 +40,8 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
             this.jLCpfEmit.setText(cheque.getConta().getCliente().getCpf());
             this.jLNomeEmit.setText(cheque.getConta().getCliente().getNome());
             this.jLTelEmit.setText(cheque.getConta().getCliente().getTelefone());
-            this.jFNumCheque.setText(cheque.getNumero()+"");
-            this.jFValor.setText(("R$ "+cheque.getValor()).replace(".", ","));
+            this.jTNumCheque.setText(cheque.getNumero()+"");
+            this.jTValor.setText(("R$ "+cheque.getValor()).replace(".", ","));
             jPConfianca.setValue((int)(cheque.getCliente().getScoreAtual()*100));
             jPConfEmitente.setValue((int)(cheque.getConta().getCliente().getScoreAtual()*100));
             jDateDatCompen.setCalendar(cheque.getDataCompensacao());
@@ -54,8 +55,8 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
             this.jLCpfEmit.setText("");
             this.jLNomeEmit.setText("");
             this.jLTelEmit.setText("");
-            this.jFNumCheque.setText("");
-            this.jFValor.setText("");
+            this.jTNumCheque.setText("");
+            this.jTValor.setText("");
             jPConfianca.setValue(0);
             jPConfEmitente.setValue(0);
             jDateDatCompen.setCalendar(Calendar.getInstance());
@@ -109,8 +110,8 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
         jLValor = new javax.swing.JLabel();
         jLDatCompen = new javax.swing.JLabel();
         jDateDatCompen = new com.toedter.calendar.JDateChooser();
-        jFNumCheque = new javax.swing.JFormattedTextField();
-        jFValor = new javax.swing.JFormattedTextField();
+        jTNumCheque = new javax.swing.JTextField();
+        jTValor = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jBCadastrar = new javax.swing.JButton();
         jBFechar = new javax.swing.JButton();
@@ -431,16 +432,19 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
 
         jDateDatCompen.setDoubleBuffered(false);
 
-        jFNumCheque.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        jFNumCheque.setToolTipText("");
-        jFNumCheque.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jFNumChequeKeyReleased(evt);
+        jTNumCheque.setToolTipText("");
+        jTNumCheque.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTNumChequeFocusLost(evt);
             }
         });
 
-        jFValor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getCurrencyInstance())));
-        jFValor.setToolTipText("");
+        jTValor.setToolTipText("");
+        jTValor.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTValorFocusLost(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -453,28 +457,28 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
                     .addComponent(jLValor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLNumCheque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDateDatCompen, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFNumCheque, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFValor, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jDateDatCompen, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)
+                    .addComponent(jTNumCheque)
+                    .addComponent(jTValor))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(17, 17, 17)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLNumCheque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFNumCheque, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTNumCheque, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTValor, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFValor, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jDateDatCompen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLDatCompen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(jDateDatCompen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLDatCompen, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel5.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -544,7 +548,7 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -554,33 +558,36 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jFCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFCpfFocusLost
-        String fields[] = {"cpf"};
-        String values[] = {quotedStr(jFCpf.getText())};
-        cheque.setCliente(daoCliente.find(fields, values));
+        if (this.isShowing()) {
+            String fields[] = {"cpf"};
+            String values[] = {quotedStr(jFCpf.getText())};
+            cheque.setCliente(daoCliente.find(fields, values));
 
-        if (cheque.getCliente() != null){
-            jLNome.setText(cheque.getCliente().getNome());
-            jLTel.setText(cheque.getCliente().getTelefone());
-            double conf = cheque.getCliente().getScoreAtual();
-            jPConfianca.setValue((int)(conf*100));
-        }else{
-            int opt = JOptionPane.showConfirmDialog(null, "Cliente não encontrado!\nDeseja Cadastrar um novo?", "Cliente não encontrado", JOptionPane.YES_NO_OPTION);
-            if (opt == JOptionPane.YES_OPTION){
-                FrameCadastroCliente cadCliente = new FrameCadastroCliente();
-                cadCliente.setVisible(true);
-/*
-                if (cadCliente.getCliente() != null){
-                    jLNome.setText(cheque.getCliente().getNome());
-                    jLTel.setText(cheque.getCliente().getTelefone());
-                    double conf = cheque.getCliente().getScoreAtual();
-                    jPConfianca.setValue((int)(conf*100));
+            if (cheque.getCliente() != null){
+                jLNome.setText(cheque.getCliente().getNome());
+                jLTel.setText(cheque.getCliente().getTelefone());
+                double conf = cheque.getCliente().getScoreAtual();
+                jPConfianca.setValue((int)(conf*100));
+            }else{
+                int opt = JOptionPane.showConfirmDialog(null, "Cliente não encontrado!\nDeseja Cadastrar um novo?", "Cliente não encontrado", JOptionPane.YES_NO_OPTION);
+                if (opt == JOptionPane.YES_OPTION){
+                    FrameCadastroCliente cadCliente = new FrameCadastroCliente();
+                    cadCliente.setVisible(true);
+                    
+                    /*
+                    if (cadCliente.getCliente() != null){
+                        jLNome.setText(cheque.getCliente().getNome());
+                        jLTel.setText(cheque.getCliente().getTelefone());
+                        double conf = cheque.getCliente().getScoreAtual();
+                        jPConfianca.setValue((int)(conf*100));
 
+                    }else{
+                        jFCpf.requestFocus();
+                    }
+    */
                 }else{
                     jFCpf.requestFocus();
                 }
-*/
-            }else{
-                jFCpf.requestFocus();
             }
         }
     }//GEN-LAST:event_jFCpfFocusLost
@@ -598,7 +605,7 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void jBHistorico1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBHistorico1ActionPerformed
-        System.out.println(jDateDatCompen.getDate());
+        
     }//GEN-LAST:event_jBHistorico1ActionPerformed
 
     private void jTCntFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTCntFocusLost
@@ -630,27 +637,35 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
     }//GEN-LAST:event_jTCntFocusLost
 
     private void jBCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCadastrarActionPerformed
-        cheque.setDataCompensacao(jDateDatCompen.getCalendar());
-        cheque.setNumero(Integer.parseInt(jFNumCheque.getText()));
-        cheque.setValor(Utils.toDouble(jFValor.getText()));
+        try{
+            cheque.setDataCompensacao(jDateDatCompen.getCalendar());
+            cheque.setNumero(Utils.toInt(jTNumCheque.getText()));
+            cheque.setValor(Utils.toDouble(jTValor.getText()));
 
-        //  Se for um novo cheque o id = 0
-        if (cheque.getId() == 0)
-            daoCheque.insert(cheque);
-        else
-            daoCheque.update(cheque);                
+            //  Se for um novo cheque o id = 0
+            if (cheque.getId() == 0)
+                daoCheque.insert(cheque);
+            else
+                daoCheque.update(cheque);                
 
-        JOptionPane.showMessageDialog(null, "Cheque cadastrado com sucesso!", "Cadastro de Cheques", JOptionPane.INFORMATION_MESSAGE);
-        this.dispose();
+        } catch (Exception ex){
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }finally{
+            this.dispose();
+        }
     }//GEN-LAST:event_jBCadastrarActionPerformed
 
     private void jTAgKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTAgKeyReleased
         jTAg.setText(jTAg.getText().replaceAll("[^0-9]", ""));
     }//GEN-LAST:event_jTAgKeyReleased
 
-    private void jFNumChequeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFNumChequeKeyReleased
-        jTAg.setText(jFNumCheque.getText().replaceAll("[^0-9]", ""));
-    }//GEN-LAST:event_jFNumChequeKeyReleased
+    private void jTNumChequeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTNumChequeFocusLost
+        jTNumCheque.setText(Utils.toInt(jTNumCheque.getText())+"");
+    }//GEN-LAST:event_jTNumChequeFocusLost
+
+    private void jTValorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTValorFocusLost
+        jTValor.setText(Utils.formatDouble(Utils.toDouble(jTValor.getText())));
+    }//GEN-LAST:event_jTValorFocusLost
 
     /**
      * @param args the command line arguments
@@ -701,8 +716,6 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
     private javax.swing.JDialog jDialog2;
     private javax.swing.JDialog jDialog3;
     private javax.swing.JFormattedTextField jFCpf;
-    private javax.swing.JFormattedTextField jFNumCheque;
-    private javax.swing.JFormattedTextField jFValor;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLAg;
     private javax.swing.JLabel jLBanco;
@@ -734,5 +747,7 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JTextField jTAg;
     private javax.swing.JTextField jTCnt;
+    private javax.swing.JTextField jTNumCheque;
+    private javax.swing.JTextField jTValor;
     // End of variables declaration//GEN-END:variables
 }
