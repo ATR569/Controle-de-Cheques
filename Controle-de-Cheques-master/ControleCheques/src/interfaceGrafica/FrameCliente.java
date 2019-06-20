@@ -5,17 +5,34 @@
  */
 package interfaceGrafica;
 
+import DAO.ClienteDao;
+import DAO.Dao;
+import classes.Cliente;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
- * @author rrsal
+ * @author rrsales
  */
 public class FrameCliente extends javax.swing.JFrame {
 
+    ArrayList<Cliente> lista;
+    Dao<Cliente> daoCliente = new ClienteDao<>();
     /**
      * Creates new form FrameCliente
      */
     public FrameCliente() {
         initComponents();
+        
+        lista = daoCliente.query("SELECT * FROM cliente");
+        DefaultTableModel modelo = (DefaultTableModel) jTblCliente.getModel();
+        
+        for(Cliente c: lista){
+            
+            modelo.addRow(new Object[]{c.getNome()+"/"+c.getCpf()});
+            
+        }
     }
 
     /**
@@ -46,7 +63,7 @@ public class FrameCliente extends javax.swing.JFrame {
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTblCliente = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jBSair = new javax.swing.JButton();
         jBNovo = new javax.swing.JButton();
@@ -198,7 +215,7 @@ public class FrameCliente extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTblCliente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -206,9 +223,9 @@ public class FrameCliente extends javax.swing.JFrame {
                 "Nome:", "CPF:"
             }
         ));
-        jTable1.setColumnSelectionAllowed(true);
-        jScrollPane1.setViewportView(jTable1);
-        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        jTblCliente.setColumnSelectionAllowed(true);
+        jScrollPane1.setViewportView(jTblCliente);
+        jTblCliente.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
         jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -377,6 +394,6 @@ public class FrameCliente extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JProgressBar jProgressBar2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTblCliente;
     // End of variables declaration//GEN-END:variables
 }
