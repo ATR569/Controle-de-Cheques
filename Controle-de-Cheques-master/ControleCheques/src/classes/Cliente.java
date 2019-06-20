@@ -92,7 +92,7 @@ public class Cliente extends Object implements Entity{
         return scoreInicial;
     }
     
-    public double getScoreAtual() throws SQLException{
+    public double getScoreAtual() {
         return (new HistoricoTransacoes(this.id)).getScoreTransacoes() * this.scoreInicial; 
     }
 

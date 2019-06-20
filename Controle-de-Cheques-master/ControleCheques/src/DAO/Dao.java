@@ -11,6 +11,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -39,9 +42,8 @@ public abstract class Dao<T>{
      * Adiciona na tabela table um registro para o objeto ent,
      * que implementa a interface Entity
      * @param ent
-     * @throws SQLException
      */
-    public void insert(Entity ent) throws SQLException{
+    public void insert(Entity ent) {
         con = ConnectionFactory.getConnection();
 
         try {
@@ -52,9 +54,15 @@ public abstract class Dao<T>{
             ent.setKeyValue(keys.getInt(1));
             
         } catch (SQLException ex) {
-            throw new RuntimeException("Falha ao salvar!", ex);
+            JOptionPane.showMessageDialog(null, "Falha ao salvar!\n"+ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }finally{
-            ConnectionFactory.closeConnection(con, stmt);
+            
+            try {
+                ConnectionFactory.closeConnection(con, stmt);
+            } catch (SQLException ex) {
+                //
+            }
+            
         }
     }
     
@@ -62,9 +70,8 @@ public abstract class Dao<T>{
      * Atualiza na tabela table um registro referente ao objeto ent,
      * que implementa a interface Entity
      * @param ent
-     * @throws SQLException
      */
-    public void update(Entity ent) throws SQLException{
+    public void update(Entity ent) {
         con = ConnectionFactory.getConnection();
         String [] fields = ent.getFields().split(",");
         String [] values = ent.getValues().split(",");
@@ -82,45 +89,55 @@ public abstract class Dao<T>{
             stmt.executeUpdate();
             
         } catch (SQLException ex) {
-            throw new RuntimeException("Falha ao salvar!", ex);
+            JOptionPane.showMessageDialog(null, "Falha ao salvar!\n"+ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }finally{
-            ConnectionFactory.closeConnection(con, stmt);
+            try {
+                ConnectionFactory.closeConnection(con, stmt);
+            } catch (SQLException ex) {
+                //
+            }
         }
     }
 
     /**
      * Remove da tabela table a tupla referente ao objeto ent
      * @param ent
-     * @throws SQLException
      */
-    public void delete(Entity ent) throws SQLException{
+    public void delete(Entity ent){
         con = ConnectionFactory.getConnection();
 
         try {
             stmt = con.prepareStatement("DELETE FROM " + table + " WHERE "+ ent.getKeyField() + " = " + ent.getKeyValue());
             stmt.execute();
         } catch (SQLException ex) {
-            throw new RuntimeException("Falha ao salvar!", ex);
+            JOptionPane.showMessageDialog(null, "Falha ao excluir!\n"+ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }finally{
-            ConnectionFactory.closeConnection(con, stmt);
+            try {
+                ConnectionFactory.closeConnection(con, stmt);
+            } catch (SQLException ex) {
+                //
+            }
         }
     }
     
     /**
      * Executa uma instrução SQL
      * @param sql
-     * @throws SQLException
      */
-    public void executeSql(String sql) throws SQLException{
+    public void executeSql(String sql) {
         con = ConnectionFactory.getConnection();
 
         try {
             stmt = con.prepareStatement(sql);
             stmt.execute();            
         } catch (SQLException ex) {
-            throw new RuntimeException("Falha ao executar operação!", ex);
+            JOptionPane.showMessageDialog(null, "Falha ao executar operação!\n"+ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }finally{
-            ConnectionFactory.closeConnection(con, stmt);
+            try {
+                ConnectionFactory.closeConnection(con, stmt);
+            } catch (SQLException ex) {
+                //
+            }
         }
     }
     
@@ -129,9 +146,8 @@ public abstract class Dao<T>{
      * elementos em objetos
      * @param sql
      * @return
-     * @throws SQLException
      */
-    public ArrayList<T> query(String sql) throws SQLException{
+    public ArrayList<T> query(String sql) {
         ArrayList<T> lista = new ArrayList<>();
         try {
             con = ConnectionFactory.getConnection();
@@ -144,19 +160,24 @@ public abstract class Dao<T>{
             
             return lista;
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao executar consulta!", ex);
+            JOptionPane.showMessageDialog(null, "Falha ao executar consulta!\n"+ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }finally{
-            ConnectionFactory.closeConnection(con, stmt, rs);
+            try {
+                ConnectionFactory.closeConnection(con, stmt, rs);
+            } catch (SQLException ex) {
+                //
+            }
         } 
+       
+        return lista;
     }
     
     /**
      * Busca um registro específico e retorna em um objeto do tipo
      * @param id
      * @return
-     * @throws SQLException
      */
-    public T find(int id) throws SQLException {
+    public T find(int id)  {
         ArrayList<T> lista = query("SELECT * FROM " + table + " WHERE id = " + id);
         
         if (lista.isEmpty())
@@ -170,9 +191,8 @@ public abstract class Dao<T>{
      * @param fields
      * @param values
      * @return
-     * @throws SQLException
      */
-    public T find(String []fields, String []values) throws SQLException {
+    public T find(String []fields, String []values) {
         String sql = "SELECT * FROM " + getTable() + " WHERE "+ fields[0] + " = " + values[0];
         for (int i = 1; i < fields.length; i++) {
             sql += " AND " + fields[i] + " = " + values[i];
@@ -191,7 +211,6 @@ public abstract class Dao<T>{
      * que retornará o objeto específico de cada tipo de Dao
      * @param resultSet
      * @return
-     * @throws SQLException
      */
     protected abstract T getObject(ResultSet resultSet) throws SQLException;
     

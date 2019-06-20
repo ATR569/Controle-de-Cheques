@@ -4,11 +4,10 @@ import DAO.ChequeDao;
 import DAO.Dao;
 import classes.Cheque;
 import classes.Cliente;
-import java.sql.SQLException;
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
+import java.util.Calendar;
+import java.util.Date;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -29,20 +28,19 @@ public class FrameCheques extends javax.swing.JFrame {
      */
     public FrameCheques() {
         initComponents();
-        try {
-            lista = daoCheque.query("SELECT * FROM cheque");
-            DefaultTableModel modelo = (DefaultTableModel) jTblCheques.getModel();
-            for (Cheque c : lista) {
-                modelo.addRow(new Object []{c.getDataCompensacao().toString(), 
-                                            c.getCliente().getNome(),
-                                            c.getNumero()+"", 
-                                            c.getConta().getBanco(),
-                                            c.getConta().getCliente().getNome(), 
-                                            c.getValor(), 
-                                            c.getState()});
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao executar consulta!", "Erro", JOptionPane.ERROR_MESSAGE);
+
+        lista = daoCheque.query("SELECT * FROM cheque");
+        DefaultTableModel modelo = (DefaultTableModel) jTblCheques.getModel();
+
+        for (Cheque c : lista) {
+
+            modelo.addRow(new Object []{c.getDataCompensacao().get(Calendar.DATE)+"/"+c.getDataCompensacao().get(Calendar.MONTH)+"/"+c.getDataCompensacao().get(Calendar.YEAR), 
+                                        c.getCliente().getNome(),
+                                        c.getNumero()+"", 
+                                        c.getConta().getBanco(),
+                                        c.getConta().getCliente().getNome(), 
+                                        c.getValor(), 
+                                        (c.getState() == 0 ? "ABERTO" : c.getState() == 1 ? "COMPENSADO" : "DEVOLVIDO")});
         }
     }
 
@@ -75,7 +73,7 @@ public class FrameCheques extends javax.swing.JFrame {
         jLCpfCliente = new javax.swing.JLabel();
         jLUfCliente = new javax.swing.JLabel();
         jLTelefoneCliente = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
+        jLEmailCliente = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jLabel39 = new javax.swing.JLabel();
         jLabel40 = new javax.swing.JLabel();
@@ -202,8 +200,8 @@ public class FrameCheques extends javax.swing.JFrame {
         jLTelefoneCliente.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLTelefoneCliente.setText("(83) 98609-6431");
 
-        jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel23.setText("agnsoft@hotmail.com");
+        jLEmailCliente.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLEmailCliente.setText("agnsoft@hotmail.com");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -219,7 +217,7 @@ public class FrameCheques extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLEmailCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel16)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -282,7 +280,7 @@ public class FrameCheques extends javax.swing.JFrame {
                             .addComponent(jLabel14)
                             .addComponent(jLabel15)
                             .addComponent(jLTelefoneCliente)
-                            .addComponent(jLabel23))
+                            .addComponent(jLEmailCliente))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jPConfiancaCliente, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -438,15 +436,18 @@ public class FrameCheques extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -545,7 +546,7 @@ public class FrameCheques extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -584,12 +585,25 @@ public class FrameCheques extends javax.swing.JFrame {
 
     private void jTblChequesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblChequesMouseClicked
         Cheque cheque = lista.get(jTblCheques.getSelectedRow());
-        try {
-            jLNomeCliente.setText(cheque.getCliente().getNome());
-            jPConfiancaCliente.setValue((int)(cheque.getCliente().getScoreAtual()*100));
-        } catch (SQLException ex) {
-            //
+        System.out.println(jTblCheques.getSelectedRow());
+        Cliente cliente = cheque.getCliente();
+        Cliente emitente = cheque.getConta().getCliente();
+        jLNomeCliente.setText(cliente.getNome());
+        jLCpfCliente.setText(cliente.getCpf());
+        if (cliente.getEndereco() != null){
+            jLEnderecoCliente.setText(cliente.getEndereco().getRua());
+            jLCidadeCliente.setText(cliente.getEndereco().getCidade());
+            jLUfCliente.setText(cliente.getEndereco().getUf());
+        }else{
+            jLEnderecoCliente.setText("");
+            jLCidadeCliente.setText("");
+            jLUfCliente.setText("");
         }
+        jLTelefoneCliente.setText(cliente.getTelefone());
+        jLEmailCliente.setText(cliente.getEmail());
+
+
+        jPConfiancaCliente.setValue((int)(cheque.getCliente().getScoreAtual()*100));
     }//GEN-LAST:event_jTblChequesMouseClicked
 
     private void jBtnHistoricoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnHistoricoClienteActionPerformed
@@ -645,6 +659,7 @@ public class FrameCheques extends javax.swing.JFrame {
     private javax.swing.JButton jBtnSair;
     private javax.swing.JLabel jLCidadeCliente;
     private javax.swing.JLabel jLCpfCliente;
+    private javax.swing.JLabel jLEmailCliente;
     private javax.swing.JLabel jLEnderecoCliente;
     private javax.swing.JLabel jLNomeCliente;
     private javax.swing.JLabel jLTelefoneCliente;
@@ -656,7 +671,6 @@ public class FrameCheques extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;

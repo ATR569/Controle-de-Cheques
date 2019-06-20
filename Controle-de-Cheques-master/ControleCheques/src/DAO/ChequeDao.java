@@ -8,6 +8,9 @@ package DAO;
 import classes.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.Date;
+import sun.util.calendar.BaseCalendar;
 
 /**
  *
@@ -30,14 +33,28 @@ public class ChequeDao<T> extends Dao<T>{
 
         if (resultSet.getInt("id_conta") != 0)
             conta = (new ContaDao<Conta>()).find(resultSet.getInt("id_conta"));
-
+        
+        Calendar compensacao, compensado = null;
+        
+        Date dataCompesancao = resultSet.getDate("data_compensacao");
+        Date dataCompensado = resultSet.getDate("data_compensado");
+        
+        compensacao = Calendar.getInstance();
+        compensacao.setTime(dataCompesancao);
+        
+        if (dataCompensado != null){
+            compensado = Calendar.getInstance();
+            compensado.setTime(dataCompensado);
+        }
+        
+        System.out.println(compensacao.get(Calendar.DATE));
         return ((T) new Cheque(resultSet.getInt("id"),
                                 cliente,
                                 resultSet.getDouble("valor"),                                
                                 conta,
                                 resultSet.getInt("numero"),
-                                resultSet.getDate("data_compensacao"),
-                                resultSet.getDate("data_compensado"),
+                                compensacao,
+                                compensado,
                                 resultSet.getInt("status_cheque")
                              ));
     }
