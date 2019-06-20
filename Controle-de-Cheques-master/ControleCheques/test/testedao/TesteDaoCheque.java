@@ -19,18 +19,20 @@ import org.junit.Test;
  * @author Adson Macêdo
  */
 public class TesteDaoCheque {
+
     Dao<Cheque> dao;
+
     public TesteDaoCheque() {
-        
+
     }
-    
+
     @Before
-    public void setup(){
+    public void setup() {
         this.dao = new ChequeDao<>();
     }
-    
+
     @Test
-    public void testaFindCheque() throws SQLException{
+    public void testaFindCheque() throws SQLException {
         System.out.println("=======teste find==========");
         Cheque ch1 = dao.find(3);
         System.out.println("Data de Compensação: " + ch1.getDataCompensacao());
@@ -43,23 +45,18 @@ public class TesteDaoCheque {
         System.out.println("Emitente: " + ch1.getConta().getCliente().getNome());
         System.out.println("===========================");
     }
-    
+
     @Test
-    public void testeQueryCheque(){
+    public void testeQueryCheque() {
         System.out.println("=======teste query========");
-        try {
-            ArrayList<Cheque> lista = dao.query("SELECT * FROM cheque");
-            System.out.println(lista.size() + " registros");
-            for (Cheque c : lista) {
-                System.out.println("Cliente: " + c.getCliente().getNome());
-                System.out.println("Cliente: " + c.getConta().getCliente().getNome());
-                System.out.printf("Valor: R$ %.2f", c.getValor());
-                System.out.println("");
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(TesteDaoCheque.class.getName()).log(Level.SEVERE, null, ex);
+        ArrayList<Cheque> lista = dao.query("SELECT * FROM cheque");
+        System.out.println(lista.size() + " registros");
+        for (Cheque c : lista) {
+            System.out.println("Cliente: " + c.getCliente().getNome());
+            System.out.println("Cliente: " + c.getConta().getCliente().getNome());
+            System.out.printf("Valor: R$ %.2f", c.getValor());
+            System.out.println("");
         }
-        System.out.println("===========================");
-            
+
     }
 }

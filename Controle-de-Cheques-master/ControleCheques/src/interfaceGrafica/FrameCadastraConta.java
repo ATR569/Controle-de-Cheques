@@ -31,24 +31,21 @@ public class FrameCadastraConta extends javax.swing.JFrame {
 
     public FrameCadastraConta(Conta conta) {
         initComponents();
-        try {
-            this.conta = conta;
-            if (conta.getId() != 0) {
-                this.jTBanco.setText(conta.getBanco());
-                this.jTAg.setText(conta.getAgencia() + "");
-                this.jTCnt.setText(conta.getNumConta());
-                this.jTCpf.setText(conta.getCliente().getCpf());
-                this.jFNome.setText(conta.getCliente().getNome());
-                this.jFTel.setText(conta.getCliente().getTelefone());
-            } else {
-                this.jTBanco.setText("");
-                this.jTAg.setText("");
-                this.jTCnt.setText("");
-                this.jTCpf.setText("");
-                this.jFNome.setText("");
-                this.jFTel.setText("");
-            }
-        } catch (Exception e) {
+        this.conta = conta;
+        if (conta.getId() != 0) {
+            this.jTBanco.setText(conta.getBanco());
+            this.jTAg.setText(conta.getAgencia() + "");
+            this.jTCnt.setText(conta.getNumConta());
+            this.jTCpf.setText(conta.getCliente().getCpf());
+            this.jFNome.setText(conta.getCliente().getNome());
+            this.jFTel.setText(conta.getCliente().getTelefone());
+        } else {
+            this.jTBanco.setText("");
+            this.jTAg.setText("");
+            this.jTCnt.setText("");
+            this.jTCpf.setText("");
+            this.jFNome.setText("");
+            this.jFTel.setText("");
         }
     }
 
@@ -288,53 +285,44 @@ public class FrameCadastraConta extends javax.swing.JFrame {
 
     private void jTCpfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTCpfFocusLost
 
-        try {
-            if (jTBanco.getText().equals("") || jTAg.getText().equals("") || jTCnt.getText().equals("")) {
-                JOptionPane.showMessageDialog(null, "Banco, Agência e Número da conta são obrigatórios!", "Campos obrigatórios", JOptionPane.INFORMATION_MESSAGE);
-                jTBanco.requestFocus();
-            } else {
-                String fields[] = {"cpf"};
-                String values[] = {quotedStr(jTCpf.getText())};
-                conta.setCliente(daoCliente.find(fields, values));
+        if (jTBanco.getText().equals("") || jTAg.getText().equals("") || jTCnt.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Banco, Agência e Número da conta são obrigatórios!", "Campos obrigatórios", JOptionPane.INFORMATION_MESSAGE);
+            jTBanco.requestFocus();
+        } else {
+            String fields[] = {"cpf"};
+            String values[] = {quotedStr(jTCpf.getText())};
+            conta.setCliente(daoCliente.find(fields, values));
 
-                if (conta.getCliente() != null) {
-                    jFNome.setText(conta.getCliente().getNome());
-                    jFTel.setText(conta.getCliente().getTelefone());
+            if (conta.getCliente() != null) {
+                jFNome.setText(conta.getCliente().getNome());
+                jFTel.setText(conta.getCliente().getTelefone());
+            } else {
+                int opt = JOptionPane.showConfirmDialog(null, "Cliente não encontrado!\nDeseja Cadastrar um novo?", "Cliente não encontrado", JOptionPane.YES_NO_OPTION);
+                if (opt == JOptionPane.YES_OPTION) {
+                    FrameCadastroCliente cadCliente = new FrameCadastroCliente();
+                    cadCliente.setVisible(true);
                 } else {
-                    int opt = JOptionPane.showConfirmDialog(null, "Cliente não encontrado!\nDeseja Cadastrar um novo?", "Cliente não encontrado", JOptionPane.YES_NO_OPTION);
-                    if (opt == JOptionPane.YES_OPTION) {
-                        FrameCadastroCliente cadCliente = new FrameCadastroCliente();
-                        cadCliente.setVisible(true);
-                    } else {
-                        jTCpf.requestFocus();
-                    }
+                    jTCpf.requestFocus();
                 }
             }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "CpfFocusLost Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jTCpfFocusLost
 
     private void jBCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCadastrarActionPerformed
 
-        try {
+        conta.setBanco(jTBanco.getText());
+        conta.setAgencia(Integer.parseInt(jTAg.getText()));
+        conta.setNumConta(jTCnt.getText());
 
-            conta.setBanco(jTBanco.getText());
-            conta.setAgencia(Integer.parseInt(jTAg.getText()));
-            conta.setNumConta(jTCnt.getText());
-
-            //quando é uma nova conta o id == 0
-            if (conta.getId() == 0) {
-                daoConta.insert(conta);
-            } else {
-                daoConta.update(conta);
-            }
-
-            JOptionPane.showMessageDialog(null, "Conta cadastrada com sucesso!", "Cadastro de Contas", JOptionPane.INFORMATION_MESSAGE);
-            this.dispose();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Cadastrar Erro", JOptionPane.ERROR_MESSAGE);
+        //quando é uma nova conta o id == 0
+        if (conta.getId() == 0) {
+            daoConta.insert(conta);
+        } else {
+            daoConta.update(conta);
         }
+
+        JOptionPane.showMessageDialog(null, "Conta cadastrada com sucesso!", "Cadastro de Contas", JOptionPane.INFORMATION_MESSAGE);
+        this.dispose();
     }//GEN-LAST:event_jBCadastrarActionPerformed
 
     private void jTAgKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTAgKeyReleased
