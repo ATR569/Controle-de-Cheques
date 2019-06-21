@@ -57,7 +57,7 @@ public class FrameCheques extends javax.swing.JFrame {
                                         c.getConta().getBanco(),
                                         c.getConta().getCliente().getNome(), 
                                         String.format("R$ %,.2f", c.getValor()), 
-                                        (c.getState() == 0 ? "ABERTO" : c.getState() == 1 ? "COMPENSADO" : "DEVOLVIDO")});
+                                        (c.getState() == Cheque.ABERTO ? "ABERTO" : c.getState() == Cheque.COMPENSADO ? "COMPENSADO" : "DEVOLVIDO")});
         }
     }
 
@@ -595,22 +595,12 @@ public class FrameCheques extends javax.swing.JFrame {
 
         jRBDevolvido.setText("Devolvidos");
         jRBDevolvido.setFocusCycleRoot(true);
-        jRBDevolvido.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRBDevolvidoActionPerformed(evt);
-            }
-        });
 
         jRBCompensado.setText("Compensados");
         jRBCompensado.setFocusCycleRoot(true);
 
         jRBAberto.setText("Abertos");
         jRBAberto.setFocusCycleRoot(true);
-        jRBAberto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRBAbertoActionPerformed(evt);
-            }
-        });
 
         jDateFim.setDoubleBuffered(false);
 
@@ -629,27 +619,12 @@ public class FrameCheques extends javax.swing.JFrame {
         });
 
         jChFim.setText("Fim");
-        jChFim.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jChFimActionPerformed(evt);
-            }
-        });
 
         jChInicio.setText("Início");
-        jChInicio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jChInicioActionPerformed(evt);
-            }
-        });
 
         jRBTodos.setSelected(true);
         jRBTodos.setText("Todos");
         jRBTodos.setFocusCycleRoot(true);
-        jRBTodos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRBTodosActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -735,11 +710,56 @@ public class FrameCheques extends javax.swing.JFrame {
     }//GEN-LAST:event_jBNovoActionPerformed
 
     private void jBtnPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPagamentoActionPerformed
-        // TODO add your handling code here:
+        int id = jTblCheques.getSelectedRow();
+        if (id >= 0){
+            Cheque cheque = lista.get(id);
+            if (cheque.getState() == Cheque.COMPENSADO){
+                JOptionPane.showMessageDialog(null, "O cheque já está marcado como pago!", "Registrar Pagamento", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                if (JOptionPane.showConfirmDialog(null, "Deseja registrar o pagamento do cheque " + String.format("%05d", cheque.getNumero()) + "\ndo cliente "+cheque.getCliente().getNome() + "?", "Registrar Pagamento", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+                    cheque.setState(Cheque.COMPENSADO);
+                    cheque.setDataCompensado(Calendar.getInstance());
+                    daoCheque.update(cheque);
+                    jBUpdateLstActionPerformed(evt);
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Não há item selecionado", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jBtnPagamentoActionPerformed
 
     private void jBtnDevolucaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnDevolucaoActionPerformed
-        // TODO add your handling code here:
+        int id = jTblCheques.getSelectedRow();
+        if (id >= 0){
+            Cheque cheque = lista.get(id);
+            if (cheque.getState() == Cheque.COMPENSADO){
+                JOptionPane.showMessageDialog(null, "O cheque já está marcado como pago!", "Registrar Devolução", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                String message = "Informe a linha de devolução para o cheque " + 
+                                 String.format("%05d", cheque.getNumero()) + 
+                                 "\ndo cliente "+cheque.getCliente().getNome() + "?";
+                
+                int linha = Utils.toInt(JOptionPane.showInputDialog(null, message, "Registrar Devolução", JOptionPane.QUESTION_MESSAGE));
+                
+                if (linha > 1){
+                    message = "Deseja registrar a DEVOLUÇÃO do cheque " + 
+                                     String.format("%05d", cheque.getNumero()) + 
+                                     "\ndo cliente "+cheque.getCliente().getNome() + 
+                                     " pela linha " + linha + "?";
+                    
+                    if (JOptionPane.showConfirmDialog(null, message, "Registrar Devolução", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+                        cheque.setState(linha);
+                        cheque.setDataCompensado(Calendar.getInstance());
+                        daoCheque.update(cheque);
+                        jBUpdateLstActionPerformed(evt);
+                    }
+                    
+                }
+                
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Não há item selecionado", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jBtnDevolucaoActionPerformed
 
     private void jBtnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSairActionPerformed
@@ -844,7 +864,7 @@ public class FrameCheques extends javax.swing.JFrame {
         } else if (jRBCompensado.isSelected()){
             sql += "AND c.status_cheque = 1\n";
         }else if (jRBDevolvido.isSelected()){
-            sql += "AND c.status_cheque = 2\n";
+            sql += "AND c.status_cheque > 1\n";
         }
         
         if (jChInicio.isSelected()){
@@ -864,38 +884,18 @@ public class FrameCheques extends javax.swing.JFrame {
         int id = jTblCheques.getSelectedRow();
         if (id >= 0){
             Cheque cheque = lista.get(id);
-            if (JOptionPane.showConfirmDialog(null, "Deseja EXCLUIR o cheque " + cheque.getNumero() + "\ndo cliente "+cheque.getCliente().getNome() + " permenentemente?", "Excluir", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+            if (JOptionPane.showConfirmDialog(null, "Deseja EXCLUIR o cheque " + String.format("%05d", cheque.getNumero()) + "\ndo cliente "+cheque.getCliente().getNome() + " permenentemente?", "Excluir", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
                 daoCheque.delete(cheque);
-                updateLista("SELECT * FROM cheque");
+                jBUpdateLstActionPerformed(evt);
             }
         }else{
             JOptionPane.showMessageDialog(null, "Não há item selecionado", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jBExcluirActionPerformed
 
-    private void jRBDevolvidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBDevolvidoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRBDevolvidoActionPerformed
-
-    private void jRBAbertoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBAbertoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRBAbertoActionPerformed
-
-    private void jChFimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChFimActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jChFimActionPerformed
-
-    private void jChInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChInicioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jChInicioActionPerformed
-
     private void jDateInicioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jDateInicioFocusLost
 
     }//GEN-LAST:event_jDateInicioFocusLost
-
-    private void jRBTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBTodosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRBTodosActionPerformed
 
     /**
      * @param args the command line arguments

@@ -872,9 +872,6 @@
             <Property name="text" type="java.lang.String" value="Devolvidos"/>
             <Property name="focusCycleRoot" type="boolean" value="true"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRBDevolvidoActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JRadioButton" name="jRBCompensado">
           <Properties>
@@ -887,9 +884,6 @@
             <Property name="text" type="java.lang.String" value="Abertos"/>
             <Property name="focusCycleRoot" type="boolean" value="true"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRBAbertoActionPerformed"/>
-          </Events>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="jDateFim">
           <Properties>
@@ -914,17 +908,11 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Fim"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jChFimActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JCheckBox" name="jChInicio">
           <Properties>
             <Property name="text" type="java.lang.String" value="In&#xed;cio"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jChInicioActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jTPesquisa">
         </Component>
@@ -934,9 +922,6 @@
             <Property name="text" type="java.lang.String" value="Todos"/>
             <Property name="focusCycleRoot" type="boolean" value="true"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRBTodosActionPerformed"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>

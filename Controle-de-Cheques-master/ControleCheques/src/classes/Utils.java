@@ -27,7 +27,12 @@ public class Utils {
     }
 
     public static double toDouble(String val) {
-        return Double.parseDouble(val.replaceAll("[^0-9,]", "").replace(",", ".").replaceAll(",", ""));
+        if (val == null)
+            return 0;
+        else{
+            val = val.replaceAll("[^0-9,]", "").replace(",", ".").replaceAll(",", "");
+            return val.length() == 0 ? 0 : Double.parseDouble(val);
+        }
     }
 
     public static void main(String[] args) {
@@ -35,14 +40,23 @@ public class Utils {
     }
 
     public static int toInt(String val) {
-        return Integer.parseInt(val.replaceAll("[^0-9]", ""));
+        if (val == null) 
+            return 0;
+        else{
+            val = val.replaceAll("[^0-9]", "");
+            return val.length() == 0 ? 0 : Integer.parseInt(val);
+        }
     }
     
     public static String calendToString(Calendar cal, String format){
+        if (cal == null)
+            cal = Calendar.getInstance();
         return (new SimpleDateFormat(format)).format(cal.getTime());
     }
 
     public static String calendToString(Calendar cal){
+        if (cal == null)
+            cal = Calendar.getInstance();
         return (new SimpleDateFormat("dd/MM/yyyy")).format(cal.getTime());
     }
     
