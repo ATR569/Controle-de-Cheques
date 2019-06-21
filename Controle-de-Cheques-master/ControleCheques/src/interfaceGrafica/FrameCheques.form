@@ -823,12 +823,12 @@
                   <Component id="jTPesquisa" min="-2" pref="309" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
                   <Component id="jChInicio" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jDateInicio" min="-2" pref="125" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jDateInicio" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
                   <Component id="jChFim" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jDateFim" min="-2" pref="125" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jDateFim" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="jRBAberto" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -850,16 +850,16 @@
                       <Component id="jRBCompensado" max="32767" attributes="0"/>
                       <Component id="jRBAberto" max="32767" attributes="0"/>
                       <Component id="jChFim" max="32767" attributes="0"/>
+                      <Component id="jChInicio" alignment="1" max="32767" attributes="0"/>
+                      <Component id="jRBTodos" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jTPesquisa" min="-2" max="-2" attributes="0"/>
+                              <Component id="jDateFim" min="-2" max="-2" attributes="0"/>
                               <Component id="jDateInicio" min="-2" max="-2" attributes="0"/>
-                              <Component id="jDateFim" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jTPesquisa" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
-                      <Component id="jChInicio" alignment="1" max="32767" attributes="0"/>
-                      <Component id="jRBTodos" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -885,25 +885,6 @@
             <Property name="focusCycleRoot" type="boolean" value="true"/>
           </Properties>
         </Component>
-        <Component class="com.toedter.calendar.JDateChooser" name="jDateFim">
-          <Properties>
-            <Property name="doubleBuffered" type="boolean" value="false"/>
-          </Properties>
-          <BindingProperties>
-            <BindingProperty name="enabled" source="jChFim" sourcePath="${selected}" target="jDateFim" targetPath="enabled" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
-        </Component>
-        <Component class="com.toedter.calendar.JDateChooser" name="jDateInicio">
-          <Properties>
-            <Property name="doubleBuffered" type="boolean" value="false"/>
-          </Properties>
-          <BindingProperties>
-            <BindingProperty name="enabled" source="jChInicio" sourcePath="${selected}" target="jDateInicio" targetPath="enabled" updateStrategy="0" immediately="false"/>
-          </BindingProperties>
-          <Events>
-            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jDateInicioFocusLost"/>
-          </Events>
-        </Component>
         <Component class="javax.swing.JCheckBox" name="jChFim">
           <Properties>
             <Property name="text" type="java.lang.String" value="Fim"/>
@@ -922,6 +903,10 @@
             <Property name="text" type="java.lang.String" value="Todos"/>
             <Property name="focusCycleRoot" type="boolean" value="true"/>
           </Properties>
+        </Component>
+        <Component class="com.toedter.calendar.JDateChooser" name="jDateInicio">
+        </Component>
+        <Component class="com.toedter.calendar.JDateChooser" name="jDateFim">
         </Component>
       </SubComponents>
     </Container>
