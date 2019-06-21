@@ -53,18 +53,16 @@ public class FrameCadastraConta extends javax.swing.JFrame {
     public FrameCadastraConta(Cliente cliente) {
         initComponents();
         this.cliente = cliente;
+        this.jTBanco.setText("");
+        this.jTAg.setText("");
+        this.jTCnt.setText("");
+
         if (cliente.getId() != 0) {
-            this.jTBanco.setText("");
-            this.jTAg.setText("");
-            this.jTCnt.setText("");
             this.jTCpf.setText(cliente.getCpf());
             this.jTCpf.setEditable(false);
             this.jFNome.setText(cliente.getNome());
             this.jFTel.setText(cliente.getTelefone());
         } else {
-            this.jTBanco.setText("");
-            this.jTAg.setText("");
-            this.jTCnt.setText("");
             this.jTCpf.setText("");
             this.jFNome.setText("");
             this.jFTel.setText("");
