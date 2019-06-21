@@ -153,7 +153,7 @@
               <Component id="jPanel2" min="-2" pref="228" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="32767" attributes="0"/>
+              <EmptySpace pref="22" max="32767" attributes="0"/>
               <Component id="jPanel5" min="-2" pref="63" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -568,10 +568,10 @@
                       <Component id="jLNumCheque" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jDateDatCompen" alignment="0" min="-2" pref="152" max="-2" attributes="0"/>
-                      <Component id="jFNumCheque" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
-                      <Component id="jFValor" min="-2" pref="110" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="jDateDatCompen" pref="152" max="32767" attributes="0"/>
+                      <Component id="jTNumCheque" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jTValor" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -580,22 +580,22 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLNumCheque" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jTNumCheque" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="jLNumCheque" min="-2" max="-2" attributes="0"/>
-                      <Component id="jFNumCheque" min="-2" pref="25" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLValor" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jTValor" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLValor" min="-2" max="-2" attributes="0"/>
-                      <Component id="jFValor" min="-2" pref="23" max="-2" attributes="0"/>
+                      <Component id="jDateDatCompen" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLDatCompen" min="-2" pref="20" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jDateDatCompen" max="32767" attributes="0"/>
-                      <Component id="jLDatCompen" max="32767" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -636,24 +636,21 @@
             <Property name="doubleBuffered" type="boolean" value="false"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="jFNumCheque">
+        <Component class="javax.swing.JTextField" name="jTNumCheque">
           <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format format="#0" subtype="-1" type="0"/>
-            </Property>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
           <Events>
-            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jFNumChequeKeyReleased"/>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTNumChequeFocusLost"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="jFValor">
+        <Component class="javax.swing.JTextField" name="jTValor">
           <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format subtype="0" type="4"/>
-            </Property>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
+          <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTValorFocusLost"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

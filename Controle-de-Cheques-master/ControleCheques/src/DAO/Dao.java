@@ -83,11 +83,11 @@ public abstract class Dao<T>{
             sql += ", " + fields[i] + " = " + values[i];
 
         sql += " WHERE " + ent.getKeyField()  + " = " + ent.getKeyValue();
-
         try {
             stmt = con.prepareStatement(sql);
             stmt.executeUpdate();
             
+            JOptionPane.showMessageDialog(null, "Salvo com sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Falha ao salvar!\n"+ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }finally{

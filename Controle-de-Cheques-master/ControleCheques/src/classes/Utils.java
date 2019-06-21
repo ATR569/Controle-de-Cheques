@@ -5,11 +5,19 @@
  */
 package classes;
 
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 /**
  *
  * @author Adson Macêdo
  */
 public class Utils {
+    static private Locale localeBR = new Locale("pt","BR");
+    static private NumberFormat curr = NumberFormat.getCurrencyInstance(localeBR); //  Formata moeda
+    
 
     public static String quotedStr(String str) {
         return "\"" + str + "\"";
@@ -30,5 +38,17 @@ public class Utils {
 
     public static int toInt(String val) {
         return Integer.parseInt(val.replaceAll("[^0-9]", ""));
+    }
+    
+    public static String calendToString(Calendar cal, String format){
+        return (new SimpleDateFormat(format)).format(cal.getTime());
+    }
+
+    public static String calendToString(Calendar cal){
+        return (new SimpleDateFormat("dd/MM/yyyy")).format(cal.getTime());
+    }
+    
+    public static String formatDouble(double value){
+        return curr.format(value); //  Formata moeda
     }
 }

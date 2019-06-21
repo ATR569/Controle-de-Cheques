@@ -7,7 +7,6 @@ package classes;
 
 import classes.interfaces.Entity;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  *
@@ -109,8 +108,10 @@ public class Cheque implements Entity{
                 (conta != null ? conta.getId() + ", ": "null, ") + 
                 (cliente != null ? cliente.getId() + ", ": "null, ") + 
                 valor + ", " + 
-                (dataCompensado != null ? "'" + dataCompensado.get(Calendar.YEAR) + '/' + dataCompensado.get(Calendar.MONTH) + '/' + dataCompensado.get(Calendar.DATE) + "'," : "null, " ) +
-                "'" + dataCompensacao.get(Calendar.YEAR) + '/' + dataCompensacao.get(Calendar.MONTH) + '/' + dataCompensacao.get(Calendar.DATE) + "',"+
+//                (dataCompensado != null ? "'" + dataCompensado.get(Calendar.YEAR) + '/' + dataCompensado.get(Calendar.MONTH) + '/' + dataCompensado.get(Calendar.DATE) + "'," : "null, " ) +
+                (dataCompensado != null ? "'"+Utils.calendToString(dataCompensado, "yyyy/MM/dd")+"'" : "null" ) + ", " +
+//                "'" + dataCompensacao.get(Calendar.YEAR) + '/' + dataCompensacao.get(Calendar.MONTH) + '/' + dataCompensacao.get(Calendar.DATE) + "',"+
+                "'"+Utils.calendToString(dataCompensacao, "yyyy/MM/dd")  + "', " +
                 state;                
     }
 
