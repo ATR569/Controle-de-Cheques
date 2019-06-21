@@ -29,7 +29,33 @@ public class FrameCadastroCliente extends javax.swing.JFrame {
      * Creates new form FrameCadastroCliente
      */
     public FrameCadastroCliente() {
+        this(new Cliente());
+    }
+    
+    public FrameCadastroCliente(Cliente cliente) {
         initComponents();
+        this.cliente = cliente;
+        if (cliente.getId() != 0) {
+            this.jFCpf.setText(cliente.getCpf());
+            this.jTNome.setText(cliente.getNome());
+            this.jFCep.setText(cliente.getEndereco().getCep() + "");
+            this.jTRua.setText(cliente.getEndereco().getRua());
+            this.jTBairro.setText(cliente.getEndereco().getBairro());
+            this.jTCidade.setText(cliente.getEndereco().getCidade());
+            this.jCBoxUf.setSelectedItem(cliente.getEndereco().getUf());
+            this.jFTel.setText(cliente.getTelefone());
+            this.jTEmail.setText(cliente.getEmail());
+        } else {
+            this.jFCpf.setText("");
+            this.jTNome.setText("");
+            this.jFCep.setText("");
+            this.jTRua.setText("");
+            this.jTBairro.setText("");
+            this.jTCidade.setText("");
+            this.jCBoxUf.setSelectedItem("");
+            this.jFTel.setText("");
+            this.jTEmail.setText("");
+        }
     }
 
     /**
@@ -368,7 +394,7 @@ public class FrameCadastroCliente extends javax.swing.JFrame {
             daoEnd.insert(end);
             cliente.setEndereco(end);
             daoClt.insert(cliente);
-            //JOptionPane.showMessageDialog(null, "Cliente: " + cliente.getNome() + "\n Cadastrado com sucesso!");
+            JOptionPane.showMessageDialog(null, "Cliente: " + cliente.getNome() + "\n Cadastrado com sucesso!");
         }
         this.dispose();
     }//GEN-LAST:event_jBCadastrarActionPerformed
