@@ -7,7 +7,6 @@ package classes;
 
 import classes.interfaces.Entity;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  *
@@ -22,7 +21,15 @@ public class Cheque implements Entity{
     private Calendar dataCompensacao;    
     private Calendar dataCompensado;    
     private int state;
-    public static final int ABERTO = 0, DEVOLVIDO = 1, COMPENSADO = 2;
+    public static final int ABERTO = 0, COMPENSADO = 1;
+
+    public Calendar getDataCompensado() {
+        return dataCompensado;
+    }
+
+    public void setDataCompensado(Calendar dataCompensado) {
+        this.dataCompensado = dataCompensado;
+    }
         
     public Cheque(){}
     
@@ -109,8 +116,8 @@ public class Cheque implements Entity{
                 (conta != null ? conta.getId() + ", ": "null, ") + 
                 (cliente != null ? cliente.getId() + ", ": "null, ") + 
                 valor + ", " + 
-                (dataCompensado != null ? "'" + dataCompensado.get(Calendar.YEAR) + '/' + dataCompensado.get(Calendar.MONTH) + '/' + dataCompensado.get(Calendar.DATE) + "'," : "null, " ) +
-                "'" + dataCompensacao.get(Calendar.YEAR) + '/' + dataCompensacao.get(Calendar.MONTH) + '/' + dataCompensacao.get(Calendar.DATE) + "',"+
+                (dataCompensado != null ? "'"+Utils.calendToString(dataCompensado, "yyyy/MM/dd")+"'" : "null" ) + ", " +
+                "'"+Utils.calendToString(dataCompensacao, "yyyy/MM/dd")  + "', " +
                 state;                
     }
 

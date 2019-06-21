@@ -37,7 +37,8 @@ public class Cliente extends Object implements Entity{
     } 
 
     public Cliente() {
-        
+        this.id = 0;
+        this.scoreInicial = DEFAULT_SCORE;
     }
 
     public int getId() {
@@ -109,10 +110,10 @@ public class Cliente extends Object implements Entity{
     public String getValues() {
         return (endereco != null ? endereco.getId() : "null")+", "+
                 getScoreInicial() + ", "+
-                "\""+getCpf() + "\", " + 
-                "\""+getNome() + "\", "+
-                "\""+getTelefone() + "\", "+
-                "\""+getEmail()+ "\"";
+                Utils.quotedStr(getCpf()) + ", " + 
+                Utils.quotedStr(getNome()) + ", "+
+                Utils.quotedStr(getTelefone()) + ", "+
+                Utils.quotedStr(getEmail());
     }
 
     @Override

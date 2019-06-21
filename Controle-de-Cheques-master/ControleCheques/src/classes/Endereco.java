@@ -6,7 +6,7 @@
 package classes;
 
 import classes.interfaces.Entity;
-
+import classes.Utils.*;
 /**
  *
  * @author Adson Macêdo
@@ -89,7 +89,7 @@ public class Endereco implements Entity{
 
     @Override
     public String getValues() {
-        return cep + ", \"" + rua + "\", \"" + bairro + "\", \"" + cidade + "\", " + uf + "\"";
+        return cep + ", " + Utils.quotedStr(rua)  + ", " + Utils.quotedStr(bairro) + ", " + Utils.quotedStr(cidade) + ", " + Utils.quotedStr(uf);
     }
 
     @Override

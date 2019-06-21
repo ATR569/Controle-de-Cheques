@@ -309,6 +309,9 @@
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jTRua">
+          <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTRuaFocusLost"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLRua">
           <Properties>
@@ -327,8 +330,14 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTBairro">
+          <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTBairroFocusLost"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jTCidade">
+          <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTCidadeFocusLost"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLCidade">
           <Properties>
@@ -380,6 +389,10 @@
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jCBoxUfFocusLost"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jCBoxUfActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="jFTel">
           <Properties>
@@ -388,6 +401,7 @@
             </Property>
           </Properties>
           <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jFTelFocusLost"/>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jFTelActionPerformed"/>
           </Events>
         </Component>
@@ -408,6 +422,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTEmail">
+          <Events>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTEmailFocusLost"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

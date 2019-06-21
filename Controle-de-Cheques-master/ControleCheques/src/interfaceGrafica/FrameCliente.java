@@ -5,17 +5,39 @@
  */
 package interfaceGrafica;
 
+import DAO.ClienteDao;
+import DAO.Dao;
+import classes.Cliente;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
- * @author rrsal
+ * @author rrsales
  */
 public class FrameCliente extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FrameCliente
-     */
+    ArrayList<Cliente> lista;
+    Dao<Cliente> daoCliente = new ClienteDao<>();
+
     public FrameCliente() {
         initComponents();
+
+        updateLista("SELECT * FROM cliente");
+    }
+
+    private void updateLista(String sql) {
+
+        lista = daoCliente.query("SELECT * FROM cliente");
+        DefaultTableModel modelo = (DefaultTableModel) jTblCliente.getModel();
+        modelo.setRowCount(0);
+
+        for (Cliente c : lista) {
+
+            modelo.addRow(new Object[]{c.getNome(), c.getCpf()});
+
+        }
     }
 
     /**
@@ -36,26 +58,32 @@ public class FrameCliente extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        jProgressBar2 = new javax.swing.JProgressBar();
+        jProgConfia = new javax.swing.JProgressBar();
         jBtnHistoricoCliente = new javax.swing.JButton();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
+        jLNome = new javax.swing.JLabel();
+        jLRua = new javax.swing.JLabel();
+        jLCidade = new javax.swing.JLabel();
+        jLCpf = new javax.swing.JLabel();
+        jLUf = new javax.swing.JLabel();
+        jLTel = new javax.swing.JLabel();
+        jLEmail = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTblCliente = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jBSair = new javax.swing.JButton();
         jBNovo = new javax.swing.JButton();
         jBAlterar = new javax.swing.JButton();
         jBExcluir = new javax.swing.JButton();
         jBConta = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados do Cliente"));
 
@@ -83,8 +111,8 @@ public class FrameCliente extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel16.setText("Nível de Confiança:");
 
-        jProgressBar2.setValue(100);
-        jProgressBar2.setStringPainted(true);
+        jProgConfia.setValue(100);
+        jProgConfia.setStringPainted(true);
 
         jBtnHistoricoCliente.setText("Histórico");
         jBtnHistoricoCliente.addActionListener(new java.awt.event.ActionListener() {
@@ -93,22 +121,22 @@ public class FrameCliente extends javax.swing.JFrame {
             }
         });
 
-        jLabel17.setText("Ramon Rodrigues de Sales");
+        jLNome.setText("Ramon Rodrigues de Sales");
 
-        jLabel18.setText("Rua Davi Ferreira de Araujo, N77");
+        jLRua.setText("Rua Davi Ferreira de Araujo, N77");
 
-        jLabel19.setText("Santa Cruz do Capibaribe");
+        jLCidade.setText("Santa Cruz do Capibaribe");
 
-        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel20.setText("000.000.000-00");
+        jLCpf.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLCpf.setText("000.000.000-00");
 
-        jLabel21.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel21.setText("PE");
+        jLUf.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLUf.setText("PE");
 
-        jLabel22.setText("(81) 99476-5160");
+        jLTel.setText("(81) 99476-5160");
 
-        jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel23.setText("rrsalescc@gmail.com");
+        jLEmail.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLEmail.setText("rrsalescc@gmail.com");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -120,29 +148,29 @@ public class FrameCliente extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel22)
+                        .addComponent(jLTel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
+                        .addComponent(jLEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel16)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jProgressBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jProgConfia, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addComponent(jLabel12)
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel19))
+                                .addComponent(jLCidade))
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel11)
                                     .addComponent(jLabel9))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel17)
-                                    .addComponent(jLabel18))))
+                                    .addComponent(jLNome)
+                                    .addComponent(jLRua))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,11 +178,11 @@ public class FrameCliente extends javax.swing.JFrame {
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel20)
+                            .addComponent(jLCpf)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel21))))
+                                .addComponent(jLUf))))
                     .addComponent(jBtnHistoricoCliente, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
@@ -166,39 +194,39 @@ public class FrameCliente extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel13)
-                            .addComponent(jLabel20))
+                            .addComponent(jLCpf))
                         .addGap(26, 26, 26)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
-                            .addComponent(jLabel21))
+                            .addComponent(jLUf))
                         .addGap(26, 26, 26)
                         .addComponent(jBtnHistoricoCliente))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(jLabel17))
+                            .addComponent(jLNome))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
-                            .addComponent(jLabel18))
+                            .addComponent(jLRua))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12)
-                            .addComponent(jLabel19))
+                            .addComponent(jLCidade))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel14)
                             .addComponent(jLabel15)
-                            .addComponent(jLabel22)
-                            .addComponent(jLabel23))
+                            .addComponent(jLTel)
+                            .addComponent(jLEmail))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jProgressBar2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jProgConfia, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTblCliente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -206,9 +234,14 @@ public class FrameCliente extends javax.swing.JFrame {
                 "Nome:", "CPF:"
             }
         ));
-        jTable1.setColumnSelectionAllowed(true);
-        jScrollPane1.setViewportView(jTable1);
-        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        jTblCliente.setColumnSelectionAllowed(true);
+        jTblCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTblClienteMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTblCliente);
+        jTblCliente.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
         jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -230,9 +263,19 @@ public class FrameCliente extends javax.swing.JFrame {
 
         jBAlterar.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jBAlterar.setText("Alterar");
+        jBAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBAlterarActionPerformed(evt);
+            }
+        });
 
         jBExcluir.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jBExcluir.setText("Excluir");
+        jBExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBExcluirActionPerformed(evt);
+            }
+        });
 
         jBConta.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jBConta.setText("Cadastrar Conta");
@@ -270,6 +313,13 @@ public class FrameCliente extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jButton2.setText("Atualizar Lista");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -279,7 +329,10 @@ public class FrameCliente extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -288,7 +341,9 @@ public class FrameCliente extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -315,6 +370,59 @@ public class FrameCliente extends javax.swing.JFrame {
         FrameCadastraConta conta = new FrameCadastraConta();
         conta.setVisible(true);
     }//GEN-LAST:event_jBContaActionPerformed
+
+    private void jTblClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblClienteMouseClicked
+        Cliente cliente = lista.get(jTblCliente.getSelectedRow());
+
+        //Setando os campos da tela 
+        jLNome.setText(cliente.getNome());
+        jLCpf.setText(cliente.getCpf());
+        jLTel.setText(cliente.getTelefone());
+        jLEmail.setText(cliente.getEmail());
+        jLCidade.setText(cliente.getEndereco().getCidade());
+        jLRua.setText(cliente.getEndereco().getRua());
+        jLUf.setText(cliente.getEndereco().getUf());
+        jProgConfia.setValue((int) (cliente.getScoreAtual() * 100));
+    }//GEN-LAST:event_jTblClienteMouseClicked
+
+    private void jBAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAlterarActionPerformed
+        int id = jTblCliente.getSelectedRow();
+        if (id >= 0) {
+            Cliente cliente = lista.get(id);
+            FrameCadastroCliente fraCliente = new FrameCadastroCliente(cliente);
+            fraCliente.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Não há item selecionado", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jBAlterarActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        updateLista("SELECT * FROM cliente");
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jBExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBExcluirActionPerformed
+        int id = jTblCliente.getSelectedRow();
+        if (id >= 0) {
+            Cliente cliente = lista.get(id);
+            if (JOptionPane.showConfirmDialog(null, "Deseja EXCLUIR \no cliente: " + cliente.getNome() + "\nde CPF:" + cliente.getCpf() + "\npermenentemente?", "Excluir", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+                daoCliente.delete(cliente);
+                updateLista("SELECT * FROM cheque");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Não há item selecionado", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jBExcluirActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        jLNome.setText("");
+        jLCpf.setText("");
+        jLTel.setText("");
+        jLEmail.setText("");
+        jLCidade.setText("");
+        jLRua.setText("");
+        jLUf.setText("");
+        jProgConfia.setValue(0);
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -358,6 +466,14 @@ public class FrameCliente extends javax.swing.JFrame {
     private javax.swing.JButton jBNovo;
     private javax.swing.JButton jBSair;
     private javax.swing.JButton jBtnHistoricoCliente;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLCidade;
+    private javax.swing.JLabel jLCpf;
+    private javax.swing.JLabel jLEmail;
+    private javax.swing.JLabel jLNome;
+    private javax.swing.JLabel jLRua;
+    private javax.swing.JLabel jLTel;
+    private javax.swing.JLabel jLUf;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -365,18 +481,11 @@ public class FrameCliente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JProgressBar jProgressBar2;
+    private javax.swing.JProgressBar jProgConfia;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTblCliente;
     // End of variables declaration//GEN-END:variables
 }

@@ -9,8 +9,6 @@ import DAO.*;
 import classes.Cheque;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -56,6 +54,7 @@ public class TesteDaoCheque {
             System.out.println("Cliente: " + c.getConta().getCliente().getNome());
             System.out.printf("Valor: R$ %.2f", c.getValor());
             System.out.println("");
+            System.out.println(c.getValues());
         }
 
     }

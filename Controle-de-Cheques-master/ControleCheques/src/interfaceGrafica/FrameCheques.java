@@ -4,11 +4,12 @@ import DAO.ChequeDao;
 import DAO.Dao;
 import classes.Cheque;
 import classes.Cliente;
-import java.time.Instant;
+import classes.Utils;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.ButtonGroup;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -21,26 +22,42 @@ import javax.swing.table.DefaultTableModel;
  * @author Adson Macêdo
  */
 public class FrameCheques extends javax.swing.JFrame {
-    ArrayList<Cheque> lista;
-    Dao<Cheque> daoCheque = new ChequeDao<>();
+    private ArrayList<Cheque> lista;
+    private Dao<Cheque> daoCheque = new ChequeDao<>();
+    private ButtonGroup estadoCheque = new ButtonGroup();
     /**
      * Creates new form NewJFrame
      */
     public FrameCheques() {
         initComponents();
+        
+        estadoCheque.add(jRBAberto);
+        estadoCheque.add(jRBCompensado);
+        estadoCheque.add(jRBDevolvido);
+        estadoCheque.add(jRBTodos);
+        
+        jDateInicio.setCalendar(Calendar.getInstance());
+        jDateFim.setCalendar(Calendar.getInstance());
 
-        lista = daoCheque.query("SELECT * FROM cheque");
+        updateLista("SELECT * FROM cheque");
+    }
+    
+    /**
+     * Atualiza a lista com a consulta sql
+     * @param sql 
+     */
+    private void updateLista(String sql){
+        lista = daoCheque.query(sql);
         DefaultTableModel modelo = (DefaultTableModel) jTblCheques.getModel();
-
+        modelo.setRowCount(0);
         for (Cheque c : lista) {
-
-            modelo.addRow(new Object []{c.getDataCompensacao().get(Calendar.DATE)+"/"+c.getDataCompensacao().get(Calendar.MONTH)+"/"+c.getDataCompensacao().get(Calendar.YEAR), 
+            modelo.addRow(new Object []{Utils.calendToString(c.getDataCompensacao()), 
                                         c.getCliente().getNome(),
-                                        c.getNumero()+"", 
+                                        String.format("%05d", c.getNumero()), 
                                         c.getConta().getBanco(),
                                         c.getConta().getCliente().getNome(), 
-                                        c.getValor(), 
-                                        (c.getState() == 0 ? "ABERTO" : c.getState() == 1 ? "COMPENSADO" : "DEVOLVIDO")});
+                                        String.format("R$ %,.2f", c.getValor()), 
+                                        (c.getState() == Cheque.ABERTO ? "ABERTO" : c.getState() == Cheque.COMPENSADO ? "COMPENSADO" : "DEVOLVIDO")});
         }
     }
 
@@ -53,6 +70,12 @@ public class FrameCheques extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
+        buttonGroup3 = new javax.swing.ButtonGroup();
+        buttonGroup4 = new javax.swing.ButtonGroup();
+        buttonGroup5 = new javax.swing.ButtonGroup();
+        buttonGroup6 = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTblCheques = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
@@ -74,24 +97,24 @@ public class FrameCheques extends javax.swing.JFrame {
         jLUfCliente = new javax.swing.JLabel();
         jLTelefoneCliente = new javax.swing.JLabel();
         jLEmailCliente = new javax.swing.JLabel();
-        jPanel7 = new javax.swing.JPanel();
-        jLabel39 = new javax.swing.JLabel();
-        jLabel40 = new javax.swing.JLabel();
-        jLabel41 = new javax.swing.JLabel();
-        jLabel42 = new javax.swing.JLabel();
-        jLabel43 = new javax.swing.JLabel();
-        jLabel44 = new javax.swing.JLabel();
-        jLabel45 = new javax.swing.JLabel();
-        jLabel46 = new javax.swing.JLabel();
-        jProgressBar4 = new javax.swing.JProgressBar();
-        jBtnHistoricoCliente2 = new javax.swing.JButton();
-        jLabel47 = new javax.swing.JLabel();
-        jLabel48 = new javax.swing.JLabel();
-        jLabel49 = new javax.swing.JLabel();
-        jLabel50 = new javax.swing.JLabel();
-        jLabel51 = new javax.swing.JLabel();
-        jLabel52 = new javax.swing.JLabel();
-        jLabel53 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jPConfiancaEmitente = new javax.swing.JProgressBar();
+        jBtnHistoricoEmitente = new javax.swing.JButton();
+        jLNomeEmitente = new javax.swing.JLabel();
+        jLEnderecoEmitente = new javax.swing.JLabel();
+        jLCidadeEmitente = new javax.swing.JLabel();
+        jLCpfEmitente = new javax.swing.JLabel();
+        jLUfEmitente = new javax.swing.JLabel();
+        jLTelefoneEmitente = new javax.swing.JLabel();
+        jLEmailEmitente = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jBNovo = new javax.swing.JButton();
         jBtnPagamento = new javax.swing.JButton();
@@ -99,11 +122,27 @@ public class FrameCheques extends javax.swing.JFrame {
         jBtnSair = new javax.swing.JButton();
         jBAlterar = new javax.swing.JButton();
         jBExcluir = new javax.swing.JButton();
+        jBUpdateLst = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jRBDevolvido = new javax.swing.JRadioButton();
+        jRBCompensado = new javax.swing.JRadioButton();
+        jRBAberto = new javax.swing.JRadioButton();
+        jChFim = new javax.swing.JCheckBox();
+        jChInicio = new javax.swing.JCheckBox();
+        jTPesquisa = new javax.swing.JTextField();
+        jRBTodos = new javax.swing.JRadioButton();
+        jDateInicio = new com.toedter.calendar.JDateChooser();
+        jDateFim = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Controle de Cheques");
         setName("frmCheques"); // NOI18N
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jTblCheques.setBorder(new javax.swing.border.MatteBorder(null));
         jTblCheques.setModel(new javax.swing.table.DefaultTableModel(
@@ -138,8 +177,8 @@ public class FrameCheques extends javax.swing.JFrame {
             jTblCheques.getColumnModel().getColumn(2).setPreferredWidth(60);
             jTblCheques.getColumnModel().getColumn(2).setMaxWidth(60);
             jTblCheques.getColumnModel().getColumn(4).setMinWidth(220);
-            jTblCheques.getColumnModel().getColumn(5).setMinWidth(80);
-            jTblCheques.getColumnModel().getColumn(5).setPreferredWidth(80);
+            jTblCheques.getColumnModel().getColumn(5).setMinWidth(120);
+            jTblCheques.getColumnModel().getColumn(5).setPreferredWidth(120);
             jTblCheques.getColumnModel().getColumn(5).setMaxWidth(120);
         }
 
@@ -200,8 +239,9 @@ public class FrameCheques extends javax.swing.JFrame {
         jLTelefoneCliente.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLTelefoneCliente.setText("(83) 98609-6431");
 
-        jLEmailCliente.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLEmailCliente.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLEmailCliente.setText("agnsoft@hotmail.com");
+        jLEmailCliente.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -211,47 +251,49 @@ public class FrameCheques extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel16)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                                .addComponent(jPConfiancaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLNomeCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLCidadeCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLEnderecoCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLCpfCliente)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                                        .addComponent(jLabel10)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLUfCliente))))
+                            .addComponent(jBtnHistoricoCliente, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLTelefoneCliente)
+                        .addComponent(jLTelefoneCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLEmailCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel16)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPConfiancaCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLNomeCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLCidadeCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLEnderecoCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLCpfCliente)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLUfCliente))))
-                    .addComponent(jBtnHistoricoCliente, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addComponent(jLEmailCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(13, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -288,145 +330,149 @@ public class FrameCheques extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados Do Emitente"));
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados do Cliente"));
 
-        jLabel39.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel39.setText("Nome:");
+        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel17.setText("Nome:");
 
-        jLabel40.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel40.setText("UF:");
+        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel18.setText("UF:");
 
-        jLabel41.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel41.setText("Endereço:");
+        jLabel19.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel19.setText("Endereço:");
 
-        jLabel42.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel42.setText("Cidade:");
+        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel20.setText("Cidade:");
 
-        jLabel43.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel43.setText("CPF:");
+        jLabel21.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel21.setText("CPF:");
 
-        jLabel44.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel44.setText("Telefone:");
+        jLabel22.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel22.setText("Telefone:");
 
-        jLabel45.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel45.setText("e-mail:");
+        jLabel23.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel23.setText("e-mail:");
 
-        jLabel46.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel46.setText("Nível de Confiança:");
+        jLabel24.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel24.setText("Nível de Confiança:");
 
-        jProgressBar4.setValue(20);
-        jProgressBar4.setStringPainted(true);
+        jPConfiancaEmitente.setValue(75);
+        jPConfiancaEmitente.setStringPainted(true);
 
-        jBtnHistoricoCliente2.setText("Histórico");
-        jBtnHistoricoCliente2.addActionListener(new java.awt.event.ActionListener() {
+        jBtnHistoricoEmitente.setText("Histórico");
+        jBtnHistoricoEmitente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtnHistoricoCliente2ActionPerformed(evt);
+                jBtnHistoricoEmitenteActionPerformed(evt);
             }
         });
 
-        jLabel47.setText("Adson de Macêdo Nascimento");
+        jLNomeEmitente.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLNomeEmitente.setText("Adson de Macêdo Nascimento");
 
-        jLabel48.setText("Rua Luís Lindemberg de Farias, 100A");
+        jLEnderecoEmitente.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLEnderecoEmitente.setText("Rua Luís Lindemberg de Farias, 100A");
 
-        jLabel49.setText("Campina Grande");
+        jLCidadeEmitente.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLCidadeEmitente.setText("Campina Grande");
 
-        jLabel50.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel50.setText("000.000.000-00");
+        jLCpfEmitente.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLCpfEmitente.setText("000.000.000-00");
 
-        jLabel51.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel51.setText("PB");
+        jLUfEmitente.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLUfEmitente.setText("PB");
 
-        jLabel52.setText("(83) 98609-6431");
+        jLTelefoneEmitente.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLTelefoneEmitente.setText("(83) 98609-6431");
 
-        jLabel53.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel53.setText("agnsoft@hotmail.com");
+        jLEmailEmitente.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLEmailEmitente.setText("agnsoft@hotmail.com");
+        jLEmailEmitente.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
 
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel39)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel47)
-                        .addGap(102, 102, 102))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel44)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel52)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel45)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel53, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel46)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jProgressBar4, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addComponent(jLabel42)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                .addComponent(jLabel24)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
+                                .addComponent(jPConfiancaEmitente, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                .addComponent(jLabel17)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel49))
-                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addComponent(jLabel41)
+                                .addComponent(jLNomeEmitente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jLabel20)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLCidadeEmitente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jLabel19)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel48)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel43)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel50)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                                .addComponent(jLabel40)
+                                .addComponent(jLEnderecoEmitente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                .addComponent(jLabel21)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel51))))
-                    .addComponent(jBtnHistoricoCliente2, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLCpfEmitente)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                        .addComponent(jLabel18)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLUfEmitente))))
+                            .addComponent(jBtnHistoricoEmitente, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel22)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLTelefoneEmitente, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel23)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLEmailEmitente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel43)
-                            .addComponent(jLabel50))
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(13, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel21)
+                            .addComponent(jLCpfEmitente))
                         .addGap(26, 26, 26)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel40)
-                            .addComponent(jLabel51))
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel18)
+                            .addComponent(jLUfEmitente))
                         .addGap(26, 26, 26)
-                        .addComponent(jBtnHistoricoCliente2))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel39)
-                            .addComponent(jLabel47))
+                        .addComponent(jBtnHistoricoEmitente))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel17)
+                            .addComponent(jLNomeEmitente))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel41)
-                            .addComponent(jLabel48))
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel19)
+                            .addComponent(jLEnderecoEmitente))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel42)
-                            .addComponent(jLabel49))
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel20)
+                            .addComponent(jLCidadeEmitente))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel44)
-                            .addComponent(jLabel45)
-                            .addComponent(jLabel52)
-                            .addComponent(jLabel53))
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel22)
+                            .addComponent(jLabel23)
+                            .addComponent(jLTelefoneEmitente)
+                            .addComponent(jLEmailEmitente))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jProgressBar4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel46, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jPConfiancaEmitente, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel24, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
 
@@ -438,16 +484,16 @@ public class FrameCheques extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 13, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -494,6 +540,19 @@ public class FrameCheques extends javax.swing.JFrame {
 
         jBExcluir.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jBExcluir.setText("Excluir");
+        jBExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBExcluirActionPerformed(evt);
+            }
+        });
+
+        jBUpdateLst.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
+        jBUpdateLst.setText("Atualizar Lista");
+        jBUpdateLst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBUpdateLstActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -503,6 +562,8 @@ public class FrameCheques extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jBtnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jBUpdateLst)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jBtnPagamento)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtnDevolucao)
@@ -524,7 +585,72 @@ public class FrameCheques extends javax.swing.JFrame {
                     .addComponent(jBNovo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jBtnSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jBAlterar)
-                    .addComponent(jBExcluir))
+                    .addComponent(jBExcluir)
+                    .addComponent(jBUpdateLst, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Pesquisar"));
+
+        jRBDevolvido.setText("Devolvidos");
+        jRBDevolvido.setFocusCycleRoot(true);
+
+        jRBCompensado.setText("Compensados");
+        jRBCompensado.setFocusCycleRoot(true);
+
+        jRBAberto.setText("Abertos");
+        jRBAberto.setFocusCycleRoot(true);
+
+        jChFim.setText("Fim");
+
+        jChInicio.setText("Início");
+
+        jRBTodos.setSelected(true);
+        jRBTodos.setText("Todos");
+        jRBTodos.setFocusCycleRoot(true);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(51, 51, 51)
+                .addComponent(jChInicio)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jDateInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(44, 44, 44)
+                .addComponent(jChFim)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jDateFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jRBAberto)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jRBCompensado)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jRBDevolvido)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRBTodos)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jRBDevolvido, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                    .addComponent(jRBCompensado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jRBAberto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jChFim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jChInicio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jRBTodos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jDateFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jDateInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -532,12 +658,13 @@ public class FrameCheques extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -546,7 +673,9 @@ public class FrameCheques extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -562,32 +691,79 @@ public class FrameCheques extends javax.swing.JFrame {
     }//GEN-LAST:event_jBNovoActionPerformed
 
     private void jBtnPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPagamentoActionPerformed
-        // TODO add your handling code here:
+        int id = jTblCheques.getSelectedRow();
+        if (id >= 0){
+            Cheque cheque = lista.get(id);
+            if (cheque.getState() == Cheque.COMPENSADO){
+                JOptionPane.showMessageDialog(null, "O cheque já está marcado como pago!", "Registrar Pagamento", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                if (JOptionPane.showConfirmDialog(null, "Deseja registrar o pagamento do cheque " + String.format("%05d", cheque.getNumero()) + "\ndo cliente "+cheque.getCliente().getNome() + "?", "Registrar Pagamento", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+                    cheque.setState(Cheque.COMPENSADO);
+                    cheque.setDataCompensado(Calendar.getInstance());
+                    daoCheque.update(cheque);
+                    jBUpdateLstActionPerformed(evt);
+                }
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Não há item selecionado", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jBtnPagamentoActionPerformed
 
     private void jBtnDevolucaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnDevolucaoActionPerformed
-        // TODO add your handling code here:
+        int id = jTblCheques.getSelectedRow();
+        if (id >= 0){
+            Cheque cheque = lista.get(id);
+            if (cheque.getState() == Cheque.COMPENSADO){
+                JOptionPane.showMessageDialog(null, "O cheque já está marcado como pago!", "Registrar Devolução", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                String message = "Informe a linha de devolução para o cheque " + 
+                                 String.format("%05d", cheque.getNumero()) + 
+                                 "\ndo cliente "+cheque.getCliente().getNome() + "?";
+                
+                int linha = Utils.toInt(JOptionPane.showInputDialog(null, message, "Registrar Devolução", JOptionPane.QUESTION_MESSAGE));
+                
+                if (linha > 1){
+                    message = "Deseja registrar a DEVOLUÇÃO do cheque " + 
+                                     String.format("%05d", cheque.getNumero()) + 
+                                     "\ndo cliente "+cheque.getCliente().getNome() + 
+                                     " pela linha " + linha + "?";
+                    
+                    if (JOptionPane.showConfirmDialog(null, message, "Registrar Devolução", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+                        cheque.setState(linha);
+                        cheque.setDataCompensado(Calendar.getInstance());
+                        daoCheque.update(cheque);
+                        jBUpdateLstActionPerformed(evt);
+                    }
+                    
+                }
+                
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Não há item selecionado", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jBtnDevolucaoActionPerformed
 
     private void jBtnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSairActionPerformed
         dispose();
     }//GEN-LAST:event_jBtnSairActionPerformed
 
-    private void jBtnHistoricoCliente2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnHistoricoCliente2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jBtnHistoricoCliente2ActionPerformed
-
     private void jBAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAlterarActionPerformed
-        Cheque cheque = lista.get(jTblCheques.getSelectedRow());
-        FrameCadastroCheque fraCheque = new FrameCadastroCheque(cheque);
-        fraCheque.setVisible(true);
+        int id = jTblCheques.getSelectedRow();
+        if (id >= 0){
+            Cheque cheque = lista.get(id);
+            FrameCadastroCheque fraCheque = new FrameCadastroCheque(cheque);
+            fraCheque.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "Não há item selecionado", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jBAlterarActionPerformed
 
     private void jTblChequesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblChequesMouseClicked
         Cheque cheque = lista.get(jTblCheques.getSelectedRow());
-        System.out.println(jTblCheques.getSelectedRow());
         Cliente cliente = cheque.getCliente();
         Cliente emitente = cheque.getConta().getCliente();
+
+        //  Dados do cliente
         jLNomeCliente.setText(cliente.getNome());
         jLCpfCliente.setText(cliente.getCpf());
         if (cliente.getEndereco() != null){
@@ -601,14 +777,102 @@ public class FrameCheques extends javax.swing.JFrame {
         }
         jLTelefoneCliente.setText(cliente.getTelefone());
         jLEmailCliente.setText(cliente.getEmail());
-
-
-        jPConfiancaCliente.setValue((int)(cheque.getCliente().getScoreAtual()*100));
+        jPConfiancaCliente.setValue((int)(cliente.getScoreAtual()*100));
+        
+        //  Dados do emitente
+        jLNomeEmitente.setText(emitente.getNome());
+        jLCpfEmitente.setText(emitente.getCpf());
+        if (cliente.getEndereco() != null){
+            jLEnderecoEmitente.setText(emitente.getEndereco().getRua());
+            jLCidadeEmitente.setText(emitente.getEndereco().getCidade());
+            jLUfEmitente.setText(emitente.getEndereco().getUf());
+        }else{
+            jLEnderecoEmitente.setText("");
+            jLCidadeEmitente.setText("");
+            jLUfEmitente.setText("");
+        }
+        jLTelefoneEmitente.setText(emitente.getTelefone());
+        jLEmailEmitente.setText(emitente.getEmail());
+        jPConfiancaEmitente.setValue((int)(emitente.getScoreAtual()*100));
+        
     }//GEN-LAST:event_jTblChequesMouseClicked
 
     private void jBtnHistoricoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnHistoricoClienteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jBtnHistoricoClienteActionPerformed
+
+    private void jBtnHistoricoEmitenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnHistoricoEmitenteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBtnHistoricoEmitenteActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        //  Dados do cliente
+        jLNomeCliente.setText("");
+        jLCpfCliente.setText("");
+        jLEnderecoCliente.setText("");
+        jLCidadeCliente.setText("");
+        jLUfCliente.setText("");
+        jLTelefoneCliente.setText("");
+        jLEmailCliente.setText("");
+        jPConfiancaCliente.setValue(0);
+        
+        //  Dados do emitente
+        jLNomeEmitente.setText("");
+        jLCpfEmitente.setText("");
+        jLEnderecoEmitente.setText("");
+        jLCidadeEmitente.setText("");
+        jLUfEmitente.setText("");
+        jLTelefoneEmitente.setText("");
+        jLEmailEmitente.setText("");
+        jPConfiancaEmitente.setValue(0);
+    }//GEN-LAST:event_formWindowOpened
+
+    /**
+     * Monta a consulta sql e a executa
+     * @param evt 
+     */
+    private void jBUpdateLstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBUpdateLstActionPerformed
+        //  SQL base
+        String sql = "SELECT DISTINCT c.* FROM cheque c " +
+                     "LEFT JOIN conta co ON (c.id_conta = co.id)" +
+                     "LEFT JOIN cliente cl ON (c.id_cliente = cl.id or co.id_cliente = cl.id)\n";
+        
+        //  Cláusulas
+        sql += "WHERE cl.nome LIKE " + Utils.quotedStr("%"+ jTPesquisa.getText() + "%") + "\n";
+        
+        if (jRBAberto.isSelected()){
+            sql += "AND c.status_cheque = 0\n";
+        } else if (jRBCompensado.isSelected()){
+            sql += "AND c.status_cheque = 1\n";
+        }else if (jRBDevolvido.isSelected()){
+            sql += "AND c.status_cheque > 1\n";
+        }
+        
+        if (jChInicio.isSelected()){
+            if (jDateInicio.getCalendar() != null)
+                sql += "AND c.data_compensacao >= '" + Utils.calendToString(jDateInicio.getCalendar(), "yyyy/MM/dd") + "'\n";
+        }
+        
+        if (jChFim.isSelected()){
+            if (jDateFim.getCalendar() != null)
+                sql += "AND c.data_compensacao <= '" + Utils.calendToString(jDateFim.getCalendar(), "yyyy/MM/dd") + "'\n";
+        }
+        
+        updateLista(sql);        
+    }//GEN-LAST:event_jBUpdateLstActionPerformed
+
+    private void jBExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBExcluirActionPerformed
+        int id = jTblCheques.getSelectedRow();
+        if (id >= 0){
+            Cheque cheque = lista.get(id);
+            if (JOptionPane.showConfirmDialog(null, "Deseja EXCLUIR o cheque " + String.format("%05d", cheque.getNumero()) + "\ndo cliente "+cheque.getCliente().getNome() + " permenentemente?", "Excluir", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+                daoCheque.delete(cheque);
+                jBUpdateLstActionPerformed(evt);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Não há item selecionado", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jBExcluirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -649,21 +913,39 @@ public class FrameCheques extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.ButtonGroup buttonGroup4;
+    private javax.swing.ButtonGroup buttonGroup5;
+    private javax.swing.ButtonGroup buttonGroup6;
     private javax.swing.JButton jBAlterar;
     private javax.swing.JButton jBExcluir;
     private javax.swing.JButton jBNovo;
+    private javax.swing.JButton jBUpdateLst;
     private javax.swing.JButton jBtnDevolucao;
     private javax.swing.JButton jBtnHistoricoCliente;
-    private javax.swing.JButton jBtnHistoricoCliente2;
+    private javax.swing.JButton jBtnHistoricoEmitente;
     private javax.swing.JButton jBtnPagamento;
     private javax.swing.JButton jBtnSair;
+    private javax.swing.JCheckBox jChFim;
+    private javax.swing.JCheckBox jChInicio;
+    private com.toedter.calendar.JDateChooser jDateFim;
+    private com.toedter.calendar.JDateChooser jDateInicio;
     private javax.swing.JLabel jLCidadeCliente;
+    private javax.swing.JLabel jLCidadeEmitente;
     private javax.swing.JLabel jLCpfCliente;
+    private javax.swing.JLabel jLCpfEmitente;
     private javax.swing.JLabel jLEmailCliente;
+    private javax.swing.JLabel jLEmailEmitente;
     private javax.swing.JLabel jLEnderecoCliente;
+    private javax.swing.JLabel jLEnderecoEmitente;
     private javax.swing.JLabel jLNomeCliente;
+    private javax.swing.JLabel jLNomeEmitente;
     private javax.swing.JLabel jLTelefoneCliente;
+    private javax.swing.JLabel jLTelefoneEmitente;
     private javax.swing.JLabel jLUfCliente;
+    private javax.swing.JLabel jLUfEmitente;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -671,29 +953,28 @@ public class FrameCheques extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel39;
-    private javax.swing.JLabel jLabel40;
-    private javax.swing.JLabel jLabel41;
-    private javax.swing.JLabel jLabel42;
-    private javax.swing.JLabel jLabel43;
-    private javax.swing.JLabel jLabel44;
-    private javax.swing.JLabel jLabel45;
-    private javax.swing.JLabel jLabel46;
-    private javax.swing.JLabel jLabel47;
-    private javax.swing.JLabel jLabel48;
-    private javax.swing.JLabel jLabel49;
-    private javax.swing.JLabel jLabel50;
-    private javax.swing.JLabel jLabel51;
-    private javax.swing.JLabel jLabel52;
-    private javax.swing.JLabel jLabel53;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JProgressBar jPConfiancaCliente;
+    private javax.swing.JProgressBar jPConfiancaEmitente;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JProgressBar jProgressBar4;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JRadioButton jRBAberto;
+    private javax.swing.JRadioButton jRBCompensado;
+    private javax.swing.JRadioButton jRBDevolvido;
+    private javax.swing.JRadioButton jRBTodos;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTPesquisa;
     private javax.swing.JTable jTblCheques;
     // End of variables declaration//GEN-END:variables
 }
