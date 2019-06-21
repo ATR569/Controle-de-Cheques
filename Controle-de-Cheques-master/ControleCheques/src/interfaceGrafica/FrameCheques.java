@@ -5,10 +5,11 @@ import DAO.Dao;
 import classes.Cheque;
 import classes.Cliente;
 import classes.Utils;
-import java.awt.Dialog;
 import java.util.ArrayList;
+import java.util.Calendar;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.ButtonGroup;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -21,17 +22,30 @@ import javax.swing.table.DefaultTableModel;
  * @author Adson Macêdo
  */
 public class FrameCheques extends javax.swing.JFrame {
-    ArrayList<Cheque> lista;
-    Dao<Cheque> daoCheque = new ChequeDao<>();
+    private ArrayList<Cheque> lista;
+    private Dao<Cheque> daoCheque = new ChequeDao<>();
+    private ButtonGroup estadoCheque = new ButtonGroup();
     /**
      * Creates new form NewJFrame
      */
     public FrameCheques() {
         initComponents();
+        
+        estadoCheque.add(jRBAberto);
+        estadoCheque.add(jRBCompensado);
+        estadoCheque.add(jRBDevolvido);
+        estadoCheque.add(jRBTodos);
+        
+        jDateInicio.setCalendar(Calendar.getInstance());
+        jDateFim.setCalendar(Calendar.getInstance());
 
         updateLista("SELECT * FROM cheque");
     }
     
+    /**
+     * Atualiza a lista com a consulta sql
+     * @param sql 
+     */
     private void updateLista(String sql){
         lista = daoCheque.query(sql);
         DefaultTableModel modelo = (DefaultTableModel) jTblCheques.getModel();
@@ -39,10 +53,10 @@ public class FrameCheques extends javax.swing.JFrame {
         for (Cheque c : lista) {
             modelo.addRow(new Object []{Utils.calendToString(c.getDataCompensacao()), 
                                         c.getCliente().getNome(),
-                                        c.getNumero()+"", 
+                                        String.format("%05d", c.getNumero()), 
                                         c.getConta().getBanco(),
                                         c.getConta().getCliente().getNome(), 
-                                        Utils.formatDouble(c.getValor()), 
+                                        String.format("R$ %,.2f", c.getValor()), 
                                         (c.getState() == 0 ? "ABERTO" : c.getState() == 1 ? "COMPENSADO" : "DEVOLVIDO")});
         }
     }
@@ -55,7 +69,14 @@ public class FrameCheques extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
+        buttonGroup3 = new javax.swing.ButtonGroup();
+        buttonGroup4 = new javax.swing.ButtonGroup();
+        buttonGroup5 = new javax.swing.ButtonGroup();
+        buttonGroup6 = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTblCheques = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
@@ -104,6 +125,15 @@ public class FrameCheques extends javax.swing.JFrame {
         jBExcluir = new javax.swing.JButton();
         jBUpdateLst = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
+        jRBDevolvido = new javax.swing.JRadioButton();
+        jRBCompensado = new javax.swing.JRadioButton();
+        jRBAberto = new javax.swing.JRadioButton();
+        jDateFim = new com.toedter.calendar.JDateChooser();
+        jDateInicio = new com.toedter.calendar.JDateChooser();
+        jChFim = new javax.swing.JCheckBox();
+        jChInicio = new javax.swing.JCheckBox();
+        jTPesquisa = new javax.swing.JTextField();
+        jRBTodos = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Controle de Cheques");
@@ -561,15 +591,109 @@ public class FrameCheques extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Pesquisar"));
+
+        jRBDevolvido.setText("Devolvidos");
+        jRBDevolvido.setFocusCycleRoot(true);
+        jRBDevolvido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRBDevolvidoActionPerformed(evt);
+            }
+        });
+
+        jRBCompensado.setText("Compensados");
+        jRBCompensado.setFocusCycleRoot(true);
+
+        jRBAberto.setText("Abertos");
+        jRBAberto.setFocusCycleRoot(true);
+        jRBAberto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRBAbertoActionPerformed(evt);
+            }
+        });
+
+        jDateFim.setDoubleBuffered(false);
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jChFim, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jDateFim, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
+        jDateInicio.setDoubleBuffered(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jChInicio, org.jdesktop.beansbinding.ELProperty.create("${selected}"), jDateInicio, org.jdesktop.beansbinding.BeanProperty.create("enabled"));
+        bindingGroup.addBinding(binding);
+
+        jDateInicio.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jDateInicioFocusLost(evt);
+            }
+        });
+
+        jChFim.setText("Fim");
+        jChFim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jChFimActionPerformed(evt);
+            }
+        });
+
+        jChInicio.setText("Início");
+        jChInicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jChInicioActionPerformed(evt);
+            }
+        });
+
+        jRBTodos.setSelected(true);
+        jRBTodos.setText("Todos");
+        jRBTodos.setFocusCycleRoot(true);
+        jRBTodos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRBTodosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(51, 51, 51)
+                .addComponent(jChInicio)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jDateInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jChFim)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jDateFim, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jRBAberto)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jRBCompensado)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jRBDevolvido)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRBTodos)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 69, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jRBDevolvido, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                    .addComponent(jRBCompensado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jRBAberto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jChFim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jDateInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jDateFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jChInicio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jRBTodos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -581,7 +705,7 @@ public class FrameCheques extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -592,12 +716,14 @@ public class FrameCheques extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
+
+        bindingGroup.bind();
 
         pack();
         setLocationRelativeTo(null);
@@ -700,8 +826,38 @@ public class FrameCheques extends javax.swing.JFrame {
         jPConfiancaEmitente.setValue(0);
     }//GEN-LAST:event_formWindowOpened
 
+    /**
+     * Monta a consulta sql e a executa
+     * @param evt 
+     */
     private void jBUpdateLstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBUpdateLstActionPerformed
-        updateLista("SELECT * FROM cheque");
+        //  SQL base
+        String sql = "SELECT DISTINCT c.* FROM cheque c " +
+                     "LEFT JOIN conta co ON (c.id_conta = co.id)" +
+                     "LEFT JOIN cliente cl ON (c.id_cliente = cl.id or co.id_cliente = cl.id)\n";
+        
+        //  Cláusulas
+        sql += "WHERE cl.nome LIKE " + Utils.quotedStr("%"+ jTPesquisa.getText() + "%") + "\n";
+        
+        if (jRBAberto.isSelected()){
+            sql += "AND c.status_cheque = 0\n";
+        } else if (jRBCompensado.isSelected()){
+            sql += "AND c.status_cheque = 1\n";
+        }else if (jRBDevolvido.isSelected()){
+            sql += "AND c.status_cheque = 2\n";
+        }
+        
+        if (jChInicio.isSelected()){
+            if (jDateInicio.getCalendar() != null)
+                sql += "AND c.data_compensacao >= '" + Utils.calendToString(jDateInicio.getCalendar(), "yyyy/MM/dd") + "'\n";
+        }
+        
+        if (jChFim.isSelected()){
+            if (jDateFim.getCalendar() != null)
+                sql += "AND c.data_compensacao <= '" + Utils.calendToString(jDateFim.getCalendar(), "yyyy/MM/dd") + "'\n";
+        }
+        
+        updateLista(sql);        
     }//GEN-LAST:event_jBUpdateLstActionPerformed
 
     private void jBExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBExcluirActionPerformed
@@ -716,6 +872,30 @@ public class FrameCheques extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Não há item selecionado", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jBExcluirActionPerformed
+
+    private void jRBDevolvidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBDevolvidoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRBDevolvidoActionPerformed
+
+    private void jRBAbertoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBAbertoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRBAbertoActionPerformed
+
+    private void jChFimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChFimActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jChFimActionPerformed
+
+    private void jChInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChInicioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jChInicioActionPerformed
+
+    private void jDateInicioFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jDateInicioFocusLost
+
+    }//GEN-LAST:event_jDateInicioFocusLost
+
+    private void jRBTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBTodosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRBTodosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -756,6 +936,12 @@ public class FrameCheques extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.ButtonGroup buttonGroup4;
+    private javax.swing.ButtonGroup buttonGroup5;
+    private javax.swing.ButtonGroup buttonGroup6;
     private javax.swing.JButton jBAlterar;
     private javax.swing.JButton jBExcluir;
     private javax.swing.JButton jBNovo;
@@ -765,6 +951,10 @@ public class FrameCheques extends javax.swing.JFrame {
     private javax.swing.JButton jBtnHistoricoEmitente;
     private javax.swing.JButton jBtnPagamento;
     private javax.swing.JButton jBtnSair;
+    private javax.swing.JCheckBox jChFim;
+    private javax.swing.JCheckBox jChInicio;
+    private com.toedter.calendar.JDateChooser jDateFim;
+    private com.toedter.calendar.JDateChooser jDateInicio;
     private javax.swing.JLabel jLCidadeCliente;
     private javax.swing.JLabel jLCidadeEmitente;
     private javax.swing.JLabel jLCpfCliente;
@@ -802,7 +992,13 @@ public class FrameCheques extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JRadioButton jRBAberto;
+    private javax.swing.JRadioButton jRBCompensado;
+    private javax.swing.JRadioButton jRBDevolvido;
+    private javax.swing.JRadioButton jRBTodos;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTPesquisa;
     private javax.swing.JTable jTblCheques;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

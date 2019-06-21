@@ -41,7 +41,7 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
             this.jLNomeEmit.setText(cheque.getConta().getCliente().getNome());
             this.jLTelEmit.setText(cheque.getConta().getCliente().getTelefone());
             this.jTNumCheque.setText(cheque.getNumero()+"");
-            this.jTValor.setText(("R$ "+cheque.getValor()).replace(".", ","));
+            this.jTValor.setText(String.format("R$ %,.2f", cheque.getValor()));
             jPConfianca.setValue((int)(cheque.getCliente().getScoreAtual()*100));
             jPConfEmitente.setValue((int)(cheque.getConta().getCliente().getScoreAtual()*100));
             jDateDatCompen.setCalendar(cheque.getDataCompensacao());
@@ -487,7 +487,7 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
 
         jBCadastrar.setBackground(new java.awt.Color(255, 255, 255));
         jBCadastrar.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
-        jBCadastrar.setText("Cadastrar");
+        jBCadastrar.setText("Salvar");
         jBCadastrar.setPreferredSize(new java.awt.Dimension(90, 40));
         jBCadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -660,7 +660,7 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
     }//GEN-LAST:event_jTAgKeyReleased
 
     private void jTNumChequeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTNumChequeFocusLost
-        jTNumCheque.setText(Utils.toInt(jTNumCheque.getText())+"");
+        jTNumCheque.setText(String.format("%05d", Utils.toInt(jTNumCheque.getText())));
     }//GEN-LAST:event_jTNumChequeFocusLost
 
     private void jTValorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTValorFocusLost
