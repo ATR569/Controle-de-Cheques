@@ -19,6 +19,7 @@ import static classes.Utils.quotedStr;
 public class FrameCadastraConta extends javax.swing.JFrame {
 
     Conta conta;
+    Cliente cliente;
     Dao<Cliente> daoCliente = new ClienteDao<>();
     Dao<Conta> daoConta = new ContaDao<>();
 
@@ -48,9 +49,26 @@ public class FrameCadastraConta extends javax.swing.JFrame {
             this.jFTel.setText("");
         }
     }
-    
-    public FrameCadastraConta(Cliente cliente){
-        
+
+    public FrameCadastraConta(Cliente cliente) {
+        initComponents();
+        this.cliente = cliente;
+        if (cliente.getId() != 0) {
+            this.jTBanco.setText("");
+            this.jTAg.setText("");
+            this.jTCnt.setText("");
+            this.jTCpf.setText(cliente.getCpf());
+            this.jTCpf.setEditable(false);
+            this.jFNome.setText(cliente.getNome());
+            this.jFTel.setText(cliente.getTelefone());
+        } else {
+            this.jTBanco.setText("");
+            this.jTAg.setText("");
+            this.jTCnt.setText("");
+            this.jTCpf.setText("");
+            this.jFNome.setText("");
+            this.jFTel.setText("");
+        }
     }
 
     /**

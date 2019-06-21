@@ -21,23 +21,24 @@ import javax.swing.table.DefaultTableModel;
  * @author Thairam Michel
  */
 public class FrameConta extends javax.swing.JFrame {
-    
+
     ArrayList<Conta> lista;
     Dao<Conta> daoConta = new ContaDao<>();
     Cliente cliente;
+
     /**
      * Creates new form FrameConta
      */
-    
-    public FrameConta(){
+    public FrameConta() {
         initComponents();
     }
+
     public FrameConta(Cliente c) {
         this();
         this.cliente = c;
-        updateLista("SELECT * FROM conta WHERE conta.id_cliente = "+ cliente.getId());
+        updateLista("SELECT * FROM conta WHERE conta.id_cliente = " + this.cliente.getId());
     }
-    
+
     private void updateLista(String sql) {
         lista = daoConta.query(sql);
         DefaultTableModel modelo = (DefaultTableModel) jTableConta.getModel();
@@ -214,7 +215,6 @@ public class FrameConta extends javax.swing.JFrame {
             Conta conta = lista.get(id);
             if (JOptionPane.showConfirmDialog(null, "Deseja EXCLUIR a conta " + conta.getNumConta() + "\ndo cliente " + conta.getCliente().getNome() + " permanentemente?", "Excluir", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
                 daoConta.delete(conta);
-                updateLista("SELECT * FROM cheque");
             }
         } else {
             JOptionPane.showMessageDialog(null, "Não há item selecionado", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -227,7 +227,7 @@ public class FrameConta extends javax.swing.JFrame {
 
     private void jBUpdateListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBUpdateListaActionPerformed
         // TODO add your handling code here:
-        updateLista("SELECT * FROM conta");
+        updateLista("SELECT * FROM conta WHERE conta.id_cliente = " + this.cliente.getId());
     }//GEN-LAST:event_jBUpdateListaActionPerformed
 
     /**
