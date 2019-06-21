@@ -34,6 +34,8 @@ public class FrameCadastraConta extends javax.swing.JFrame {
         initComponents();
         this.conta = conta;
         if (conta.getId() != 0) {
+            this.setTitle("Alterar Conta");
+            this.jBCadastrar.setText("Alterar");
             this.jTBanco.setText(conta.getBanco());
             this.jTAg.setText(conta.getAgencia() + "");
             this.jTCnt.setText(conta.getNumConta());

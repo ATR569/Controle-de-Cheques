@@ -36,6 +36,7 @@ public class FrameConta extends javax.swing.JFrame {
     public FrameConta(Cliente c) {
         this();
         this.cliente = c;
+        this.jLNome.setText(c.getNome());
         updateLista("SELECT * FROM conta WHERE conta.id_cliente = " + this.cliente.getId());
     }
 
@@ -58,7 +59,7 @@ public class FrameConta extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jLNome = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableConta = new javax.swing.JTable();
@@ -73,19 +74,19 @@ public class FrameConta extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Nome do Cliente"));
 
-        jLabel1.setText("Thairam Michel Santos Ataíde");
+        jLNome.setText("Thairam Michel Santos Ataíde");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addComponent(jLNome)
                 .addContainerGap())
         );
 
@@ -97,6 +98,11 @@ public class FrameConta extends javax.swing.JFrame {
                 "Banco", "Agência", "Número da Conta"
             }
         ));
+        jTableConta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableContaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableConta);
 
         jBUpdateLista.setText("Atualizar Lista");
@@ -230,6 +236,13 @@ public class FrameConta extends javax.swing.JFrame {
         updateLista("SELECT * FROM conta WHERE conta.id_cliente = " + this.cliente.getId());
     }//GEN-LAST:event_jBUpdateListaActionPerformed
 
+    private void jTableContaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableContaMouseClicked
+        Conta conta = lista.get(jTableConta.getSelectedRow());
+        Cliente emitente = conta.getCliente();
+        
+        jLNome.setText(emitente.getNome());
+    }//GEN-LAST:event_jTableContaMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -270,7 +283,7 @@ public class FrameConta extends javax.swing.JFrame {
     private javax.swing.JButton jBDelConta;
     private javax.swing.JButton jBSair;
     private javax.swing.JButton jBUpdateLista;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLNome;
     private javax.swing.JButton jNewConta;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
