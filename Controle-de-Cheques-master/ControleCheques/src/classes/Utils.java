@@ -5,7 +5,6 @@
  */
 package classes;
 
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -16,7 +15,6 @@ import java.util.Locale;
  */
 public class Utils {
     static private Locale localeBR = new Locale("pt","BR");
-    static private NumberFormat curr = NumberFormat.getCurrencyInstance(localeBR); //  Formata moeda
     
 
     public static String quotedStr(String str) {
@@ -49,6 +47,6 @@ public class Utils {
     }
     
     public static String formatDouble(double value){
-        return curr.format(value); //  Formata moeda
+        return String.format("R$ %,.2f", value); //  Formata moeda
     }
 }
