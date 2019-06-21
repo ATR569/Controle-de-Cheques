@@ -14,7 +14,7 @@ import static classes.Utils.quotedStr;
 
 /**
  *
- * @author Thairam Michel
+ * @author rrsal e Thairam Michel
  */
 public class FrameCadastraConta extends javax.swing.JFrame {
 
@@ -47,6 +47,10 @@ public class FrameCadastraConta extends javax.swing.JFrame {
             this.jFNome.setText("");
             this.jFTel.setText("");
         }
+    }
+    
+    public FrameCadastraConta(Cliente cliente){
+        
     }
 
     /**

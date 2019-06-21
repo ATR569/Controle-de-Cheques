@@ -5,17 +5,46 @@
  */
 package interfaceGrafica;
 
+import DAO.ContaDao;
+import DAO.Dao;
+import classes.Conta;
+import classes.Cliente;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Thairam Michel
  */
 public class FrameConta extends javax.swing.JFrame {
-
+    
+    ArrayList<Conta> lista;
+    Dao<Conta> daoConta = new ContaDao<>();
+    Cliente cliente;
     /**
      * Creates new form FrameConta
      */
-    public FrameConta() {
+    
+    public FrameConta(){
         initComponents();
+    }
+    public FrameConta(Cliente c) {
+        this();
+        this.cliente = c;
+        updateLista("SELECT * FROM conta WHERE conta.id_cliente = "+ cliente.getId());
+    }
+    
+    private void updateLista(String sql) {
+        lista = daoConta.query(sql);
+        DefaultTableModel modelo = (DefaultTableModel) jTableConta.getModel();
+        modelo.setRowCount(0);
+        for (Conta c : lista) {
+            modelo.addRow(new Object[]{c.getBanco(), c.getAgencia(), c.getNumConta()});
+        }
     }
 
     /**
@@ -29,43 +58,37 @@ public class FrameConta extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jTableConta = new javax.swing.JTable();
+        jBUpdateLista = new javax.swing.JButton();
+        jBAlterConta = new javax.swing.JButton();
+        jNewConta = new javax.swing.JButton();
+        jBDelConta = new javax.swing.JButton();
+        jBSair = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Nome do Cliente"));
 
-        jLabel1.setText("Nome");
-
-        jLabel2.setText("Nome");
+        jLabel1.setText("Thairam Michel Santos Ataíde");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
+                .addComponent(jLabel1)
                 .addContainerGap())
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableConta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -73,51 +96,81 @@ public class FrameConta extends javax.swing.JFrame {
                 "Banco", "Agência", "Número da Conta"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTableConta);
+
+        jBUpdateLista.setText("Atualizar Lista");
+        jBUpdateLista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBUpdateListaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBUpdateLista))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBUpdateLista)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jButton1.setText("Alterar Conta");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jBAlterConta.setText("Alterar Conta");
+        jBAlterConta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jBAlterContaActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Nova Conta");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jNewConta.setText("Nova Conta");
+        jNewConta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jNewContaActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Excluir");
+        jBDelConta.setText("Excluir Conta");
+        jBDelConta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBDelContaActionPerformed(evt);
+            }
+        });
+
+        jBSair.setText("Sair");
+        jBSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBSairActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(42, 42, 42)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
-                        .addComponent(jButton3))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jBSair)
+                        .addGap(18, 18, 18)
+                        .addComponent(jBAlterConta)
+                        .addGap(10, 10, 10)
+                        .addComponent(jNewConta)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jBDelConta))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,22 +181,54 @@ public class FrameConta extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(jBAlterConta)
+                    .addComponent(jNewConta)
+                    .addComponent(jBDelConta)
+                    .addComponent(jBSair))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jBAlterContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAlterContaActionPerformed
+        int id = jTableConta.getSelectedRow();
+        if (id >= 0) {
+            Conta conta = lista.get(id);
+            FrameCadastraConta fraConta = new FrameCadastraConta(conta);
+            fraConta.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Não há item selecionado", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jBAlterContaActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jNewContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jNewContaActionPerformed
+        FrameCadastraConta conta = new FrameCadastraConta(this.cliente);
+        conta.setVisible(true);
+    }//GEN-LAST:event_jNewContaActionPerformed
+
+    private void jBDelContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBDelContaActionPerformed
+        int id = jTableConta.getSelectedRow();
+        if (id >= 0) {
+            Conta conta = lista.get(id);
+            if (JOptionPane.showConfirmDialog(null, "Deseja EXCLUIR a conta " + conta.getNumConta() + "\ndo cliente " + conta.getCliente().getNome() + " permanentemente?", "Excluir", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+                daoConta.delete(conta);
+                updateLista("SELECT * FROM cheque");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Não há item selecionado", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jBDelContaActionPerformed
+
+    private void jBSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSairActionPerformed
+        dispose();
+    }//GEN-LAST:event_jBSairActionPerformed
+
+    private void jBUpdateListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBUpdateListaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        updateLista("SELECT * FROM conta");
+    }//GEN-LAST:event_jBUpdateListaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -181,14 +266,15 @@ public class FrameConta extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jBAlterConta;
+    private javax.swing.JButton jBDelConta;
+    private javax.swing.JButton jBSair;
+    private javax.swing.JButton jBUpdateLista;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton jNewConta;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableConta;
     // End of variables declaration//GEN-END:variables
 }
