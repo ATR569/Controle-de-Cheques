@@ -386,6 +386,7 @@ public class FrameCadastroCliente extends javax.swing.JFrame {
             daoClt.insert(cliente);
             JOptionPane.showMessageDialog(null, "Cliente: " + cliente.getNome() + "\n Cadastrado com sucesso!");
         } else {
+            // comentario pro commit
             end.setCep(Utils.toInt(jFCep.getText()));
             end.setRua(jTRua.getText());
             end.setBairro(jTBairro.getText());

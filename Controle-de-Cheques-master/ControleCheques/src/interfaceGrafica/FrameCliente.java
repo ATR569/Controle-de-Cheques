@@ -374,7 +374,7 @@ public class FrameCliente extends javax.swing.JFrame {
     private void jTblClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblClienteMouseClicked
         Cliente cliente = lista.get(jTblCliente.getSelectedRow());
 
-        //Setando as informações da tela
+        //Setando os campos da tela 
         jLNome.setText(cliente.getNome());
         jLCpf.setText(cliente.getCpf());
         jLTel.setText(cliente.getTelefone());
