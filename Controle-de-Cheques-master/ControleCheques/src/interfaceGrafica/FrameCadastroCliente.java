@@ -31,11 +31,13 @@ public class FrameCadastroCliente extends javax.swing.JFrame {
     public FrameCadastroCliente() {
         this(new Cliente());
     }
-    
+
     public FrameCadastroCliente(Cliente cliente) {
         initComponents();
         this.cliente = cliente;
         if (cliente.getId() != 0) {
+            this.setTitle("Alterar Dados");
+            this.jBCadastrar.setText("Alterar");
             this.jFCpf.setText(cliente.getCpf());
             this.jTNome.setText(cliente.getNome());
             this.jFCep.setText(cliente.getEndereco().getCep() + "");
@@ -382,22 +384,31 @@ public class FrameCadastroCliente extends javax.swing.JFrame {
         cliente.setNome(jTNome.getText());
         cliente.setTelefone(jFTel.getText());
         cliente.setEmail(jTEmail.getText());
-        if (endAux != null) {
-            daoClt.insert(cliente);
-            JOptionPane.showMessageDialog(null, "Cliente: " + cliente.getNome() + "\n Cadastrado com sucesso!");
+        if (Utils.toString(jFCpf.getText()).equals("") || jTNome.getText().equals("") || Utils.toString(jFTel.getText()).equals("") || jTEmail.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "ERROR!\nFalta o preenchimento de\ndados obrigatório(s) do cliente!", "", JOptionPane.INFORMATION_MESSAGE);
+            jFCpf.requestFocus();
         } else {
-            // comentario pro commit
-            end.setCep(Utils.toInt(jFCep.getText()));
-            end.setRua(jTRua.getText());
-            end.setBairro(jTBairro.getText());
-            end.setCidade(jTCidade.getText());
-            end.setUf(jCBoxUf.getSelectedItem().toString());
-            daoEnd.insert(end);
-            cliente.setEndereco(end);
-            daoClt.insert(cliente);
-            JOptionPane.showMessageDialog(null, "Cliente: " + cliente.getNome() + "\n Cadastrado com sucesso!");
+            if (endAux != null) {
+                daoClt.insert(cliente);
+                JOptionPane.showMessageDialog(null, "Cliente: " + cliente.getNome() + "\n Cadastrado com sucesso!");
+            } else {
+                if (Utils.toString(jFCep.getText()).equals("") || jTRua.getText().equals("") || jTBairro.getText().equals("") || jTCidade.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "ERROR!\nFalta o preenchimento de\ndados obrigatório(s) do endereço!", "", JOptionPane.INFORMATION_MESSAGE);
+                    jFCep.requestFocus();
+                } else {
+                    end.setCep(Utils.toInt(jFCep.getText()));
+                    end.setUf(jCBoxUf.getSelectedItem().toString());
+                    end.setRua(jTRua.getText());
+                    end.setBairro(jTBairro.getText());
+                    end.setCidade(jTCidade.getText());
+                    daoEnd.insert(end);
+                    cliente.setEndereco(end);
+                    daoClt.insert(cliente);
+                    JOptionPane.showMessageDialog(null, "Cliente: " + cliente.getNome() + "\n Cadastrado com sucesso!");
+                    this.dispose();
+                }
+            }
         }
-        this.dispose();
     }//GEN-LAST:event_jBCadastrarActionPerformed
 
     private void jBFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBFecharActionPerformed
@@ -421,22 +432,16 @@ public class FrameCadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_jTNomeFocusLost
 
     private void jFCepFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFCepFocusLost
-        if (Utils.toString(jFCep.getText()).equals("")) {
-            JOptionPane.showMessageDialog(null, "CEP é obrigatório!", "", JOptionPane.INFORMATION_MESSAGE);
-            jFCep.requestFocus();
-        } else {
-            String fields[] = {"cep"};
-            String values[] = {Utils.toInt(jFCep.getText()) + ""};
-            endAux = daoEnd.find(fields, values);
-            if (endAux != null) {
-                jTRua.setText(endAux.getRua());
-                jTBairro.setText(endAux.getBairro());
-                jTCidade.setText(endAux.getCidade());
-                jCBoxUf.setSelectedItem(endAux.getUf());
-                cliente.setEndereco(endAux);
-            }
+        String fields[] = {"cep"};
+        String values[] = {Utils.toInt(jFCep.getText()) + ""};
+        endAux = daoEnd.find(fields, values);
+        if (endAux != null) {
+            jTRua.setText(endAux.getRua());
+            jTBairro.setText(endAux.getBairro());
+            jTCidade.setText(endAux.getCidade());
+            jCBoxUf.setSelectedItem(endAux.getUf());
+            cliente.setEndereco(endAux);
         }
-
     }//GEN-LAST:event_jFCepFocusLost
 
     private void jCBoxUfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBoxUfActionPerformed
@@ -481,16 +486,21 @@ public class FrameCadastroCliente extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrameCadastroCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrameCadastroCliente.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrameCadastroCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrameCadastroCliente.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrameCadastroCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrameCadastroCliente.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrameCadastroCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrameCadastroCliente.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>

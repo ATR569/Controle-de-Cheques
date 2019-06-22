@@ -81,7 +81,15 @@ public class FrameHistorico extends javax.swing.JFrame {
             new String [] {
                 "Data", "Descrição"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTblHistorico);
         if (jTblHistorico.getColumnModel().getColumnCount() > 0) {
             jTblHistorico.getColumnModel().getColumn(0).setMinWidth(120);
@@ -116,7 +124,7 @@ public class FrameHistorico extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jBFechar, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                .addComponent(jBFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 21, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
