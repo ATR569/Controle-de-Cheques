@@ -331,20 +331,22 @@ public class FrameCadastraConta extends javax.swing.JFrame {
     }//GEN-LAST:event_jTCpfFocusLost
 
     private void jBCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCadastrarActionPerformed
+        try {
+            conta.setBanco(jTBanco.getText());
+            conta.setAgencia(Integer.parseInt(jTAg.getText()));
+            conta.setNumConta(jTCnt.getText());
 
-        conta.setBanco(jTBanco.getText());
-        conta.setAgencia(Integer.parseInt(jTAg.getText()));
-        conta.setNumConta(jTCnt.getText());
-
-        //quando é uma nova conta o id == 0
-        if (conta.getId() == 0) {
-            daoConta.insert(conta);
-        } else {
-            daoConta.update(conta);
+            //quando é uma nova conta o id == 0
+            if (conta.getId() == 0) {
+                daoConta.insert(conta);
+            } else {
+                daoConta.update(conta);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "FAVOR Informar os dados da CONTA!!");
+        } finally {
+            this.dispose();
         }
-
-        JOptionPane.showMessageDialog(null, "Conta cadastrada com sucesso!", "Cadastro de Contas", JOptionPane.INFORMATION_MESSAGE);
-        this.dispose();
     }//GEN-LAST:event_jBCadastrarActionPerformed
 
     private void jTAgKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTAgKeyReleased

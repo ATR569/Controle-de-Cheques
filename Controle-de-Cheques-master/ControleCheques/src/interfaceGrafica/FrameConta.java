@@ -239,7 +239,7 @@ public class FrameConta extends javax.swing.JFrame {
     private void jTableContaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableContaMouseClicked
         Conta conta = lista.get(jTableConta.getSelectedRow());
         Cliente emitente = conta.getCliente();
-        
+
         jLNome.setText(emitente.getNome());
     }//GEN-LAST:event_jTableContaMouseClicked
 
