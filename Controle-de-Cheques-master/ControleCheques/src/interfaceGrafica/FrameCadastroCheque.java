@@ -86,7 +86,7 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
         jFCpf = new javax.swing.JFormattedTextField();
         jPConfianca = new javax.swing.JProgressBar();
         jLabel16 = new javax.swing.JLabel();
-        jBHistorico = new javax.swing.JButton();
+        jBHistoricoCliente = new javax.swing.JButton();
         jLNome = new javax.swing.JLabel();
         jLTel = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -215,11 +215,11 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         jLabel16.setText("Nível de Confiança:");
 
-        jBHistorico.setText("Histórico");
-        jBHistorico.setFocusable(false);
-        jBHistorico.addActionListener(new java.awt.event.ActionListener() {
+        jBHistoricoCliente.setText("Histórico");
+        jBHistoricoCliente.setFocusable(false);
+        jBHistoricoCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBHistoricoActionPerformed(evt);
+                jBHistoricoClienteActionPerformed(evt);
             }
         });
 
@@ -253,7 +253,7 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPConfianca, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jBHistorico)))
+                        .addComponent(jBHistoricoCliente)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -275,7 +275,7 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
                         .addComponent(jLTel)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jBHistorico)
+                    .addComponent(jBHistoricoCliente)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jPConfianca, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -373,7 +373,7 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
                             .addComponent(jLTelEmit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel17)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                         .addComponent(jPConfEmitente, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jBHistorico1)))
@@ -533,7 +533,7 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -596,16 +596,22 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jBFecharActionPerformed
 
-    private void jBHistoricoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBHistoricoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jBHistoricoActionPerformed
+    private void jBHistoricoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBHistoricoClienteActionPerformed
+        if (cheque.getCliente() != null){
+            FrameHistorico frmHist = new FrameHistorico(cheque.getCliente());
+            frmHist.setVisible(true);
+        }
+    }//GEN-LAST:event_jBHistoricoClienteActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
 
     }//GEN-LAST:event_formWindowOpened
 
     private void jBHistorico1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBHistorico1ActionPerformed
-        
+        if (cheque.getConta() != null){
+            FrameHistorico frmHist = new FrameHistorico(cheque.getConta().getCliente());
+            frmHist.setVisible(true);
+        }
     }//GEN-LAST:event_jBHistorico1ActionPerformed
 
     private void jTCntFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTCntFocusLost
@@ -639,21 +645,26 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
     }//GEN-LAST:event_jTCntFocusLost
 
     private void jBCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCadastrarActionPerformed
-        try{
-            cheque.setDataCompensacao(jDateDatCompen.getCalendar());
-            cheque.setNumero(Utils.toInt(jTNumCheque.getText()));
-            cheque.setValor(Utils.toDouble(jTValor.getText()));
+        cheque.setDataCompensacao(jDateDatCompen.getCalendar());
+        cheque.setNumero(Utils.toInt(jTNumCheque.getText()));
+        cheque.setValor(Utils.toDouble(jTValor.getText()));
 
-            //  Se for um novo cheque o id = 0
-            if (cheque.getId() == 0)
-                daoCheque.insert(cheque);
-            else
-                daoCheque.update(cheque);                
+        if (cheque.getCliente() == null || cheque.getConta() == null || cheque.getNumero() == 0){
+            JOptionPane.showMessageDialog(null, "Dados insuficientes!", "Erro", JOptionPane.ERROR_MESSAGE);
+        }else{
+            try{
+                //  Se for um novo cheque o id = 0
+                if (cheque.getId() == 0)
+                    daoCheque.insert(cheque);
+                else
+                    daoCheque.update(cheque);                
 
-        } catch (Exception ex){
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-        }finally{
-            this.dispose();
+                JOptionPane.showMessageDialog(null, "Salvo com sucesso!");
+            } catch (Exception ex){
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }finally{
+                this.dispose();
+            }
         }
     }//GEN-LAST:event_jBCadastrarActionPerformed
 
@@ -711,8 +722,8 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
     private javax.swing.JLabel JLabel1;
     private javax.swing.JButton jBCadastrar;
     private javax.swing.JButton jBFechar;
-    private javax.swing.JButton jBHistorico;
     private javax.swing.JButton jBHistorico1;
+    private javax.swing.JButton jBHistoricoCliente;
     private com.toedter.calendar.JDateChooser jDateDatCompen;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JDialog jDialog2;

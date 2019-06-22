@@ -197,7 +197,7 @@
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="jPConfianca" min="-2" pref="178" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="jBHistorico" min="-2" max="-2" attributes="0"/>
+                          <Component id="jBHistoricoCliente" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -227,7 +227,7 @@
                   </Group>
                   <EmptySpace pref="16" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jBHistorico" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jBHistoricoCliente" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                           <Component id="jPConfianca" alignment="0" max="32767" attributes="0"/>
                           <Component id="jLabel16" alignment="0" min="-2" pref="17" max="-2" attributes="0"/>
@@ -292,13 +292,13 @@
             <Property name="text" type="java.lang.String" value="N&#xed;vel de Confian&#xe7;a:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jBHistorico">
+        <Component class="javax.swing.JButton" name="jBHistoricoCliente">
           <Properties>
             <Property name="text" type="java.lang.String" value="Hist&#xf3;rico"/>
             <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBHistoricoActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBHistoricoClienteActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLNome">
