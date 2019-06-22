@@ -14,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author rrsales
+ * @author Ramon Rodrigues
  */
 public class FrameCliente extends javax.swing.JFrame {
 

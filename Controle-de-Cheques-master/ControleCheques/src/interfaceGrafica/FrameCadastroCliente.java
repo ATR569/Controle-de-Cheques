@@ -14,8 +14,7 @@ import classes.Utils;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author rrsales
+ * @author Ramon Rodrigues
  */
 public class FrameCadastroCliente extends javax.swing.JFrame {
 
@@ -40,7 +39,7 @@ public class FrameCadastroCliente extends javax.swing.JFrame {
             this.jBCadastrar.setText("Alterar");
             this.jFCpf.setText(cliente.getCpf());
             this.jTNome.setText(cliente.getNome());
-            this.jFCep.setText(cliente.getEndereco().getCep() + "");
+            this.jFCep.setText(cliente.getEndereco().getCep()+"");
             this.jTRua.setText(cliente.getEndereco().getRua());
             this.jTBairro.setText(cliente.getEndereco().getBairro());
             this.jTCidade.setText(cliente.getEndereco().getCidade());
@@ -384,13 +383,13 @@ public class FrameCadastroCliente extends javax.swing.JFrame {
         cliente.setNome(jTNome.getText());
         cliente.setTelefone(jFTel.getText());
         cliente.setEmail(jTEmail.getText());
+        
         if (Utils.toString(jFCpf.getText()).equals("") || jTNome.getText().equals("") || Utils.toString(jFTel.getText()).equals("") || jTEmail.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "ERROR!\nFalta o preenchimento de\ndados obrigatório(s) do cliente!", "", JOptionPane.INFORMATION_MESSAGE);
             jFCpf.requestFocus();
         } else {
             if (endAux != null) {
-                daoClt.insert(cliente);
-                JOptionPane.showMessageDialog(null, "Cliente: " + cliente.getNome() + "\n Cadastrado com sucesso!");
+                cliente.setEndereco(endAux);
             } else {
                 if (Utils.toString(jFCep.getText()).equals("") || jTRua.getText().equals("") || jTBairro.getText().equals("") || jTCidade.getText().equals("")) {
                     JOptionPane.showMessageDialog(null, "ERROR!\nFalta o preenchimento de\ndados obrigatório(s) do endereço!", "", JOptionPane.INFORMATION_MESSAGE);
@@ -403,11 +402,16 @@ public class FrameCadastroCliente extends javax.swing.JFrame {
                     end.setCidade(jTCidade.getText());
                     daoEnd.insert(end);
                     cliente.setEndereco(end);
-                    daoClt.insert(cliente);
-                    JOptionPane.showMessageDialog(null, "Cliente: " + cliente.getNome() + "\n Cadastrado com sucesso!");
-                    this.dispose();
-                }
+                }                
             }
+
+            if (cliente.getId() == 0) {
+                daoClt.insert(cliente);
+            } else {
+                daoClt.update(cliente);
+            }
+
+            this.dispose();            
         }
     }//GEN-LAST:event_jBCadastrarActionPerformed
 

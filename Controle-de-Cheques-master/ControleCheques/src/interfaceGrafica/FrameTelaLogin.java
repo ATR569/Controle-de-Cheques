@@ -9,7 +9,8 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author rrsal
+ * @author Thairam Michel
+ * @author Ramon Rodrigues
  */
 public class FrameTelaLogin extends javax.swing.JFrame {
 

@@ -8,6 +8,7 @@ package interfaceGrafica;
 /**
  *
  * @author Thairam Michel
+ * @author Ramon Rodrigues
  */
 public class FrameMainScreen extends javax.swing.JFrame {
 

@@ -7,14 +7,15 @@ package interfaceGrafica;
 
 import DAO.*;
 import classes.*;
-import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 import static classes.Utils.quotedStr;
 
 /**
  *
- * @author rrsal e Thairam Michel
+ * @author Adson Macêdo
+ * @author Thairam Michel
+ * @author Ramon Rodrigues
  */
 public class FrameCadastraConta extends javax.swing.JFrame {
 
@@ -54,6 +55,8 @@ public class FrameCadastraConta extends javax.swing.JFrame {
 
     public FrameCadastraConta(Cliente cliente) {
         initComponents();
+        this.conta = new Conta();
+        this.conta.setCliente(cliente);
         this.cliente = cliente;
         this.jTBanco.setText("");
         this.jTAg.setText("");
@@ -190,10 +193,10 @@ public class FrameCadastraConta extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jTAg, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                                .addComponent(jTCnt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                                .addComponent(jTCpf, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jTBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jTAg, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+                                .addComponent(jTCnt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                            .addComponent(jTBanco, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(79, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -336,15 +339,17 @@ public class FrameCadastraConta extends javax.swing.JFrame {
         } else {
             try {
                 conta.setBanco(jTBanco.getText());
-                conta.setAgencia(Integer.parseInt(jTAg.getText()));
+                conta.setAgencia(Utils.toInt(jTAg.getText()));
                 conta.setNumConta(jTCnt.getText());                //quando é uma nova conta o id == 0
                 if (conta.getId() == 0) {
                     daoConta.insert(conta);
                 } else {
                     daoConta.update(conta);
                 }
+                
+                JOptionPane.showMessageDialog(null, "Salvo com sucesso!", "Cadastro", JOptionPane.ERROR_MESSAGE);
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage());
+                JOptionPane.showMessageDialog(null, "Falha ao salvar!\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             } finally {
                 this.dispose();
             }

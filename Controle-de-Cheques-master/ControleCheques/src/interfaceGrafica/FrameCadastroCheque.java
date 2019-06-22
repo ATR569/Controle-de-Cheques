@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 /**
  *
  * @author Adson Macêdo
- * @author rrsal
+ * @author Ramon Rodrigues
  */
 public class FrameCadastroCheque extends javax.swing.JFrame {
     Cheque cheque;

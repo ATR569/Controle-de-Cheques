@@ -10,10 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
-import sun.util.calendar.BaseCalendar;
 
 /**
- *
  * @author Adson Macêdo
  * @param <T>
  */
