@@ -113,17 +113,17 @@ CREATE TABLE HistoricoCheque(
   FOREIGN KEY (id_cliente) REFERENCES Cliente (id)
 );
 
-INSERT INTO HistoricoCheque (id_cheque, tipo, data_transacao, score)
-VALUES (1, 1, null, '2019/06/10', 0.5);
+INSERT INTO HistoricoCheque (id_cheque, id_cliente, tipo, descricao, data_transacao, score)
+VALUES (1, 1, 1, null, '2019/06/10', 0.5);
 
-INSERT INTO HistoricoCheque (id_cheque, tipo, data_transacao, score)
-VALUES (1, 2, null, '2019/06/10', 0.1);
+INSERT INTO HistoricoCheque (id_cheque, id_cliente, tipo, descricao, data_transacao, score)
+VALUES (1, 2, 1, null, '2019/06/10', 0.1);
 
-INSERT INTO HistoricoCheque (id_cheque, tipo, data_transacao, score)
-VALUES (2, 1, null, '2019/06/10', 0.7);
+INSERT INTO HistoricoCheque (id_cheque, id_cliente, tipo, descricao, data_transacao, score)
+VALUES (2, 3, 1, null, '2019/06/10', 0.7);
 	
-INSERT INTO HistoricoCheque (id_cheque, tipo, data_transacao, score)
-VALUES (3, 2, null, '2019/06/10', 1);
+INSERT INTO HistoricoCheque (id_cheque, id_cliente, tipo, descricao, data_transacao, score)
+VALUES (3, 2, 1, null, '2019/06/10', 1);
 
 DELIMITER $$
 CREATE 
@@ -160,4 +160,3 @@ BEGIN
  DELETE FROM Cheque Ch WHERE Ch.id_conta = OLD.id;
 END;
 DELIMITER ;
-desc Cheque;
