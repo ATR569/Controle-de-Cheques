@@ -331,21 +331,23 @@ public class FrameCadastraConta extends javax.swing.JFrame {
     }//GEN-LAST:event_jTCpfFocusLost
 
     private void jBCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCadastrarActionPerformed
-        try {
-            conta.setBanco(jTBanco.getText());
-            conta.setAgencia(Integer.parseInt(jTAg.getText()));
-            conta.setNumConta(jTCnt.getText());
-
-            //quando é uma nova conta o id == 0
-            if (conta.getId() == 0) {
-                daoConta.insert(conta);
-            } else {
-                daoConta.update(conta);
+        if (jTBanco.getText().equals("") || jTAg.getText().equals("") || jTCnt.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Dados Insuficientes", "Erro", JOptionPane.ERROR_MESSAGE);
+        } else {
+            try {
+                conta.setBanco(jTBanco.getText());
+                conta.setAgencia(Integer.parseInt(jTAg.getText()));
+                conta.setNumConta(jTCnt.getText());                //quando é uma nova conta o id == 0
+                if (conta.getId() == 0) {
+                    daoConta.insert(conta);
+                } else {
+                    daoConta.update(conta);
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            } finally {
+                this.dispose();
             }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "FAVOR Informar os dados da CONTA!!");
-        } finally {
-            this.dispose();
         }
     }//GEN-LAST:event_jBCadastrarActionPerformed
 
