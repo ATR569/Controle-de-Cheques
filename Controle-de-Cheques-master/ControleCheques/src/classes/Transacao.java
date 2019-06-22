@@ -6,7 +6,7 @@
 package classes;
 
 import classes.interfaces.Entity;
-import java.util.Date;
+import java.util.Calendar;
 
 /**
  *
@@ -15,22 +15,16 @@ import java.util.Date;
 public class Transacao implements Entity{
     private int idCheque;
     private int tipo;
-    private String descricao;
-    private Date data;
+    private Calendar data;
     private double score;
     
     public Transacao(){}
 
-    public Transacao(int idCheque, int tipo, Date data, double score) {
+    public Transacao(int idCheque, int tipo, Calendar data, double score) {
         this.idCheque = idCheque;
         this.tipo = tipo;
         this.data = data;
         this.score = score;
-        
-        if (tipo == 0)
-            this.descricao = "COMPENSAÇÃO";
-        else
-            this.descricao = "DEVOLUÇÃO MOTIVO " + tipo;
     }
 
     public double getScore() {
@@ -75,18 +69,17 @@ public class Transacao implements Entity{
     }
 
     public String getDescricao() {
-        return descricao;
+        if (tipo == 1)
+            return "COMPENSAÇÃO";
+        else
+            return "DEVOLUÇÃO MOTIVO " + tipo;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public Date getData() {
+    public Calendar getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(Calendar data) {
         this.data = data;
     }
 

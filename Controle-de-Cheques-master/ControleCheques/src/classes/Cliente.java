@@ -6,7 +6,6 @@
 package classes;
 
 import classes.interfaces.Entity;
-import java.sql.SQLException;
 
 /**
  *

@@ -8,6 +8,7 @@ package DAO;
 import classes.Transacao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 
 /**
  *
@@ -22,9 +23,11 @@ public class TransacaoDao<T> extends Dao<T>{
 
     @Override
     protected T getObject(ResultSet resultSet) throws SQLException {
+        Calendar data = Calendar.getInstance();
+        data.setTime(resultSet.getDate("data_transacao"));
         return (T) new Transacao(resultSet.getInt("id_cheque"),
                                  resultSet.getInt("tipo"),
-                                 resultSet.getDate("data_transacao"),
+                                 data,
                                  resultSet.getDouble("score")
         );
     }

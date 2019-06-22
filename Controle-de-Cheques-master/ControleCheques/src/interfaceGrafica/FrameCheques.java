@@ -25,6 +25,7 @@ public class FrameCheques extends javax.swing.JFrame {
     private ArrayList<Cheque> lista;
     private Dao<Cheque> daoCheque = new ChequeDao<>();
     private ButtonGroup estadoCheque = new ButtonGroup();
+
     /**
      * Creates new form NewJFrame
      */
@@ -602,12 +603,26 @@ public class FrameCheques extends javax.swing.JFrame {
         jRBAberto.setFocusCycleRoot(true);
 
         jChFim.setText("Fim");
+        jChFim.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jChFimItemStateChanged(evt);
+            }
+        });
 
         jChInicio.setText("Início");
+        jChInicio.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jChInicioItemStateChanged(evt);
+            }
+        });
 
         jRBTodos.setSelected(true);
         jRBTodos.setText("Todos");
         jRBTodos.setFocusCycleRoot(true);
+
+        jDateInicio.setEnabled(false);
+
+        jDateFim.setEnabled(false);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -619,12 +634,12 @@ public class FrameCheques extends javax.swing.JFrame {
                 .addGap(51, 51, 51)
                 .addComponent(jChInicio)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jDateInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
+                .addComponent(jDateInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jChFim)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jDateFim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jDateFim, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jRBAberto)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jRBCompensado)
@@ -751,8 +766,12 @@ public class FrameCheques extends javax.swing.JFrame {
         int id = jTblCheques.getSelectedRow();
         if (id >= 0){
             Cheque cheque = lista.get(id);
-            FrameCadastroCheque fraCheque = new FrameCadastroCheque(cheque);
-            fraCheque.setVisible(true);
+            if (cheque.getState() == Cheque.COMPENSADO){
+                JOptionPane.showMessageDialog(null, "O cheque já está marcado como pago!", "Registrar Pagamento", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                FrameCadastroCheque fraCheque = new FrameCadastroCheque(cheque);
+                fraCheque.setVisible(true);
+            }
         }else{
             JOptionPane.showMessageDialog(null, "Não há item selecionado", "Erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -798,11 +817,21 @@ public class FrameCheques extends javax.swing.JFrame {
     }//GEN-LAST:event_jTblChequesMouseClicked
 
     private void jBtnHistoricoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnHistoricoClienteActionPerformed
-        // TODO add your handling code here:
+        int id = jTblCheques.getSelectedRow();
+        if (id >= 0){
+            Cheque cheque = lista.get(id);
+            FrameHistorico frmHist = new FrameHistorico(cheque.getCliente());
+            frmHist.setVisible(true);
+        }
     }//GEN-LAST:event_jBtnHistoricoClienteActionPerformed
 
     private void jBtnHistoricoEmitenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnHistoricoEmitenteActionPerformed
-        // TODO add your handling code here:
+        int id = jTblCheques.getSelectedRow();
+        if (id >= 0){
+            Cheque cheque = lista.get(id);
+            FrameHistorico frmHist = new FrameHistorico(cheque.getConta().getCliente());
+            frmHist.setVisible(true);
+        }
     }//GEN-LAST:event_jBtnHistoricoEmitenteActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -873,6 +902,14 @@ public class FrameCheques extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Não há item selecionado", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jBExcluirActionPerformed
+
+    private void jChInicioItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jChInicioItemStateChanged
+        jDateInicio.setEnabled(jChInicio.isSelected());
+    }//GEN-LAST:event_jChInicioItemStateChanged
+
+    private void jChFimItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jChFimItemStateChanged
+        jDateFim.setEnabled(jChFim.isSelected());
+    }//GEN-LAST:event_jChFimItemStateChanged
 
     /**
      * @param args the command line arguments
