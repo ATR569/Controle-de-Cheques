@@ -609,6 +609,7 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
     }//GEN-LAST:event_jBHistorico1ActionPerformed
 
     private void jTCntFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTCntFocusLost
+        if (this.isShowing()){
             if (jTAg.getText().equals("") || jTCnt.getText().equals("")){
                 JOptionPane.showMessageDialog(null, "Agência e Número da conta são obrigatórios!", "Campos obrigatórios", JOptionPane.INFORMATION_MESSAGE);
                 jTAg.requestFocus();
@@ -634,6 +635,7 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
                     }
                 }
             }
+        }
     }//GEN-LAST:event_jTCntFocusLost
 
     private void jBCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCadastrarActionPerformed

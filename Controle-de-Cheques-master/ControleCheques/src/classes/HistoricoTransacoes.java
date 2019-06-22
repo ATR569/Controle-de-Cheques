@@ -20,6 +20,10 @@ public class HistoricoTransacoes {
         Dao<Transacao> dao = new TransacaoDao<>();
         this.historico = dao.query("SELECT * FROM "+ dao.getTable() + " WHERE id_cliente = " + idCliente + " ORDER BY data_transacao DESC LIMIT 30");
     }
+
+    public ArrayList<Transacao> getHistorico() {
+        return historico;
+    }
     
     public double getScoreTransacoes(){
         double confianca = 1;
