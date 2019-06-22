@@ -50,6 +50,7 @@ public class FrameMainScreen extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu Principal");
+        setExtendedState(6);
 
         jDesktopPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
@@ -61,7 +62,7 @@ public class FrameMainScreen extends javax.swing.JFrame {
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 775, Short.MAX_VALUE)
+            .addGap(0, 783, Short.MAX_VALUE)
         );
 
         jMenuBar1.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
@@ -128,7 +129,7 @@ public class FrameMainScreen extends javax.swing.JFrame {
             .addComponent(jDesktopPane1)
         );
 
-        setSize(new java.awt.Dimension(1148, 864));
+        pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
