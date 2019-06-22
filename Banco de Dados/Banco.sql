@@ -1,4 +1,4 @@
-DROP DATABASE IF EXISTS controledecheques;
+﻿DROP DATABASE IF EXISTS controledecheques;
 
 CREATE DATABASE controledecheques;
 
@@ -147,9 +147,9 @@ BEFORE DELETE
 ON cliente 
 FOR EACH ROW
 BEGIN
- DELETE FROM HistoricoCheque H WHERE H.id_cliente = OLD.id;
- DELETE FROM Cheque Ch WHERE Ch.id_cliente = OLD.id;
- DELETE FROM Conta Co WHERE Co.id_cliente = OLD.id;
+ DELETE FROM HistoricoCheque WHERE HistoricoCheque.id_cliente = OLD.id;
+ DELETE FROM Cheque WHERE Cheque.id_cliente = OLD.id;
+ DELETE FROM Conta WHERE Conta.id_cliente = OLD.id;
 END;
 
 CREATE TRIGGER trgDelConta
@@ -157,6 +157,6 @@ BEFORE DELETE
 ON Conta
 FOR EACH ROW
 BEGIN
- DELETE FROM Cheque Ch WHERE Ch.id_conta = OLD.id;
+ DELETE FROM Cheque WHERE Cheque.id_conta = OLD.id;
 END;
 DELIMITER ;
