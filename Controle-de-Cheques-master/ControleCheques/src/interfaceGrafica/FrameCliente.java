@@ -400,15 +400,21 @@ public class FrameCliente extends javax.swing.JFrame {
     private void jTblClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblClienteMouseClicked
         Cliente cliente = lista.get(jTblCliente.getSelectedRow());
 
-        //Setando os campos da tela 
+        //  Dados do cliente
         jLNome.setText(cliente.getNome());
         jLCpf.setText(cliente.getCpf());
+        if (cliente.getEndereco() != null){
+            jLRua.setText(cliente.getEndereco().getRua());
+            jLCidade.setText(cliente.getEndereco().getCidade());
+            jLUf.setText(cliente.getEndereco().getUf());
+        }else{
+            jLRua.setText("");
+            jLCidade.setText("");
+            jLUf.setText("");
+        }
         jLTel.setText(cliente.getTelefone());
         jLEmail.setText(cliente.getEmail());
-        jLCidade.setText(cliente.getEndereco().getCidade());
-        jLRua.setText(cliente.getEndereco().getRua());
-        jLUf.setText(cliente.getEndereco().getUf());
-        jProgConfia.setValue((int) (cliente.getScoreAtual() * 100));
+        jProgConfia.setValue((int)(cliente.getScoreAtual()*100));
     }//GEN-LAST:event_jTblClienteMouseClicked
 
     private void jBAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAlterarActionPerformed
