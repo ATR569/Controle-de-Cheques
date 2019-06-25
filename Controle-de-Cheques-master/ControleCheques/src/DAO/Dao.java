@@ -85,7 +85,6 @@ public abstract class Dao<T>{
             stmt = con.prepareStatement(sql);
             stmt.executeUpdate();
             
-            JOptionPane.showMessageDialog(null, "Salvo com sucesso!", "", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Falha ao salvar!\n"+ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
         }finally{

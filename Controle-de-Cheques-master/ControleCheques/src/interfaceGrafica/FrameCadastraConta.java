@@ -347,7 +347,7 @@ public class FrameCadastraConta extends javax.swing.JFrame {
                     daoConta.update(conta);
                 }
                 
-                JOptionPane.showMessageDialog(null, "Salvo com sucesso!", "Cadastro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Salvo com sucesso!", "Cadastro", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Falha ao salvar!\n" + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             } finally {
@@ -355,6 +355,10 @@ public class FrameCadastraConta extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jBCadastrarActionPerformed
+
+    public Conta getConta() {
+        return conta;
+    }
 
     private void jTAgKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTAgKeyReleased
         jTAg.setText(jTAg.getText().replaceAll("[^0-9]", ""));

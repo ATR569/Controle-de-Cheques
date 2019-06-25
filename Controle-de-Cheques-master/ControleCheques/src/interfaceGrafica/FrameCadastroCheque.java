@@ -209,6 +209,11 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
                 jFCpfFocusLost(evt);
             }
         });
+        jFCpf.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jFCpfKeyPressed(evt);
+            }
+        });
 
         jPConfianca.setStringPainted(true);
 
@@ -320,6 +325,9 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
 
         jTAg.setPreferredSize(new java.awt.Dimension(160, 22));
         jTAg.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTAgKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTAgKeyReleased(evt);
             }
@@ -329,6 +337,11 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
         jTCnt.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jTCntFocusLost(evt);
+            }
+        });
+        jTCnt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTCntKeyPressed(evt);
             }
         });
 
@@ -679,6 +692,26 @@ public class FrameCadastroCheque extends javax.swing.JFrame {
     private void jTValorFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTValorFocusLost
         jTValor.setText(Utils.formatDouble(Utils.toDouble(jTValor.getText())));
     }//GEN-LAST:event_jTValorFocusLost
+
+    private void jFCpfKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFCpfKeyPressed
+        cheque.setCliente(null);
+        jLNome.setText("");
+        jLTel.setText("");
+        jPConfianca.setValue(0);
+    }//GEN-LAST:event_jFCpfKeyPressed
+
+    private void jTAgKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTAgKeyPressed
+        jLBanco.setText("");
+        jLNomeEmit.setText("");
+        jLCpfEmit.setText("");
+        jLTelEmit.setText("");
+        jPConfEmitente.setValue(0);
+        cheque.setConta(null);
+    }//GEN-LAST:event_jTAgKeyPressed
+
+    private void jTCntKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTCntKeyPressed
+        jTAgKeyPressed(evt);
+    }//GEN-LAST:event_jTCntKeyPressed
 
     /**
      * @param args the command line arguments

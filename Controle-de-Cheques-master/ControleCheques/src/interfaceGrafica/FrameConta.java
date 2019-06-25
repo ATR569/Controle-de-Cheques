@@ -226,6 +226,7 @@ public class FrameConta extends javax.swing.JFrame {
             Conta conta = lista.get(id);
             if (JOptionPane.showConfirmDialog(null, "Deseja EXCLUIR a conta " + conta.getNumConta() + "\ndo cliente " + conta.getCliente().getNome() + " permanentemente?", "Excluir", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
                 daoConta.delete(conta);
+                updateLista("SELECT * FROM conta WHERE conta.id_cliente = " + this.cliente.getId());
             }
         } else {
             JOptionPane.showMessageDialog(null, "Não há item selecionado", "Erro", JOptionPane.ERROR_MESSAGE);

@@ -277,6 +277,7 @@
           </AccessibilityProperties>
           <Events>
             <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jFCpfFocusLost"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jFCpfKeyPressed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JProgressBar" name="jPConfianca">
@@ -498,6 +499,7 @@
             </Property>
           </Properties>
           <Events>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTAgKeyPressed"/>
             <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTAgKeyReleased"/>
           </Events>
         </Component>
@@ -509,6 +511,7 @@
           </Properties>
           <Events>
             <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jTCntFocusLost"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTCntKeyPressed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLBanco">

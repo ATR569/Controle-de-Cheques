@@ -19,8 +19,6 @@ import javax.swing.JOptionPane;
 public class FrameCadastroCliente extends javax.swing.JFrame {
 
     Cliente cliente = new Cliente();
-    Endereco end = new Endereco();
-    Endereco endAux = new Endereco();
     Dao<ClienteDao> daoClt = new ClienteDao();
     Dao<Endereco> daoEnd = new EnderecoDao();
 
@@ -191,6 +189,11 @@ public class FrameCadastroCliente extends javax.swing.JFrame {
         jFCep.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jFCepActionPerformed(evt);
+            }
+        });
+        jFCep.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jFCepKeyPressed(evt);
             }
         });
 
@@ -388,18 +391,19 @@ public class FrameCadastroCliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "ERROR!\nFalta o preenchimento de\ndados obrigatório(s) do cliente!", "", JOptionPane.INFORMATION_MESSAGE);
             jFCpf.requestFocus();
         } else {
-            if (endAux != null) {
-                cliente.setEndereco(endAux);
-            } else {
+            if (cliente.getEndereco() == null) {
                 if (Utils.toString(jFCep.getText()).equals("") || jTRua.getText().equals("") || jTBairro.getText().equals("") || jTCidade.getText().equals("")) {
                     JOptionPane.showMessageDialog(null, "ERROR!\nFalta o preenchimento de\ndados obrigatório(s) do endereço!", "", JOptionPane.INFORMATION_MESSAGE);
                     jFCep.requestFocus();
                 } else {
+                    Endereco end = new Endereco();
+                    
                     end.setCep(Utils.toInt(jFCep.getText()));
                     end.setUf(jCBoxUf.getSelectedItem().toString());
                     end.setRua(jTRua.getText());
                     end.setBairro(jTBairro.getText());
                     end.setCidade(jTCidade.getText());
+                    
                     daoEnd.insert(end);
                     cliente.setEndereco(end);
                 }                
@@ -438,14 +442,14 @@ public class FrameCadastroCliente extends javax.swing.JFrame {
     private void jFCepFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jFCepFocusLost
         String fields[] = {"cep"};
         String values[] = {Utils.toInt(jFCep.getText()) + ""};
-        endAux = daoEnd.find(fields, values);
-        if (endAux != null) {
-            jTRua.setText(endAux.getRua());
-            jTBairro.setText(endAux.getBairro());
-            jTCidade.setText(endAux.getCidade());
-            jCBoxUf.setSelectedItem(endAux.getUf());
-            cliente.setEndereco(endAux);
+        Endereco endereco = daoEnd.find(fields, values);
+        if (endereco != null) {
+            jTRua.setText(endereco.getRua());
+            jTBairro.setText(endereco.getBairro());
+            jTCidade.setText(endereco.getCidade());
+            jCBoxUf.setSelectedItem(endereco.getUf());
         }
+        cliente.setEndereco(endereco);
     }//GEN-LAST:event_jFCepFocusLost
 
     private void jCBoxUfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBoxUfActionPerformed
@@ -475,6 +479,13 @@ public class FrameCadastroCliente extends javax.swing.JFrame {
     private void jCBoxUfFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jCBoxUfFocusLost
 
     }//GEN-LAST:event_jCBoxUfFocusLost
+
+    private void jFCepKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFCepKeyPressed
+        cliente.setEndereco(null);
+        jTRua.setText("");
+        jTCidade.setText("");
+        jTBairro.setText("");
+    }//GEN-LAST:event_jFCepKeyPressed
 
     /**
      * @param args the command line arguments
